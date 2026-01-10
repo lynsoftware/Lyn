@@ -1,8 +1,11 @@
 ﻿@page "/download"
+@using Lyn.Backend.Models.Enums
+@using Lyn.Web.Services.Api
 @layout PasswordGeneratorLayout
 @inject IStringLocalizer<Localization> Localizer
-@using Lyn.Web.Resources
-@using Microsoft.Extensions.Localization
+@inject IDownloadService DownloadService
+@inject ILogger<Download> Logger
+@inject IJSRuntime JSRuntime
 
 <PageTitle>@Localizer["Download_PageTitle"]</PageTitle>
 
@@ -19,6 +22,23 @@
         </p>
     </div>
 
+    @if (_errorMessage != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @_errorMessage
+        </div>
+    }
+
+    @if (_isDownloading)
+    {
+        <div class="text-center" style="padding: 20px;">
+            <div class="spinner-border text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-theme-primary" style="margin-top: 10px;">@Localizer["Download_Downloading"]</p>
+        </div>
+    }
+
     <!-- Desktop Downloads -->
     <div class="section-spacing-large">
         <h2 class="text-theme-primary title-large mb-20" style="display: flex; align-items: center;">
@@ -28,66 +48,39 @@
 
         <div class="download-grid">
             <!-- Windows -->
-            <div class="card-dark card-dark-hover" style="text-align: center;">
-                <div class="icon-yellow icon-large">
-                    <i class="bi bi-windows"></i>
-                </div>
-                <h3 class="title-yellow title-medium" style="margin: 0 0 8px 0;">
-                    @Localizer["Download_Windows_Title"]
-                </h3>
-                <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
-                    @Localizer["Download_Windows_Subtitle"]
-                </p>
-                <a href="ms-windows-store://pdp/?productid=9P5RJK0RQR8W"
-                   class="btn-primary-yellow"
-                   target="_blank">
-                    <i class="bi bi-download"></i>
-                    <span>@Localizer["Download_Windows_Button"]</span>
-                </a>
-                <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
-                    @Localizer["Download_Windows_Store"]
-                </small>
-            </div>
+            <DownloadCard
+                IconClass="windows"
+                Title="@Localizer["Download_Windows_Title"]"
+                Subtitle="@Localizer["Download_Windows_Subtitle"]"
+                ButtonText="@Localizer["Download_Windows_Button"]"
+                IsAvailable="@IsDownloadAvailable(DownloadPlatform.Windows)"
+                Version="@GetDownloadForPlatform(DownloadPlatform.Windows)?.Version"
+                StoreUrl="ms-windows-store://pdp/?productid=9P5RJK0RQR8W"
+                StoreText="@Localizer["Download_Windows_Store"]"
+                OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.Windows)!))"
+                ComingSoonText="@Localizer["Download_ComingSoon_Q2"]" />
 
             <!-- macOS -->
-            <div class="card-dark card-dark-hover" style="text-align: center;">
-                <div class="icon-yellow icon-large">
-                    <i class="bi bi-apple"></i>
-                </div>
-                <h3 class="title-yellow title-medium" style="margin: 0 0 8px 0;">
-                    @Localizer["Download_MacOS_Title"]
-                </h3>
-                <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
-                    @Localizer["Download_MacOS_Subtitle"]
-                </p>
-                <button class="btn-primary-yellow" disabled>
-                    <i class="bi bi-download"></i>
-                    <span>@Localizer["Download_ComingSoon_Button"]</span>
-                </button>
-                <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
-                    @Localizer["Download_ComingSoon_Q2"]
-                </small>
-            </div>
+            <DownloadCard 
+                IconClass="apple"
+                Title="@Localizer["Download_MacOS_Title"]"
+                Subtitle="@Localizer["Download_MacOS_Subtitle"]"
+                ButtonText="@Localizer["Download_MacOS_Button"]"
+                IsAvailable="@IsDownloadAvailable(DownloadPlatform.MacOS)"
+                Version="@GetDownloadForPlatform(DownloadPlatform.MacOS)?.Version"
+                ComingSoonText="@Localizer["Download_ComingSoon_Q2"]"
+                OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.MacOS)!))" />
 
             <!-- Linux -->
-            <div class="card-dark card-dark-hover" style="text-align: center;">
-                <div class="icon-yellow icon-large">
-                    <i class="bi bi-ubuntu"></i>
-                </div>
-                <h3 class="title-yellow title-medium" style="margin: 0 0 8px 0;">
-                    @Localizer["Download_Linux_Title"]
-                </h3>
-                <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
-                    @Localizer["Download_Linux_Subtitle"]
-                </p>
-                <button class="btn-primary-yellow" disabled>
-                    <i class="bi bi-download"></i>
-                    <span>@Localizer["Download_ComingSoon_Button"]</span>
-                </button>
-                <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
-                    @Localizer["Download_ComingSoon_Q2"]
-                </small>
-            </div>
+            <DownloadCard 
+                IconClass="ubuntu"
+                Title="@Localizer["Download_Linux_Title"]"
+                Subtitle="@Localizer["Download_Linux_Subtitle"]"
+                ButtonText="@Localizer["Download_Linux_Button"]"
+                IsAvailable="@IsDownloadAvailable(DownloadPlatform.Linux)"
+                Version="@GetDownloadForPlatform(DownloadPlatform.Linux)?.Version"
+                ComingSoonText="@Localizer["Download_ComingSoon_Q2"]"
+                OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.Linux)!))" />
         </div>
     </div>
 
@@ -100,44 +93,26 @@
 
         <div class="download-grid">
             <!-- Android -->
-            <div class="card-dark card-dark-hover" style="text-align: center;">
-                <div class="icon-yellow icon-large">
-                    <i class="bi bi-android2"></i>
-                </div>
-                <h3 class="title-yellow title-medium" style="margin: 0 0 8px 0;">
-                    @Localizer["Download_Android_Title"]
-                </h3>
-                <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
-                    @Localizer["Download_Android_Subtitle"]
-                </p>
-                <button class="btn-primary-yellow" disabled>
-                    <i class="bi bi-download"></i>
-                    <span>@Localizer["Download_ComingSoon_Button"]</span>
-                </button>
-                <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
-                    @Localizer["Download_ComingSoon_Q3"]
-                </small>
-            </div>
+            <DownloadCard 
+                IconClass="android2"
+                Title="@Localizer["Download_Android_Title"]"
+                Subtitle="@Localizer["Download_Android_Subtitle"]"
+                ButtonText="@Localizer["Download_Android_Button"]"
+                IsAvailable="@IsDownloadAvailable(DownloadPlatform.Android)"
+                Version="@GetDownloadForPlatform(DownloadPlatform.Android)?.Version"
+                ComingSoonText="@Localizer["Download_ComingSoon_Q3"]"
+                OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.Android)!))" />
 
             <!-- iOS -->
-            <div class="card-dark card-dark-hover" style="text-align: center;">
-                <div class="icon-yellow icon-large">
-                    <i class="bi bi-apple"></i>
-                </div>
-                <h3 class="title-yellow title-medium" style="margin: 0 0 8px 0;">
-                    @Localizer["Download_iOS_Title"]
-                </h3>
-                <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
-                    @Localizer["Download_iOS_Subtitle"]
-                </p>
-                <button class="btn-primary-yellow" disabled>
-                    <i class="bi bi-download"></i>
-                    <span>@Localizer["Download_ComingSoon_Button"]</span>
-                </button>
-                <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
-                    @Localizer["Download_ComingSoon_Q3"]
-                </small>
-            </div>
+            <DownloadCard 
+                IconClass="apple"
+                Title="@Localizer["Download_iOS_Title"]"
+                Subtitle="@Localizer["Download_iOS_Subtitle"]"
+                ButtonText="@Localizer["Download_iOS_Button"]"
+                IsAvailable="@IsDownloadAvailable(DownloadPlatform.iOS)"
+                Version="@GetDownloadForPlatform(DownloadPlatform.iOS)?.Version"
+                ComingSoonText="@Localizer["Download_ComingSoon_Q3"]"
+                OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.iOS)!))" />
         </div>
     </div>
 
@@ -189,3 +164,82 @@
     </div>
 
 </div>
+
+@code
+{
+    public List<DownloadResponse> Downloads = new();
+
+    private bool _isLoading = true;
+    private bool _isDownloading = false;
+    private string? _errorMessage;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var result = await DownloadService.GetLatestDownloadsAsync();
+        
+            if (result.IsFailure)
+            {
+                _errorMessage = result.Error;
+                Logger.LogError("Failed to load downloads: {Error}", result.Error);
+            }
+            else
+            {
+                Downloads = result.Value!;
+            }
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private bool IsDownloadAvailable(DownloadPlatform platform)
+    {
+        return Downloads?.Any(d => d.Platform == platform) ?? false;
+    }
+
+    private DownloadResponse? GetDownloadForPlatform(DownloadPlatform platform)
+    {
+        return Downloads?.FirstOrDefault(d => d.Platform == platform);
+    }
+    
+    private async Task OnDownload(DownloadResponse download)
+    {
+        _isDownloading = true;
+        _errorMessage = null;
+        
+        try
+        {
+            var result = await DownloadService.GetDownloadAsync(download.Id);
+
+            if (result.IsFailure)
+            {
+                _errorMessage = result.Error;
+                Logger.LogError("Failed to download: {Error}", result.Error);
+                return;
+            }
+            
+            var fileDownload = result.Value!;
+            
+            // Trigger browser download using JavaScript Interop
+            await JSRuntime.InvokeVoidAsync(
+                "fileDownload.downloadFile",
+                fileDownload.FileName,
+                fileDownload.ContentType,
+                fileDownload.FileData);
+            
+            Logger.LogInformation("Successfully downloaded {FileName}", fileDownload.FileName);
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = "An unexpected error occurred during download";
+            Logger.LogError(ex, "Unexpected error during download");
+        }
+        finally
+        {
+            _isDownloading = false;
+        }
+    }
+}

@@ -1,7 +1,7 @@
 ﻿using Lyn.Shared.Models;
 using Lyn.Shared.Result;
 
-namespace Lyn.Web.Services;
+namespace Lyn.Web.Services.Api;
 
 public interface IPasswordGenerationService
 {

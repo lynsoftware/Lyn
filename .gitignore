@@ -3,3 +3,61 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Docker
+docker-compose.override.yml
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+*.vsidx
+*.vssscc
+
+# Rider
+.idea/
+*.sln.iml
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Visual Studio cache/options
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Docker volumes
+postgres_data/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets and keys
+appsettings.Development.json
+appsettings.Production.json
+*.pfx
+*.p12

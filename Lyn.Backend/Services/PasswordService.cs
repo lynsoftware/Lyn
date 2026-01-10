@@ -1,12 +1,15 @@
 ﻿using System.Text;
 using Konscious.Security.Cryptography;
+using Lyn.Backend.Repository;
 using Lyn.Shared.Configuration;
 using Lyn.Shared.Models;
 using Lyn.Shared.Result;
 
 namespace Lyn.Backend.Services;
 
-public class PasswordService(ILogger<PasswordService> logger) : IPasswordService
+public class PasswordService(
+    ILogger<PasswordService> logger,
+    IServiceScopeFactory serviceScopeFactory) : IPasswordService
 {
     // Check interface for summary
     public async Task<Result<PasswordGenerationResponse>> GeneratePasswordAsync(PasswordGenerationRequest request)
@@ -50,11 +53,27 @@ public class PasswordService(ILogger<PasswordService> logger) : IPasswordService
             {
                 password.Append(chars[hash[i] % chars.Length]);
             }
+            
 
             return new PasswordGenerationResponse
             {
                 Value = password.ToString()
             };
+        });
+        
+        // Updates the statistictable in the background
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                using var scope = serviceScopeFactory.CreateScope();
+                var statisticsRepository = scope.ServiceProvider.GetRequiredService<IStatisticsRepository>();
+                await statisticsRepository.IncrementPasswordGeneratedAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Failed to increment password generation statistics");
+            }
         });
             
         return Result<PasswordGenerationResponse>.Success(response);

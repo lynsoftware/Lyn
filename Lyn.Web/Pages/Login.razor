@@ -1,0 +1,198 @@
+﻿@page "/Login"
+@using Lyn.Web.Services.Api
+@using Lyn.Backend.Models.Enums
+@inject ILogger<Login> Logger
+@inject IAuthService AuthService
+
+<section class="signup">
+    <div class="text-center mt-3">
+        <h2>Login</h2>
+    </div>
+    
+    @if (_errorMessage != null)
+    {
+        <p>@_errorMessage</p>
+    }
+    <EditForm Model="LoginRequest" OnValidSubmit="OnSuccess" FormName="LoginForm">
+        <fieldset disabled="@_isLoggingIn">
+            <DataAnnotationsValidator/>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <InputText id="email" class="form-control" @bind-Value="@LoginRequest.Email"></InputText>
+                <ValidationMessage For="@(() => LoginRequest.Email)"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <PasswordInput Id="password" @bind-Value="@LoginRequest.Password"/>
+                <ValidationMessage For="@(() => LoginRequest.Password)"/>
+            </div>
+
+            <div class="text-center mt-3">
+                @if (_isLoggingIn)
+                {
+                    <div class="text-center my-3">
+                        <div class="spinner-border primary-color" role="status">
+                            <span class="visually-hidden">Logging in...</span>
+                        </div>
+                        <p class="mt-2">Logging in...</p>
+                    </div>
+                }
+                else
+                {
+                    <button type="submit" class="btn custom-primary-btn">Login</button>
+                }
+            </div>
+        </fieldset>
+    </EditForm>
+    
+    <p class="text-center mt-3">
+        Dont have an account? <a href="/signup">Sign up now!</a>
+    </p>
+    <p class="text-center mt-3">
+        Forgotten password? <a href="/forgotten-password">Press here</a>
+    </p>
+    
+    <hr class="my-4"/>
+    
+    <!-- File Upload Section -->
+    <div class="text-center mt-4">
+        @if (_uploadMessage != null)
+        {
+            <p>@_uploadMessage</p>
+        }
+        
+        <div class="mb-3">
+            <InputFile OnChange="OnFileSelected" class="form-control"/>
+        </div>
+        
+        <div class="mb-3">
+            <input type="text" @bind="_version" placeholder="Version (e.g. 1.0.0)" class="form-control"/>
+        </div>
+        
+        <div class="mb-3">
+            <select @bind="_platform" class="form-control">
+                <option value="@DownloadPlatform.Windows">Windows</option>
+                <option value="@DownloadPlatform.MacOS">Mac</option>
+                <option value="@DownloadPlatform.Linux">Linux</option>
+                <option value="@DownloadPlatform.Android">Android</option>
+                <option value="@DownloadPlatform.iOS">iPhone</option>
+            </select>
+        </div>
+        
+        <button @onclick="UploadFile" disabled="@_isUploading" class="btn btn-primary">
+            @if (_isUploading)
+            {
+                <span>Uploading...</span>
+            }
+            else
+            {
+                <span>Upload File</span>
+            }
+        </button>
+    </div>
+</section>
+
+@code {
+    [SupplyParameterFromForm]
+    public LoginRequest LoginRequest { get; set; } = new();
+
+    private string? _errorMessage;
+    private bool _isLoggingIn;
+    
+    // File upload fields
+    private IBrowserFile? _selectedFile;
+    private string _version = string.Empty;
+    private DownloadPlatform _platform = DownloadPlatform.Windows;
+    private string? _uploadMessage;
+    private bool _isUploading;
+
+    private CancellationTokenSource? _cts;
+
+    private async Task OnSuccess()
+    {
+        _isLoggingIn = true;
+        
+        try
+        {
+            var result = await AuthService.LoginAsync(LoginRequest, _cts!.Token);
+            
+            if (!result.IsSuccess)
+            {
+                _errorMessage = result.Error;
+            }
+            else
+            {
+                _errorMessage = null;
+                _uploadMessage = "Login successful!";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = "An unexpected error occurred. Please try again.";
+            Logger.LogError(ex, "Unexpected error during login");
+        }
+        finally
+        {
+            _isLoggingIn = false;
+        }
+    }
+    
+    private void OnFileSelected(InputFileChangeEventArgs e)
+    {
+        _selectedFile = e.File;
+        _uploadMessage = $"Selected: {e.File.Name}";
+    }
+    
+    private async Task UploadFile()
+    {
+        if (_selectedFile == null)
+        {
+            _uploadMessage = "Please select a file";
+            return;
+        }
+        
+        if (string.IsNullOrWhiteSpace(_version))
+        {
+            _uploadMessage = "Please enter a version";
+            return;
+        }
+        
+        _isUploading = true;
+        _uploadMessage = null;
+        
+        try
+        {
+            var result = await AuthService.UploadFileAsync(_selectedFile, _version, _platform, _cts!.Token);
+            
+            if (result.IsSuccess)
+            {
+                _uploadMessage = "File uploaded successfully!";
+                _selectedFile = null;
+                _version = string.Empty;
+            }
+            else
+            {
+                _uploadMessage = $"Upload failed: {result.Error}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _uploadMessage = "Upload error occurred";
+            Logger.LogError(ex, "Error during file upload");
+        }
+        finally
+        {
+            _isUploading = false;
+        }
+    }
+
+    protected override void OnInitialized() => _cts = new CancellationTokenSource();
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+}

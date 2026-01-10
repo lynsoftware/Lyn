@@ -1,8 +1,10 @@
 using Blazored.LocalStorage;
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Lyn.Web;
 using Lyn.Web.Services;
+using Lyn.Web.Services.Api;
 using Serilog;
 using Serilog.Events;
 
@@ -28,13 +30,19 @@ Log.Logger = new LoggerConfiguration()
 // ================================== Services ==================================
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddLocalization();
 
-    
-
 builder.Services.AddScoped<IPasswordGenerationService, PasswordGenerationService>();
+builder.Services.AddScoped<IDownloadService, DownloadService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+
+
 builder.Services.AddScoped<IThemeService, ThemeService>();
 builder.Services.AddScoped<ILocalizationService, LocalizationService>();
+
+
 
 
 // HttpClient with API base URL

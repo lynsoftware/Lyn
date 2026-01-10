@@ -2,7 +2,7 @@
 using Lyn.Shared.Models;
 using Lyn.Shared.Result;
 
-namespace Lyn.Web.Services;
+namespace Lyn.Web.Services.Api;
 
 public class PasswordGenerationService(HttpClient httpClient, 
     ILogger<PasswordGenerationService> logger) : IPasswordGenerationService

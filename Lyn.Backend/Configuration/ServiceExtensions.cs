@@ -1,5 +1,13 @@
-﻿using Lyn.Backend.Middleware;
+﻿using Lyn.Backend.Configuration.Options;
+using Lyn.Backend.Data;
+using Lyn.Backend.Middleware;
+using Lyn.Backend.Models;
+using Lyn.Backend.Repository;
 using Lyn.Backend.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
 using Serilog;
 
 namespace Lyn.Backend.Configuration;
@@ -20,6 +28,12 @@ public static class ServiceExtensions
       // CORS / RateLimiting
       builder.Services.AddCorsPolicy(builder.Configuration);
       
+      // Database
+      builder.Services.AddDatabase(builder.Configuration);
+      
+      // Authentication & Authorization
+      builder.Services.AddIdentityAndAuthentication();
+      
       // Application Services
       builder.Services.AddApplicationServices();
      
@@ -28,8 +42,6 @@ public static class ServiceExtensions
     
       return builder;
   }
-
-
    
 
   /// <summary>
@@ -68,21 +80,99 @@ public static class ServiceExtensions
           throw new InvalidOperationException(
               "Cors:AllowedOrigins does not exists or is empty in appsettings.json. " +
               "Add atleast one allowed origin.");
-    
+
       services.AddCors(options =>
       {
+          // Policy for Blazor frontend
           options.AddPolicy("AllowBlazorApp", policy =>
           {
               policy.WithOrigins(allowedOrigins)
                   .AllowAnyMethod()
                   .AllowAnyHeader()
-                  .AllowCredentials();
+                  .AllowCredentials()
+                  .SetPreflightMaxAge(TimeSpan.FromMinutes(10))
+                  .WithExposedHeaders("*"); 
           });
+      });
+
+      return services;
+  }
+  
+  /// <summary>
+  /// Registrerer database context
+  /// </summary>
+  private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+  {
+      var connectionString = configuration.GetConnectionString("DefaultConnection")
+                             ?? throw new InvalidOperationException("No DefaultConnection in appsettings.json");
+
+      services.AddDbContext<AppDbContext>(options =>
+      {
+          options.UseNpgsql(connectionString);
       });
     
       return services;
   }
 
+  
+  
+  /// <summary>
+  /// Configures JwtSettings, JwtService and sets up Authorization and AUthentication
+  /// </summary>
+  private static IServiceCollection AddIdentityAndAuthentication(this IServiceCollection services)
+  {
+      // Register og valider JwtSettings
+      services.AddOptions<JwtSettings>()
+          .BindConfiguration(JwtSettings.SectionName)
+          .ValidateDataAnnotations()
+          .ValidateOnStart();
+     
+      // Registerer JwtBearer options som vanligvis er i AddAuthenticaiton
+      services.ConfigureOptions<ConfigureJwtBearerOptions>();
+     
+      // Registerer JwtService
+      services.AddScoped<IJwtService, JwtService>();
+     
+     
+      // Konfigurer Identity med vår egen bruker
+      services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+          {
+              options.Password.RequireDigit = true;
+              options.Password.RequireLowercase = true;
+              options.Password.RequireUppercase = true;
+              options.Password.RequireNonAlphanumeric = false;
+              options.Password.RequiredLength = 8;
+
+
+              options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+              options.Lockout.MaxFailedAccessAttempts = 5;
+              options.Lockout.AllowedForNewUsers = true;
+
+
+              options.User.RequireUniqueEmail = true;
+          })
+          .AddEntityFrameworkStores<AppDbContext>()
+          .AddDefaultTokenProviders();
+     
+     
+     
+      // Her forteller vi ASP.NET Core at vi skal bruke JWT-tokens for autentisering
+      services.AddAuthentication(options =>
+      {
+          // Dette sikrer at vi sjekker JWT automatisk når vi får inn en request
+          options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+          // Hvis brukeren ikke har med token så vå de en 401 Unathorized
+          options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+          // Dette er bare backup og brukes hvis ikke noe annet er spesifisert. Feks hvis det er flere type
+          // autentiseringsmuligheter i appen så kan man velge hvem det skal falles tilbake på
+          options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+      }).AddJwtBearer();
+
+
+      services.AddAuthorization();
+      return services;
+  }
+  
   /// <summary>
   /// Registrerer ASP.NET Core-tjenester (Controllers, Swagger, Exception Handling) Mer generell
   /// </summary>
@@ -106,45 +196,71 @@ public static class ServiceExtensions
               context.ProblemDetails.Instance = context.HttpContext.Request.Path;
           };
       });
-
-
-
-
-
+      
       // API Documentation
       services.AddEndpointsApiExplorer();
-      services.AddSwaggerGen();
+      services.AddSwaggerGen(options =>
+      { 
+          // Lager er jwtSecurityScheme
+          var jwtSecurityScheme = new OpenApiSecurityScheme
+          {
+              // Setter det at bearer skal inneholde JWT
+              BearerFormat = "JWT",
+              // Egendefinert navn som vises i UI-en
+              Name = "JWT Authorization",
+              // Hvilken type autentiseringsmekanisme vi skal bruke, feks Http, ApiKey
+              Type = SecuritySchemeType.Http,
+              // Forteller hvilket scheme vi skal bruke, og JwtBearerDefaults.AuthenticationScheme = "Bearer"
+              Scheme = JwtBearerDefaults.AuthenticationScheme,
+              // Egendefinert beskrivelse som vises i UI-en
+              Description = "Enter your JWT Access Token",
+              // Vi finner tokenet i headeren
+              In = ParameterLocation.Header,
+              // Lager en refereanse slik at alle endepunkter med [Authorize] refe rer til samme oppsett, eller så fyller
+              // det seg opp med slike oppsett pr endepunkt
+          };
+
+
+          // Vi registerer oppsettet med Bearer og OpenApiSecurityScheme objeektet vårt
+          options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, jwtSecurityScheme);
+
+
+          // Dette forteller Swagger at alle endepunkter med [Authorize]-attributen bruker JWT
+          options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+          {
+              {
+                  new OpenApiSecuritySchemeReference(
+                      JwtBearerDefaults.AuthenticationScheme,
+                      document),
+                  []
+              }
+          });
+      });
+
+
      
       return services;
   }
-
-
-
+  
+  
 
   /// <summary>
-  /// Registrerer alle applikasjonsspesifikke tjenester og deres avhengigheter i DI-containeren
-  /// Dette inkluderer repositories, services, og andre forretningslogikk-komponenter
+  /// Registrerer alle applikasjonsspesifikke tjenester og deres avhengigheter
   /// </summary>
-  /// <param name="services">Service collection hvor tjenestene skal registreres</param>
-  /// <param name="configuration">For å hente ut settings for database-stringen</param>
-  /// <returns>Den oppdaterte IServiceCollection-instansen for method chaining</returns>
   private static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
   {
-      // ========================================== DATABASE INITIALIZATION ==========================================
-       // var connectionString = configuration.GetConnectionString("DefaultConnection")
-       //                        ?? throw new InvalidOperationException("DefaultConnection mangler i appsettings.json");
-       //
-       // services.AddDbContext<AppDbContext>(options =>
-       //     options.UseSqlite(connectionString));
-
-
-        
-
       // Services
       services.AddScoped<IPasswordService, PasswordService>();
+      services.AddScoped<IDownloadService, DownloadService>();
+      services.AddScoped<IAuthService, AuthService>();
+      
     
-      // TODO: Repositories vil komme her
-      // TODO: Validators vil komme her
+      // Repository
+      services.AddScoped<IStatisticsRepository, StatisticsRepository>();
+      services.AddScoped<IDownloadRepository, DownloadRepository>();
+      
+      // Database Seeder
+      services.AddScoped<DatabaseSeeder>();
     
       return services;
   }

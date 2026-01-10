@@ -1,0 +1,99 @@
+﻿@inject IStringLocalizer<Localization> Localizer
+
+<div class="card-dark card-dark-hover" style="text-align: center;">
+    <div class="icon-yellow icon-large">
+        <i class="bi bi-@IconClass"></i>
+    </div>
+    <h3 class="title-yellow title-medium" style="margin: 0 0 8px 0;">
+        @Title
+    </h3>
+    <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
+        @Subtitle
+    </p>
+    
+    @if (IsAvailable)
+    {
+        @* Hvis både direkte nedlasting og Store er tilgjengelig *@
+        @if (!string.IsNullOrEmpty(StoreUrl) && OnDownloadClick.HasDelegate)
+        {
+            <!-- Direkte nedlasting (primary) -->
+            <button class="btn-primary-yellow" @onclick="OnDownloadClick" style="margin-bottom: 10px;">
+                <i class="bi bi-download"></i>
+                <span>@ButtonText</span>
+            </button>
+            
+            <!-- Store-lenke (secondary) -->
+            <a href="@StoreUrl"
+               class="btn-secondary-yellow"
+               target="_blank"
+               style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+                <i class="bi bi-shop"></i>
+                <span>@StoreText</span>
+            </a>
+        }
+        @* Kun Store *@
+        else if (!string.IsNullOrEmpty(StoreUrl))
+        {
+            <a href="@StoreUrl"
+               class="btn-primary-yellow"
+               target="_blank">
+                <i class="bi bi-download"></i>
+                <span>@ButtonText</span>
+            </a>
+        }
+        @* Kun direkte nedlasting *@
+        else
+        {
+            <button class="btn-primary-yellow" @onclick="OnDownloadClick">
+                <i class="bi bi-download"></i>
+                <span>@ButtonText</span>
+            </button>
+        }
+        
+        <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
+            @Version
+        </small>
+    }
+    else
+    {
+        <button class="btn-primary-yellow" disabled>
+            <i class="bi bi-download"></i>
+            <span>@Localizer["Download_ComingSoon_Button"]</span>
+        </button>
+        <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
+            @ComingSoonText
+        </small>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public string IconClass { get; set; } = string.Empty;
+    
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+    
+    [Parameter, EditorRequired]
+    public string Subtitle { get; set; } = string.Empty;
+    
+    [Parameter, EditorRequired]
+    public string ButtonText { get; set; } = string.Empty;
+    
+    [Parameter]
+    public bool IsAvailable { get; set; }
+    
+    [Parameter]
+    public string? Version { get; set; }
+    
+    [Parameter]
+    public string? StoreUrl { get; set; }
+    
+    [Parameter]
+    public string? StoreText { get; set; }
+    
+    [Parameter]
+    public string ComingSoonText { get; set; } = string.Empty;
+    
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnDownloadClick { get; set; }
+}

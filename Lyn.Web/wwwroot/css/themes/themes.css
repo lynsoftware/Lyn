@@ -226,3 +226,37 @@ html {
 [data-theme="dark"] .text-theme-primary {
     color: #FEE447 !important;
 }
+
+.btn-secondary-yellow {
+    background: transparent;
+    color: var(--accent-yellow);
+    border: 2px solid var(--accent-yellow);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-secondary-yellow:hover {
+    background: var(--accent-yellow);
+    color: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(254, 228, 71, 0.3);
+}
+
+[data-theme="dark"] .btn-secondary-yellow {
+    color: var(--accent-yellow);
+    border-color: var(--accent-yellow);
+}
+
+[data-theme="dark"] .btn-secondary-yellow:hover {
+    background: var(--accent-yellow);
+    color: var(--accent-dark);
+}
+
