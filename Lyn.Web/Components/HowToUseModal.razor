@@ -1,0 +1,91 @@
+﻿@inject IStringLocalizer<Localization> Localizer
+@using Lyn.Web.Resources
+
+<div class="modal @(IsVisible ? "show" : "")"
+     tabindex="-1"
+     style="display: @(IsVisible ? "block" : "none");"
+     @onclick="Close">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" @onclick:stopPropagation="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-question-circle-fill me-2"></i>
+                    @Localizer["Modal_Title"]
+                </h5>
+                <button type="button"
+                        class="btn-close"
+                        @onclick="Close"
+                        aria-label="@Localizer["Modal_Close_AriaLabel"]">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="info-section">
+                    <p>
+                        <strong>@Localizer["Modal_Intro_AppName"]</strong> @Localizer["Modal_Intro_Text1"]
+                    </p>
+                    <p>
+                        @Localizer["Modal_Intro_Text2"]
+                    </p>
+                    <p>
+                        @Localizer["Modal_Intro_Text3"]
+                    </p>
+                    <p>
+                        @Localizer["Modal_Intro_Text4"]
+                    </p>
+                    <p>
+                        @Localizer["Modal_Intro_Text5"]
+                    </p>
+                </div>
+
+                <div class="info-section">
+                    <h6><i class="bi bi-list-ol me-2"></i>@Localizer["Modal_HowTo_Title"]</h6>
+                    <ul>
+                        <li><strong>@Localizer["Modal_HowTo_MasterPassword_Label"]</strong> @Localizer["Modal_HowTo_MasterPassword_Text"]</li>
+                        <li><strong>@Localizer["Modal_HowTo_Seed_Label"]</strong> @Localizer["Modal_HowTo_Seed_Text"]</li>
+                        <li><strong>@Localizer["Modal_HowTo_Length_Label"]</strong> @Localizer["Modal_HowTo_Length_Text"]</li>
+                        <li>@Localizer["Modal_HowTo_SpecialChars_Text"]</li>
+                        <li><strong>@Localizer["Modal_HowTo_Deterministic_Text"]</strong></li>
+                    </ul>
+                </div>
+
+                <div class="info-section security-tips">
+                    <h6><i class="bi bi-shield-check me-2"></i>@Localizer["Modal_Security_Title"]</h6>
+                    <ul>
+                        <li>@Localizer["Modal_Security_Tip1"]</li>
+                        <li>@Localizer["Modal_Security_Tip2"]</li>
+                        <li>@Localizer["Modal_Security_Tip3"]</li>
+                        <li>@Localizer["Modal_Security_Tip4"]</li>
+                        <li>@Localizer["Modal_Security_Tip5"]</li>
+                        <li>@Localizer["Modal_Security_Tip6"]</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        @onclick="Close">
+                    @Localizer["Modal_Close_Button"]
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (IsVisible)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+
+@code {
+    [Parameter]
+    public bool IsVisible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsVisibleChanged { get; set; }
+
+    private async Task Close()
+    {
+        IsVisible = false;
+        await IsVisibleChanged.InvokeAsync(IsVisible);
+    }
+}

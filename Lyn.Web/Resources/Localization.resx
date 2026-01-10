@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+
+    <!-- Page Title -->
+    <data name="PageTitle" xml:space="preserve">
+        <value>Lyn Password Generator</value>
+    </data>
+
+    <!-- Download Banner -->
+    <data name="DownloadBanner_Title" xml:space="preserve">
+        <value>Get the Desktop App</value>
+    </data>
+    <data name="DownloadBanner_Description" xml:space="preserve">
+        <value>Faster, more secure, and works offline.</value>
+    </data>
+    <data name="DownloadBanner_Link" xml:space="preserve">
+        <value>Download here</value>
+    </data>
+
+    <!-- Help Button -->
+    <data name="HowToUse" xml:space="preserve">
+        <value>How to use</value>
+    </data>
+
+    <!-- Form Labels -->
+    <data name="MasterPassword_Label" xml:space="preserve">
+        <value>Master Password</value>
+    </data>
+    <data name="MasterPassword_Placeholder" xml:space="preserve">
+        <value>Enter your master password</value>
+    </data>
+    <data name="MasterPassword_Required" xml:space="preserve">
+        <value>Master password is required</value>
+    </data>
+    <data name="MasterPassword_Show" xml:space="preserve">
+        <value>Show password</value>
+    </data>
+    <data name="MasterPassword_Hide" xml:space="preserve">
+        <value>Hide password</value>
+    </data>
+
+    <data name="Seed_Label" xml:space="preserve">
+        <value>Seed</value>
+    </data>
+    <data name="Seed_Placeholder" xml:space="preserve">
+        <value>Enter a seed</value>
+    </data>
+    <data name="Seed_Required" xml:space="preserve">
+        <value>Seed is required</value>
+    </data>
+
+    <data name="PasswordLength_Label" xml:space="preserve">
+        <value>Password Length</value>
+    </data>
+
+    <data name="SpecialChars_Label" xml:space="preserve">
+        <value>Include special characters ({0})</value>
+    </data>
+
+    <!-- Buttons -->
+    <data name="GeneratePassword_Button" xml:space="preserve">
+        <value>Generate Password</value>
+    </data>
+    <data name="CopyToClipboard_Button" xml:space="preserve">
+        <value>Copy to clipboard</value>
+    </data>
+    <data name="Copied_Button" xml:space="preserve">
+        <value>Copied!</value>
+    </data>
+
+    <!-- Settings Page -->
+    <data name="Settings_PageTitle" xml:space="preserve">
+        <value>Settings - Lyn Password Generator</value>
+    </data>
+        <data name="Language_Title" xml:space="preserve">
+        <value>Language</value>
+    </data>
+        <data name="Theme_Title" xml:space="preserve">
+        <value>Theme</value>
+    </data>
+        <data name="Theme_Light" xml:space="preserve">
+        <value>Light</value>
+    </data>
+        <data name="Theme_Dark" xml:space="preserve">
+        <value>Dark</value>
+    </data>
+
+    <!-- Download Page -->
+    <data name="Download_PageTitle" xml:space="preserve">
+        <value>Download - Lyn Password Generator</value>
+    </data>
+        <data name="Download_Hero_Title" xml:space="preserve">
+        <value>Download Lyn Password Generator</value>
+    </data>
+        <data name="Download_Hero_Subtitle" xml:space="preserve">
+        <value>Get the app for your platform and start generating secure passwords offline</value>
+    </data>
+    
+        <!-- Desktop Section -->
+        <data name="Download_Desktop_Title" xml:space="preserve">
+        <value>Desktop Applications</value>
+    </data>
+        <data name="Download_Windows_Title" xml:space="preserve">
+        <value>Windows</value>
+    </data>
+        <data name="Download_Windows_Subtitle" xml:space="preserve">
+        <value>Version 1.0.0 • Windows 10/11</value>
+    </data>
+        <data name="Download_Windows_Button" xml:space="preserve">
+        <value>Download for Windows</value>
+    </data>
+        <data name="Download_Windows_Store" xml:space="preserve">
+        <value>Available on Microsoft Store</value>
+    </data>
+    
+        <data name="Download_MacOS_Title" xml:space="preserve">
+        <value>macOS</value>
+    </data>
+        <data name="Download_MacOS_Subtitle" xml:space="preserve">
+        <value>Version 1.0.0 • macOS 11+</value>
+    </data>
+    
+        <data name="Download_Linux_Title" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+        <data name="Download_Linux_Subtitle" xml:space="preserve">
+        <value>Version 1.0.0 • Ubuntu 20.04+</value>
+    </data>
+    
+        <data name="Download_ComingSoon_Button" xml:space="preserve">
+        <value>Coming Soon</value>
+    </data>
+        <data name="Download_ComingSoon_Q2" xml:space="preserve">
+        <value>Available Q2 2026</value>
+    </data>
+        <data name="Download_ComingSoon_Q3" xml:space="preserve">
+        <value>Available Q3 2026</value>
+    </data>
+    
+        <!-- Mobile Section -->
+        <data name="Download_Mobile_Title" xml:space="preserve">
+        <value>Mobile Applications</value>
+    </data>
+        <data name="Download_Android_Title" xml:space="preserve">
+        <value>Android</value>
+    </data>
+        <data name="Download_Android_Subtitle" xml:space="preserve">
+        <value>Version 1.0.0 • Android 8.0+</value>
+    </data>
+    
+        <data name="Download_iOS_Title" xml:space="preserve">
+        <value>iOS</value>
+    </data>
+        <data name="Download_iOS_Subtitle" xml:space="preserve">
+        <value>Version 1.0.0 • iOS 14+</value>
+    </data>
+    
+        <!-- Why Download Section -->
+        <data name="Download_WhyDownload_Title" xml:space="preserve">
+        <value>Why Download?</value>
+    </data>
+        <data name="Download_Feature_Performance_Title" xml:space="preserve">
+        <value>Faster Performance</value>
+    </data>
+        <data name="Download_Feature_Performance_Description" xml:space="preserve">
+        <value>Native app runs smoother and faster than web version</value>
+    </data>
+        <data name="Download_Feature_Offline_Title" xml:space="preserve">
+        <value>Works Offline</value>
+    </data>
+        <data name="Download_Feature_Offline_Description" xml:space="preserve">
+        <value>Generate passwords without internet connection</value>
+    </data>
+        <data name="Download_Feature_Secure_Title" xml:space="preserve">
+        <value>More Secure</value>
+    </data>
+        <data name="Download_Feature_Secure_Description" xml:space="preserve">
+        <value>Your data never leaves your device</value>
+    </data>
+    
+        <!-- Web Generator Section -->
+        <data name="Download_WebGenerator_Text" xml:space="preserve">
+        <value>Prefer to use the web version? No installation required!</value>
+    </data>
+        <data name="Download_WebGenerator_Button" xml:space="preserve">
+        <value>Use Web Generator</value>
+    </data>
+
+    <!-- Header -->
+    <data name="Header_ToggleMenu_AriaLabel" xml:space="preserve">
+        <value>Toggle navigation menu</value>
+    </data>
+        <data name="Header_CloseMenu_AriaLabel" xml:space="preserve">
+        <value>Close menu</value>
+    </data>
+        <data name="Header_Navigation" xml:space="preserve">
+        <value>Navigation</value>
+    </data>
+        <data name="Header_Menu_Home" xml:space="preserve">
+        <value>Home</value>
+    </data>
+        <data name="Header_Menu_PasswordGenerator" xml:space="preserve">
+        <value>Password Generator</value>
+    </data>
+        <data name="Header_Menu_Download" xml:space="preserve">
+        <value>Download</value>
+    </data>
+        <data name="Header_Menu_Settings" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+        <data name="Header_Menu_About" xml:space="preserve">
+        <value>About (Coming soon)</value>
+    </data>
+        <data name="Header_Menu_Privacy" xml:space="preserve">
+        <value>Privacy Policy</value>
+    </data>
+
+    <!-- How to Use Modal -->
+    <data name="Modal_Title" xml:space="preserve">
+    <value>How to Use Lyn Password Generator</value>
+</data>
+    <data name="Modal_Close_AriaLabel" xml:space="preserve">
+    <value>Close</value>
+</data>
+    <data name="Modal_Close_Button" xml:space="preserve">
+    <value>Close</value>
+</data>
+
+    <!-- Modal Introduction -->
+    <data name="Modal_Intro_AppName" xml:space="preserve">
+    <value>Lyn Password Generator</value>
+</data>
+    <data name="Modal_Intro_Text1" xml:space="preserve">
+    <value>lets you create strong, unique passwords that you can always regenerate when you need them.</value>
+</data>
+    <data name="Modal_Intro_Text2" xml:space="preserve">
+    <value>By entering a master password and providing it with a seed (a word used when generating the password), you can retrieve the same generated password every time.</value>
+</data>
+    <data name="Modal_Intro_Text3" xml:space="preserve">
+    <value>You don't need to remember hundreds of passwords or rely on cloud services - just remember one master password and use simple seeds for each account.</value>
+</data>
+    <data name="Modal_Intro_Text4" xml:space="preserve">
+    <value>Neither the master password, the seed, nor the generated password is stored, so malicious attackers cannot access this information.</value>
+</data>
+    <data name="Modal_Intro_Text5" xml:space="preserve">
+    <value>The application is available on Android, iOS, Windows, macOS, and Linux.</value>
+</data>
+
+    <!-- How to Use Section -->
+    <data name="Modal_HowTo_Title" xml:space="preserve">
+        <value>How to use the app:</value>
+    </data>
+        <data name="Modal_HowTo_MasterPassword_Label" xml:space="preserve">
+        <value>Master Password:</value>
+    </data>
+        <data name="Modal_HowTo_MasterPassword_Text" xml:space="preserve">
+        <value>Your secret key (never share it)</value>
+    </data>
+        <data name="Modal_HowTo_Seed_Label" xml:space="preserve">
+        <value>Seed:</value>
+    </data>
+        <data name="Modal_HowTo_Seed_Text" xml:space="preserve">
+        <value>Identifier for each account (e.g., "gmail", "reddit", or words you can remember)</value>
+    </data>
+        <data name="Modal_HowTo_Length_Label" xml:space="preserve">
+        <value>Length:</value>
+    </data>
+        <data name="Modal_HowTo_Length_Text" xml:space="preserve">
+        <value>16 characters is standard. Some services have minimum and maximum limits, so adjust the length accordingly. For secure keys, longer passwords can be wise</value>
+    </data>
+        <data name="Modal_HowTo_SpecialChars_Text" xml:space="preserve">
+        <value>Check or uncheck based on whether the service allows special characters</value>
+    </data>
+        <data name="Modal_HowTo_Deterministic_Text" xml:space="preserve">
+        <value>Same master password + seed = Same password every time</value>
+    </data>
+    
+        <!-- Security Tips Section -->
+        <data name="Modal_Security_Title" xml:space="preserve">
+        <value>Security Tips:</value>
+    </data>
+        <data name="Modal_Security_Tip1" xml:space="preserve">
+        <value>Use a strong, unique master password. Don't forget it! Without the master password, you cannot retrieve your passwords again</value>
+    </data>
+        <data name="Modal_Security_Tip2" xml:space="preserve">
+        <value>It is recommended not to reuse the master password elsewhere</value>
+    </data>
+        <data name="Modal_Security_Tip3" xml:space="preserve">
+        <value>Use different seeds for different accounts</value>
+    </data>
+        <data name="Modal_Security_Tip4" xml:space="preserve">
+        <value>It is recommended not to write down the master password on your devices</value>
+    </data>
+        <data name="Modal_Security_Tip5" xml:space="preserve">
+        <value>A password manager with multiple layers provides even more security, but it's better to use this application than to write simple passwords like "password123"</value>
+    </data>
+        <data name="Modal_Security_Tip6" xml:space="preserve">
+        <value>Keep a list of your seeds (this is safe as they are worthless without the master password)</value>
+    </data>
+
+    <!-- Privacy Policy Page -->
+    <data name="Privacy_PageTitle" xml:space="preserve">
+        <value>Privacy Policy - Lyn Password Generator</value>
+    </data>
+        <data name="Privacy_Title" xml:space="preserve">
+        <value>Privacy Policy</value>
+    </data>
+        <data name="Privacy_LastUpdated" xml:space="preserve">
+        <value>Last updated: January 10, 2026</value>
+    </data>
+    
+        <!-- Section 1: Introduction -->
+        <data name="Privacy_Section1_Title" xml:space="preserve">
+        <value>1. Introduction</value>
+    </data>
+        <data name="Privacy_Section1_Text" xml:space="preserve">
+        <value>Lyn Password Generator ("we", "our", or "the app") is committed to protecting your privacy. This Privacy Policy explains how we handle your information when you use our password generation application.</value>
+    </data>
+    
+        <!-- Section 2: Data Collection -->
+        <data name="Privacy_Section2_Title" xml:space="preserve">
+        <value>2. Data Collection</value>
+    </data>
+        <data name="Privacy_Section2_Intro" xml:space="preserve">
+        <value>We do not collect, store, or transmit any of your personal data.</value>
+    </data>
+        <data name="Privacy_Section2_Specifically" xml:space="preserve">
+        <value>Specifically:</value>
+    </data>
+        <data name="Privacy_Section2_Point1" xml:space="preserve">
+        <value>We do not collect your master passwords</value>
+    </data>
+        <data name="Privacy_Section2_Point2" xml:space="preserve">
+        <value>We do not collect your seeds or generated passwords</value>
+    </data>
+        <data name="Privacy_Section2_Point3" xml:space="preserve">
+        <value>We do not collect any personal information</value>
+    </data>
+        <data name="Privacy_Section2_Point4" xml:space="preserve">
+        <value>We do not use analytics or tracking tools</value>
+    </data>
+        <data name="Privacy_Section2_Point5" xml:space="preserve">
+        <value>We do not share any data with third parties</value>
+    </data>
+    
+        <!-- Section 3: How the App Works -->
+        <data name="Privacy_Section3_Title" xml:space="preserve">
+        <value>3. How the App Works</value>
+    </data>
+        <data name="Privacy_Section3_Intro" xml:space="preserve">
+        <value>Lyn Password Generator operates entirely locally on your device:</value>
+    </data>
+        <data name="Privacy_Section3_Point1" xml:space="preserve">
+        <value>All password generation happens locally on your device</value>
+    </data>
+        <data name="Privacy_Section3_Point2" xml:space="preserve">
+        <value>Your master password and seeds are processed only in your device's memory</value>
+    </data>
+        <data name="Privacy_Section3_Point3" xml:space="preserve">
+        <value>Generated passwords are never stored or transmitted</value>
+    </data>
+        <data name="Privacy_Section3_Point4" xml:space="preserve">
+        <value>The app works completely offline</value>
+    </data>
+    
+        <!-- Section 4: Local Storage -->
+        <data name="Privacy_Section4_Title" xml:space="preserve">
+        <value>4. Local Storage</value>
+    </data>
+        <data name="Privacy_Section4_Intro" xml:space="preserve">
+        <value>The app stores the following preferences locally on your device:</value>
+    </data>
+        <data name="Privacy_Section4_Point1" xml:space="preserve">
+        <value>Password length preference</value>
+    </data>
+        <data name="Privacy_Section4_Point2" xml:space="preserve">
+        <value>Special characters inclusion preference</value>
+    </data>
+        <data name="Privacy_Section4_Point3" xml:space="preserve">
+        <value>Theme preference (light/dark mode)</value>
+    </data>
+        <data name="Privacy_Section4_Point4" xml:space="preserve">
+        <value>Language preference</value>
+    </data>
+        <data name="Privacy_Section4_Important_Label" xml:space="preserve">
+        <value>Important:</value>
+    </data>
+        <data name="Privacy_Section4_Important_Text" xml:space="preserve">
+        <value>We never store your master password, seeds, or generated passwords locally or remotely.</value>
+    </data>
+    
+        <!-- Section 5: Security -->
+        <data name="Privacy_Section5_Title" xml:space="preserve">
+        <value>5. Security</value>
+    </data>
+        <data name="Privacy_Section5_Intro" xml:space="preserve">
+        <value>Your security is our top priority:</value>
+    </data>
+        <data name="Privacy_Section5_Point1" xml:space="preserve">
+        <value>All password generation uses industry-standard Argon2id algorithm</value>
+    </data>
+        <data name="Privacy_Section5_Point2" xml:space="preserve">
+        <value>Your data never leaves your device</value>
+    </data>
+        <data name="Privacy_Section5_Point3" xml:space="preserve">
+        <value>No internet connection is required for the app to function</value>
+    </data>
+        <data name="Privacy_Section5_Point4" xml:space="preserve">
+        <value>The app does not communicate with any external servers</value>
+    </data>
+    
+        <!-- Section 6: Third-Party Services -->
+        <data name="Privacy_Section6_Title" xml:space="preserve">
+        <value>6. Third-Party Services</value>
+    </data>
+        <data name="Privacy_Section6_Text" xml:space="preserve">
+        <value>Lyn Password Generator does not integrate with or use any third-party services, analytics tools, or advertising networks.</value>
+    </data>
+    
+        <!-- Section 7: Children's Privacy -->
+        <data name="Privacy_Section7_Title" xml:space="preserve">
+        <value>7. Children's Privacy</value>
+    </data>
+        <data name="Privacy_Section7_Text" xml:space="preserve">
+        <value>Our app does not knowingly collect any information from anyone, including children under 13. The app can be safely used by anyone who needs to generate secure passwords.</value>
+    </data>
+    
+        <!-- Section 8: Changes to Policy -->
+        <data name="Privacy_Section8_Title" xml:space="preserve">
+        <value>8. Changes to This Privacy Policy</value>
+    </data>
+        <data name="Privacy_Section8_Text" xml:space="preserve">
+        <value>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated "Last updated" date.</value>
+    </data>
+    
+        <!-- Section 9: Contact Us -->
+        <data name="Privacy_Section9_Title" xml:space="preserve">
+        <value>9. Contact Us</value>
+    </data>
+        <data name="Privacy_Section9_Intro" xml:space="preserve">
+        <value>If you have any questions about this Privacy Policy, please contact us at:</value>
+    </data>
+        <data name="Privacy_Section9_Email_Label" xml:space="preserve">
+        <value>Email:</value>
+    </data>
+    
+        <!-- Section 10: Summary -->
+        <data name="Privacy_Section10_Title" xml:space="preserve">
+        <value>10. Summary</value>
+    </data>
+        <data name="Privacy_Section10_Summary" xml:space="preserve">
+        <value>In short: Lyn Password Generator is a privacy-first application.</value>
+    </data>
+        <data name="Privacy_Section10_Point1" xml:space="preserve">
+        <value>✓ Zero data collection</value>
+    </data>
+        <data name="Privacy_Section10_Point2" xml:space="preserve">
+        <value>✓ Zero data storage</value>
+    </data>
+        <data name="Privacy_Section10_Point3" xml:space="preserve">
+        <value>✓ Zero data transmission</value>
+    </data>
+        <data name="Privacy_Section10_Point4" xml:space="preserve">
+        <value>✓ Complete offline functionality</value>
+    </data>
+        <data name="Privacy_Section10_Point5" xml:space="preserve">
+        <value>✓ No third-party services</value>
+    </data>
+</root>

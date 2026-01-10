@@ -1,0 +1,141 @@
+﻿@page "/settings"
+@layout PasswordGeneratorLayout
+@inject IThemeService ThemeService
+@inject ILocalizationService LocalizationService
+@inject IStringLocalizer<Localization> Localizer
+@implements IDisposable
+@inject NavigationManager Navigation
+
+<PageTitle>@Localizer["Settings_PageTitle"]</PageTitle>
+
+<div class="container-medium">
+
+    <!-- Language Section -->
+    <div class="section-spacing">
+        <h2 class="text-theme-primary title-medium mb-20" style="display: flex; align-items: center;">
+            <i class="bi bi-translate me-2"></i>
+            @Localizer["Language_Title"]
+        </h2>
+
+        <div class="settings-buttons">
+            <!-- English Button -->
+            <button type="button"
+                    class="btn-primary-yellow settings-btn @(IsEnglish ? "active" : "")"
+                    @onclick="SetEnglishLanguage">
+                <span class="flag-icon">🇬🇧</span>
+                <span class="button-text">English</span>
+                @if (IsEnglish)
+                {
+                    <i class="bi bi-check-lg check-icon"></i>
+                }
+            </button>
+
+            <!-- Norwegian Button -->
+            <button type="button"
+                    class="btn-primary-yellow settings-btn @(IsNorwegian ? "active" : "")"
+                    @onclick="SetNorwegianLanguage">
+                <span class="flag-icon">🇳🇴</span>
+                <span class="button-text">Norsk</span>
+                @if (IsNorwegian)
+                {
+                    <i class="bi bi-check-lg check-icon"></i>
+                }
+            </button>
+        </div>
+    </div>
+
+    <!-- Theme Section -->
+    <div class="section-spacing">
+        <h2 class="text-theme-primary title-medium mb-20" style="display: flex; align-items: center;">
+            <i class="bi bi-palette me-2"></i>
+            @Localizer["Theme_Title"]
+        </h2>
+
+        <div class="settings-buttons">
+            <!-- Light Theme Button -->
+            <button type="button"
+                    class="btn-primary-yellow settings-btn @(IsLightTheme ? "active" : "")"
+                    @onclick="SetLightTheme">
+                <i class="bi bi-sun-fill theme-icon"></i>
+                <span class="button-text">@Localizer["Theme_Light"]</span>
+                @if (IsLightTheme)
+                {
+                    <i class="bi bi-check-lg check-icon"></i>
+                }
+            </button>
+
+            <!-- Dark Theme Button -->
+            <button type="button"
+                    class="btn-primary-yellow settings-btn @(IsDarkTheme ? "active" : "")"
+                    @onclick="SetDarkTheme">
+                <i class="bi bi-moon-fill theme-icon"></i>
+                <span class="button-text">@Localizer["Theme_Dark"]</span>
+                @if (IsDarkTheme)
+                {
+                    <i class="bi bi-check-lg check-icon"></i>
+                }
+            </button>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    private string _currentTheme = "light";
+
+    private bool IsEnglish => LocalizationService.CurrentLanguage == "en";
+    private bool IsNorwegian => LocalizationService.CurrentLanguage == "no";
+    private bool IsLightTheme => _currentTheme == "light";
+    private bool IsDarkTheme => _currentTheme == "dark";
+
+    protected override async Task OnInitializedAsync()
+    {
+        LocalizationService.OnLanguageChanged += OnLanguageChanged;
+        await LoadSettings();
+    }
+
+    private async Task LoadSettings()
+    {
+        try
+        {
+            _currentTheme = ThemeService.CurrentTheme;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($@"Failed to load settings: {ex.Message}");
+            _currentTheme = "light";
+        }
+    }
+
+    private async Task SetEnglishLanguage()
+    {
+        await LocalizationService.SetLanguageAsync("en");
+    }
+
+    private async Task SetNorwegianLanguage()
+    {
+        await LocalizationService.SetLanguageAsync("no");
+    }
+    
+    private async Task SetLightTheme()
+    {
+        _currentTheme = "light";
+        await ThemeService.SetThemeAsync("light");
+    }
+
+    private async Task SetDarkTheme()
+    {
+        _currentTheme = "dark";
+        await ThemeService.SetThemeAsync("dark");
+    }
+
+    private void OnLanguageChanged()
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        LocalizationService.OnLanguageChanged -= OnLanguageChanged;
+    }
+}

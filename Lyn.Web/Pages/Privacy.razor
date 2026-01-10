@@ -1,0 +1,133 @@
+﻿@page "/privacy"
+@layout PasswordGeneratorLayout
+@inject IStringLocalizer<Localization> Localizer
+@using Lyn.Web.Resources
+
+<PageTitle>@Localizer["Privacy_PageTitle"]</PageTitle>
+
+<div class="container-medium">
+
+    <div class="privacy-header">
+        <h1 class="text-theme-primary title-xlarge" style="font-weight: bold; margin-bottom: 20px;">
+            @Localizer["Privacy_Title"]
+        </h1>
+        <p class="text-theme-primary" style="font-size: 14px; opacity: 0.8;">
+            @Localizer["Privacy_LastUpdated"]
+        </p>
+    </div>
+
+    <div class="privacy-content">
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["Privacy_Section1_Title"]</h2>
+            <p class="text-theme-primary">
+                @Localizer["Privacy_Section1_Text"]
+            </p>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["Privacy_Section2_Title"]</h2>
+            <p class="text-theme-primary">
+                <strong>@Localizer["Privacy_Section2_Intro"]</strong> @Localizer["Privacy_Section2_Specifically"]
+            </p>
+            <ul class="privacy-list">
+                <li class="text-theme-primary">@Localizer["Privacy_Section2_Point1"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section2_Point2"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section2_Point3"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section2_Point4"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section2_Point5"]</li>
+            </ul>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["Privacy_Section3_Title"]</h2>
+            <p class="text-theme-primary">
+                @Localizer["Privacy_Section3_Intro"]
+            </p>
+            <ul class="privacy-list">
+                <li class="text-theme-primary">@Localizer["Privacy_Section3_Point1"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section3_Point2"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section3_Point3"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section3_Point4"]</li>
+            </ul>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["Privacy_Section4_Title"]</h2>
+            <p class="text-theme-primary">
+                @Localizer["Privacy_Section4_Intro"]
+            </p>
+            <ul class="privacy-list">
+                <li class="text-theme-primary">@Localizer["Privacy_Section4_Point1"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section4_Point2"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section4_Point3"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section4_Point4"]</li>
+            </ul>
+            <p class="text-theme-primary">
+                <strong>@Localizer["Privacy_Section4_Important_Label"]</strong> @Localizer["Privacy_Section4_Important_Text"]
+            </p>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["Privacy_Section5_Title"]</h2>
+            <p class="text-theme-primary">
+                @Localizer["Privacy_Section5_Intro"]
+            </p>
+            <ul class="privacy-list">
+                <li class="text-theme-primary">@Localizer["Privacy_Section5_Point1"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section5_Point2"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section5_Point3"]</li>
+                <li class="text-theme-primary">@Localizer["Privacy_Section5_Point4"]</li>
+            </ul>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["Privacy_Section6_Title"]</h2>
+            <p class="text-theme-primary">
+                @Localizer["Privacy_Section6_Text"]
+            </p>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["Privacy_Section7_Title"]</h2>
+            <p class="text-theme-primary">
+                @Localizer["Privacy_Section7_Text"]
+            </p>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["Privacy_Section8_Title"]</h2>
+            <p class="text-theme-primary">
+                @Localizer["Privacy_Section8_Text"]
+            </p>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["Privacy_Section9_Title"]</h2>
+            <p class="text-theme-primary">
+                @Localizer["Privacy_Section9_Intro"]
+            </p>
+            <p class="text-theme-primary">
+                <strong>@Localizer["Privacy_Section9_Email_Label"]</strong> <a href="mailto:fredrikmagee@gmail.com" class="download-link">support@lynpassword.com</a>
+            </p>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["Privacy_Section10_Title"]</h2>
+            <div class="privacy-summary">
+                <p class="text-theme-primary" style="font-weight: 600; margin-bottom: 15px;">
+                    @Localizer["Privacy_Section10_Summary"]
+                </p>
+                <ul class="privacy-list">
+                    <li class="text-theme-primary">@Localizer["Privacy_Section10_Point1"]</li>
+                    <li class="text-theme-primary">@Localizer["Privacy_Section10_Point2"]</li>
+                    <li class="text-theme-primary">@Localizer["Privacy_Section10_Point3"]</li>
+                    <li class="text-theme-primary">@Localizer["Privacy_Section10_Point4"]</li>
+                    <li class="text-theme-primary">@Localizer["Privacy_Section10_Point5"]</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+</div>

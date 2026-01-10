@@ -1,0 +1,105 @@
+﻿@inject IStringLocalizer<Localization> Localizer
+
+
+<header class="app-header">
+    <div class="header-content">
+        <div class="header-left">
+            <img src="@LogoPath" alt="@LogoAlt" class="header-logo" />
+        </div>
+
+        <div class="header-center">
+            <h1 class="header-title">@Title</h1>
+            <p class="header-subtitle">@Subtitle</p>
+        </div>
+
+        <div class="header-right">
+            <button type="button"
+                    class="menu-button"
+                    @onclick="ToggleMenu"
+                    aria-label="@Localizer["Header_ToggleMenu_AriaLabel"]"
+                    aria-expanded="@(!isMenuCollapsed)">
+                ☰
+            </button>
+        </div>
+    </div>
+
+    <!-- Slide-in meny -->
+    <div class="@MenuCssClass" @onclick="ToggleMenu">
+        <nav class="side-menu" @onclick:stopPropagation="true">
+            <div class="menu-header">
+                <h2>@Localizer["Header_Navigation"]</h2>
+                <button type="button"
+                        class="close-button"
+                        @onclick="ToggleMenu"
+                        aria-label="@Localizer["Header_CloseMenu_AriaLabel"]">
+                    ✕
+                </button>
+            </div>
+
+            <div class="menu-items">
+                <NavLink class="menu-link" href="" Match="NavLinkMatch.All">
+                    <span class="menu-icon">
+                        <i class="bi bi-house-door-fill"></i>
+                    </span>
+                    <span>@Localizer["Header_Menu_Home"]</span>
+                </NavLink>
+
+                <NavLink class="menu-link" href="passwordgenerator">
+                    <span class="menu-icon">
+                        <img src="/images/logo.png" alt="" class="menu-logo" />
+                    </span>
+                    <span>@Localizer["Header_Menu_PasswordGenerator"]</span>
+                </NavLink>
+
+                <NavLink class="menu-link" href="download">
+                    <span class="menu-icon">
+                        <i class="bi bi-download"></i>
+                    </span>
+                    <span>@Localizer["Header_Menu_Download"]</span>
+                </NavLink>
+
+                <NavLink class="menu-link" href="settings">
+                    <span class="menu-icon">
+                        <i class="bi bi-gear-fill"></i>
+                    </span>
+                    <span>@Localizer["Header_Menu_Settings"]</span>
+                </NavLink>
+
+                <NavLink class="menu-link" href="about">
+                    <span class="menu-icon">
+                        <i class="bi bi-info-circle-fill"></i>
+                    </span>
+                    <span>@Localizer["Header_Menu_About"]</span>
+                </NavLink>
+            </div>
+
+            <a href="/privacy" class="menu-link">
+                <i class="bi bi-shield-lock-fill menu-icon"></i>
+                <span>@Localizer["Header_Menu_Privacy"]</span>
+            </a>
+        </nav>
+    </div>
+</header>
+
+@code {
+    [Parameter]
+    public string LogoPath { get; set; } = "/images/logo.png";
+
+    [Parameter]
+    public string LogoAlt { get; set; } = "Lyn Logo";
+
+    [Parameter]
+    public string Title { get; set; } = "Lyn Password Generator";
+
+    [Parameter]
+    public string Subtitle { get; set; } = "Secure and Simple Deterministic Password Generator";
+
+    private bool isMenuCollapsed = true;
+
+    private string MenuCssClass => isMenuCollapsed ? "menu-overlay" : "menu-overlay show";
+
+    private void ToggleMenu()
+    {
+        isMenuCollapsed = !isMenuCollapsed;
+    }
+}

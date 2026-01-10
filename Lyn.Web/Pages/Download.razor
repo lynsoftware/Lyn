@@ -1,0 +1,191 @@
+﻿@page "/download"
+@layout PasswordGeneratorLayout
+@inject IStringLocalizer<Localization> Localizer
+@using Lyn.Web.Resources
+@using Microsoft.Extensions.Localization
+
+<PageTitle>@Localizer["Download_PageTitle"]</PageTitle>
+
+<div class="container-wide">
+
+    <!-- Hero Section -->
+    <div class="download-hero">
+        <div class="icon-yellow icon-xlarge">
+            <i class="bi bi-shield-lock-fill"></i>
+        </div>
+        <h1 class="text-theme-primary title-xlarge">@Localizer["Download_Hero_Title"]</h1>
+        <p class="text-theme-primary" style="font-size: 18px; margin: 10px 0 0 0; opacity: 0.9;">
+            @Localizer["Download_Hero_Subtitle"]
+        </p>
+    </div>
+
+    <!-- Desktop Downloads -->
+    <div class="section-spacing-large">
+        <h2 class="text-theme-primary title-large mb-20" style="display: flex; align-items: center;">
+            <i class="bi bi-laptop me-2"></i>
+            @Localizer["Download_Desktop_Title"]
+        </h2>
+
+        <div class="download-grid">
+            <!-- Windows -->
+            <div class="card-dark card-dark-hover" style="text-align: center;">
+                <div class="icon-yellow icon-large">
+                    <i class="bi bi-windows"></i>
+                </div>
+                <h3 class="title-yellow title-medium" style="margin: 0 0 8px 0;">
+                    @Localizer["Download_Windows_Title"]
+                </h3>
+                <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
+                    @Localizer["Download_Windows_Subtitle"]
+                </p>
+                <a href="ms-windows-store://pdp/?productid=9P5RJK0RQR8W"
+                   class="btn-primary-yellow"
+                   target="_blank">
+                    <i class="bi bi-download"></i>
+                    <span>@Localizer["Download_Windows_Button"]</span>
+                </a>
+                <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
+                    @Localizer["Download_Windows_Store"]
+                </small>
+            </div>
+
+            <!-- macOS -->
+            <div class="card-dark card-dark-hover" style="text-align: center;">
+                <div class="icon-yellow icon-large">
+                    <i class="bi bi-apple"></i>
+                </div>
+                <h3 class="title-yellow title-medium" style="margin: 0 0 8px 0;">
+                    @Localizer["Download_MacOS_Title"]
+                </h3>
+                <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
+                    @Localizer["Download_MacOS_Subtitle"]
+                </p>
+                <button class="btn-primary-yellow" disabled>
+                    <i class="bi bi-download"></i>
+                    <span>@Localizer["Download_ComingSoon_Button"]</span>
+                </button>
+                <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
+                    @Localizer["Download_ComingSoon_Q2"]
+                </small>
+            </div>
+
+            <!-- Linux -->
+            <div class="card-dark card-dark-hover" style="text-align: center;">
+                <div class="icon-yellow icon-large">
+                    <i class="bi bi-ubuntu"></i>
+                </div>
+                <h3 class="title-yellow title-medium" style="margin: 0 0 8px 0;">
+                    @Localizer["Download_Linux_Title"]
+                </h3>
+                <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
+                    @Localizer["Download_Linux_Subtitle"]
+                </p>
+                <button class="btn-primary-yellow" disabled>
+                    <i class="bi bi-download"></i>
+                    <span>@Localizer["Download_ComingSoon_Button"]</span>
+                </button>
+                <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
+                    @Localizer["Download_ComingSoon_Q2"]
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Downloads -->
+    <div class="section-spacing-large">
+        <h2 class="text-theme-primary title-large mb-20" style="display: flex; align-items: center;">
+            <i class="bi bi-phone me-2"></i>
+            @Localizer["Download_Mobile_Title"]
+        </h2>
+
+        <div class="download-grid">
+            <!-- Android -->
+            <div class="card-dark card-dark-hover" style="text-align: center;">
+                <div class="icon-yellow icon-large">
+                    <i class="bi bi-android2"></i>
+                </div>
+                <h3 class="title-yellow title-medium" style="margin: 0 0 8px 0;">
+                    @Localizer["Download_Android_Title"]
+                </h3>
+                <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
+                    @Localizer["Download_Android_Subtitle"]
+                </p>
+                <button class="btn-primary-yellow" disabled>
+                    <i class="bi bi-download"></i>
+                    <span>@Localizer["Download_ComingSoon_Button"]</span>
+                </button>
+                <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
+                    @Localizer["Download_ComingSoon_Q3"]
+                </small>
+            </div>
+
+            <!-- iOS -->
+            <div class="card-dark card-dark-hover" style="text-align: center;">
+                <div class="icon-yellow icon-large">
+                    <i class="bi bi-apple"></i>
+                </div>
+                <h3 class="title-yellow title-medium" style="margin: 0 0 8px 0;">
+                    @Localizer["Download_iOS_Title"]
+                </h3>
+                <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
+                    @Localizer["Download_iOS_Subtitle"]
+                </p>
+                <button class="btn-primary-yellow" disabled>
+                    <i class="bi bi-download"></i>
+                    <span>@Localizer["Download_ComingSoon_Button"]</span>
+                </button>
+                <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
+                    @Localizer["Download_ComingSoon_Q3"]
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="card-dark" style="margin-top: 50px; padding: 40px;">
+        <h2 class="title-yellow title-large mb-30" style="text-align: center;">
+            @Localizer["Download_WhyDownload_Title"]
+        </h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="bi bi-lightning-charge-fill icon-yellow icon-medium"></i>
+                <h3 class="title-yellow title-small" style="margin: 15px 0 10px 0;">
+                    @Localizer["Download_Feature_Performance_Title"]
+                </h3>
+                <p class="text-yellow-dim" style="font-size: 14px; margin: 0;">
+                    @Localizer["Download_Feature_Performance_Description"]
+                </p>
+            </div>
+            <div class="feature-card">
+                <i class="bi bi-wifi-off icon-yellow icon-medium"></i>
+                <h3 class="title-yellow title-small" style="margin: 15px 0 10px 0;">
+                    @Localizer["Download_Feature_Offline_Title"]
+                </h3>
+                <p class="text-yellow-dim" style="font-size: 14px; margin: 0;">
+                    @Localizer["Download_Feature_Offline_Description"]
+                </p>
+            </div>
+            <div class="feature-card">
+                <i class="bi bi-shield-check icon-yellow icon-medium"></i>
+                <h3 class="title-yellow title-small" style="margin: 15px 0 10px 0;">
+                    @Localizer["Download_Feature_Secure_Title"]
+                </h3>
+                <p class="text-yellow-dim" style="font-size: 14px; margin: 0;">
+                    @Localizer["Download_Feature_Secure_Description"]
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Web Generator -->
+    <div class="web-generator-section">
+        <p class="text-theme-primary" style="font-size: 16px; margin: 0 0 20px 0;">
+            @Localizer["Download_WebGenerator_Text"]
+        </p>
+        <a href="/passwordgenerator" class="btn-primary-yellow">
+            <i class="bi bi-globe"></i>
+            <span>@Localizer["Download_WebGenerator_Button"]</span>
+        </a>
+    </div>
+
+</div>

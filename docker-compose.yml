@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+    web:
+        container_name: lyn-frontend
+        build: 
+            context: .
+            dockerfile: Lyn.Web/Dockerfile
+        ports: 
+            - "8081:80"
+    backend:
+        container_name: lyn-backend
+        build:
+            context: .
+            dockerfile: Lyn.Backend/Dockerfile
+        ports:
+            - "8080:8080"
+    

@@ -1,0 +1,228 @@
+﻿:root {
+    /* Background colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #f5f5f5;
+
+    /* Text colors */
+    --text-primary: #2C3E50;
+    --text-secondary: #6c757d;
+    --text-muted: #95A5A6;
+
+    /* Border colors */
+    --border-color: #E0E0E0;
+    --border-color-hover: #FEE447;
+
+    /* Input colors */
+    --input-bg: #ffffff;
+    --input-border: #E0E0E0;
+    --input-text: #2C3E50;
+    --input-placeholder: #95A5A6;
+
+    /* Card/Container colors */
+    --card-bg: #ffffff;
+    --card-border: #BDC3C7;
+
+    /* Modal colors */
+    --modal-bg: #ffffff;
+    --modal-text: #2C3E50;
+
+    /* Accent colors (forblir samme i begge temaer) */
+    --accent-yellow: #FEE447;
+    --accent-yellow-hover: #FFE94D;
+    --accent-dark: #1F1F1F;
+}
+
+[data-theme="dark"] {
+    /* Background colors */
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #242424;
+
+    /* Text colors */
+    --text-primary: #FEE447;
+    --text-secondary: #b0b0b0;
+    --text-muted: #ffffff;
+
+    /* Border colors */
+    --border-color: #404040;
+    --border-color-hover: #FEE447;
+
+    /* Input colors */
+    --input-bg: #2d2d2d;
+    --input-border: #404040;
+    --input-text: #FEE447;
+    --input-placeholder: #808080;
+
+    /* Card/Container colors */
+    --card-bg: #2d2d2d;
+    --card-border: #404040;
+
+    /* Modal colors */
+    --modal-bg: #2d2d2d;
+    --modal-text: #FEE447;
+
+    /* Accent colors (forblir samme) */
+    --accent-yellow: #FEE447;
+    --accent-yellow-hover: #FFE94D;
+    --accent-dark: #1F1F1F;
+}
+
+/* Form inputs */
+.form-input::placeholder {
+    color: var(--input-placeholder);
+}
+
+.form-label-bold {
+    color: var(--text-primary);
+}
+
+/* Length input container */
+.length-input-container {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+}
+
+.length-input {
+    color: var(--input-text);
+}
+
+/* Special chars container */
+.special-chars-container {
+    background-color: var(--input-bg);
+    border-color: var(--accent-yellow);
+}
+
+.special-chars-label {
+    color: var(--text-primary);
+}
+
+/* Result container */
+.result-container {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+}
+
+.result-container:hover {
+    border-color: var(--border-color-hover);
+}
+
+.generated-password {
+    color: var(--text-primary);
+}
+
+/* Range slider track */
+input[type="range"] {
+    background: var(--border-color);
+}
+
+/* Modal */
+.modal-content {
+    background: var(--modal-bg);
+}
+
+.modal-body {
+    color: var(--modal-text);
+}
+
+.info-section h6 {
+    color: var(--text-primary);
+}
+
+.info-section p,
+.info-section li {
+    color: var(--modal-text);
+}
+
+/* Password toggle icon */
+.password-toggle-icon {
+    color: var(--text-secondary);
+}
+
+.password-toggle-icon:hover {
+    color: var(--text-primary);
+}
+
+/* Text muted (for small text under slider) */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* Download link (for "How to use" button) */
+.download-link {
+    color: var(--accent-yellow) !important;
+}
+
+.download-link:hover {
+    color: var(--accent-yellow-hover) !important;
+}
+
+/* Smooth transitions for theme changes */
+* {
+    transition: background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Exclude elements that shouldn't transition */
+.btn-primary-yellow,
+.btn-primary-yellow *,
+input[type="range"]::-webkit-slider-thumb,
+input[type="range"]::-moz-range-thumb {
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+/* VIKTIG - Legg til body styling */
+body {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.3s ease, color 0.3s ease !important;
+}
+
+html {
+    background-color: var(--bg-primary) !important;
+    transition: background-color 0.3s ease !important;
+}
+
+.slider-label {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+[data-theme="dark"] .slider-label {
+    color: #b0b0b0;
+}
+
+/* Help link - svart i light mode, gul i dark mode */
+.help-link {
+    color: #2C3E50 !important;
+    font-weight: bold;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.2s;
+}
+
+.help-link:hover {
+    opacity: 0.8;
+}
+
+[data-theme="dark"] .help-link {
+    color: #FEE447 !important;
+}
+
+[data-theme="dark"] .help-link:hover {
+    color: #FFE94D !important;
+    opacity: 1;
+}
+
+/* Theme-aware text - sort i light, gul i dark */
+.text-theme-primary {
+    color: #2C3E50 !important;
+}
+
+[data-theme="dark"] .text-theme-primary {
+    color: #FEE447 !important;
+}

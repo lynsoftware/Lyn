@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+
+    <!-- Page Title -->
+    <data name="PageTitle" xml:space="preserve">
+        <value>Lyn Passordgenerator</value>
+    </data>
+
+    <!-- Download Banner -->
+    <data name="DownloadBanner_Title" xml:space="preserve">
+        <value>Last ned desktop-appen</value>
+    </data>
+    <data name="DownloadBanner_Description" xml:space="preserve">
+        <value>Raskere, sikrere og fungerer frakoblet.</value>
+    </data>
+    <data name="DownloadBanner_Link" xml:space="preserve">
+        <value>Last ned her</value>
+    </data>
+
+    <!-- Help Button -->
+    <data name="HowToUse" xml:space="preserve">
+        <value>Slik bruker du</value>
+    </data>
+
+    <!-- Form Labels -->
+    <data name="MasterPassword_Label" xml:space="preserve">
+        <value>Hovedpassord</value>
+    </data>
+    <data name="MasterPassword_Placeholder" xml:space="preserve">
+        <value>Skriv inn hovedpassordet ditt</value>
+    </data>
+    <data name="MasterPassword_Required" xml:space="preserve">
+        <value>Hovedpassord er påkrevd</value>
+    </data>
+    <data name="MasterPassword_Show" xml:space="preserve">
+        <value>Vis passord</value>
+    </data>
+    <data name="MasterPassword_Hide" xml:space="preserve">
+        <value>Skjul passord</value>
+    </data>
+
+    <data name="Seed_Label" xml:space="preserve">
+        <value>Frø</value>
+    </data>
+    <data name="Seed_Placeholder" xml:space="preserve">
+        <value>Skriv inn et frø</value>
+    </data>
+    <data name="Seed_Required" xml:space="preserve">
+        <value>Frø er påkrevd</value>
+    </data>
+
+    <data name="PasswordLength_Label" xml:space="preserve">
+        <value>Passordlengde</value>
+    </data>
+
+    <data name="SpecialChars_Label" xml:space="preserve">
+        <value>Inkluder spesialtegn ({0})</value>
+    </data>
+
+    <!-- Buttons -->
+    <data name="GeneratePassword_Button" xml:space="preserve">
+        <value>Generer passord</value>
+    </data>
+    <data name="CopyToClipboard_Button" xml:space="preserve">
+        <value>Kopier til utklippstavle</value>
+    </data>
+    <data name="Copied_Button" xml:space="preserve">
+        <value>Kopiert!</value>
+    </data>
+
+    <!-- Settings Page -->
+    <data name="Settings_PageTitle" xml:space="preserve">
+        <value>Innstillinger - Lyn Passordgenerator</value>
+    </data>
+        <data name="Language_Title" xml:space="preserve">
+        <value>Språk</value>
+    </data>
+        <data name="Theme_Title" xml:space="preserve">
+        <value>Tema</value>
+    </data>
+        <data name="Theme_Light" xml:space="preserve">
+        <value>Lys</value>
+    </data>
+        <data name="Theme_Dark" xml:space="preserve">
+        <value>Mørk</value>
+    </data>
+
+    <!-- Download Page -->
+    <data name="Download_PageTitle" xml:space="preserve">
+    <value>Last ned - Lyn Passordgenerator</value>
+</data>
+    <data name="Download_Hero_Title" xml:space="preserve">
+    <value>Last ned Lyn Passordgenerator</value>
+</data>
+    <data name="Download_Hero_Subtitle" xml:space="preserve">
+    <value>Last ned appen for din plattform og begynn å generere sikre passord frakoblet</value>
+</data>
+
+    <!-- Desktop Section -->
+    <data name="Download_Desktop_Title" xml:space="preserve">
+        <value>Desktop-applikasjoner</value>
+    </data>
+        <data name="Download_Windows_Title" xml:space="preserve">
+        <value>Windows</value>
+    </data>
+        <data name="Download_Windows_Subtitle" xml:space="preserve">
+        <value>Versjon 1.0.0 • Windows 10/11</value>
+    </data>
+        <data name="Download_Windows_Button" xml:space="preserve">
+        <value>Last ned for Windows</value>
+    </data>
+        <data name="Download_Windows_Store" xml:space="preserve">
+        <value>Tilgjengelig i Microsoft Store</value>
+    </data>
+    
+        <data name="Download_MacOS_Title" xml:space="preserve">
+        <value>macOS</value>
+    </data>
+        <data name="Download_MacOS_Subtitle" xml:space="preserve">
+        <value>Versjon 1.0.0 • macOS 11+</value>
+    </data>
+    
+        <data name="Download_Linux_Title" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+        <data name="Download_Linux_Subtitle" xml:space="preserve">
+        <value>Versjon 1.0.0 • Ubuntu 20.04+</value>
+    </data>
+    
+        <data name="Download_ComingSoon_Button" xml:space="preserve">
+        <value>Kommer snart</value>
+    </data>
+        <data name="Download_ComingSoon_Q2" xml:space="preserve">
+        <value>Tilgjengelig Q2 2026</value>
+    </data>
+        <data name="Download_ComingSoon_Q3" xml:space="preserve">
+        <value>Tilgjengelig Q3 2026</value>
+    </data>
+    
+        <!-- Mobile Section -->
+        <data name="Download_Mobile_Title" xml:space="preserve">
+        <value>Mobilapplikasjoner</value>
+    </data>
+        <data name="Download_Android_Title" xml:space="preserve">
+        <value>Android</value>
+    </data>
+        <data name="Download_Android_Subtitle" xml:space="preserve">
+        <value>Versjon 1.0.0 • Android 8.0+</value>
+    </data>
+    
+        <data name="Download_iOS_Title" xml:space="preserve">
+        <value>iOS</value>
+    </data>
+        <data name="Download_iOS_Subtitle" xml:space="preserve">
+        <value>Versjon 1.0.0 • iOS 14+</value>
+    </data>
+    
+        <!-- Why Download Section -->
+        <data name="Download_WhyDownload_Title" xml:space="preserve">
+        <value>Hvorfor laste ned?</value>
+    </data>
+        <data name="Download_Feature_Performance_Title" xml:space="preserve">
+        <value>Raskere ytelse</value>
+    </data>
+        <data name="Download_Feature_Performance_Description" xml:space="preserve">
+        <value>Native app kjører jevnere og raskere enn nettversjonen</value>
+    </data>
+        <data name="Download_Feature_Offline_Title" xml:space="preserve">
+        <value>Fungerer frakoblet</value>
+    </data>
+        <data name="Download_Feature_Offline_Description" xml:space="preserve">
+        <value>Generer passord uten internett-tilkobling</value>
+    </data>
+        <data name="Download_Feature_Secure_Title" xml:space="preserve">
+        <value>Mer sikker</value>
+    </data>
+        <data name="Download_Feature_Secure_Description" xml:space="preserve">
+        <value>Dataene dine forlater aldri enheten din</value>
+    </data>
+    
+        <!-- Web Generator Section -->
+        <data name="Download_WebGenerator_Text" xml:space="preserve">
+        <value>Foretrekker du nettversjonen? Ingen installasjon nødvendig!</value>
+    </data>
+        <data name="Download_WebGenerator_Button" xml:space="preserve">
+        <value>Bruk nettgenerator</value>
+    </data>
+
+    <!-- Header -->
+    <data name="Header_ToggleMenu_AriaLabel" xml:space="preserve">
+        <value>Åpne/lukk navigasjonsmeny</value>
+    </data>
+        <data name="Header_CloseMenu_AriaLabel" xml:space="preserve">
+        <value>Lukk meny</value>
+    </data>
+        <data name="Header_Navigation" xml:space="preserve">
+        <value>Navigasjon</value>
+    </data>
+        <data name="Header_Menu_Home" xml:space="preserve">
+        <value>Hjem</value>
+    </data>
+        <data name="Header_Menu_PasswordGenerator" xml:space="preserve">
+        <value>Passordgenerator</value>
+    </data>
+        <data name="Header_Menu_Download" xml:space="preserve">
+        <value>Last ned</value>
+    </data>
+        <data name="Header_Menu_Settings" xml:space="preserve">
+        <value>Innstillinger</value>
+    </data>
+        <data name="Header_Menu_About" xml:space="preserve">
+        <value>Om oss (Kommer snart)</value>
+    </data>
+        <data name="Header_Menu_Privacy" xml:space="preserve">
+        <value>Personvern</value>
+    </data>
+
+    <!-- How to Use Modal -->
+    <data name="Modal_Title" xml:space="preserve">
+        <value>Slik bruker du Lyn Passordgenerator</value>
+    </data>
+        <data name="Modal_Close_AriaLabel" xml:space="preserve">
+        <value>Lukk</value>
+    </data>
+        <data name="Modal_Close_Button" xml:space="preserve">
+        <value>Lukk</value>
+    </data>
+
+    <!-- Modal Introduction -->
+    <data name="Modal_Intro_AppName" xml:space="preserve">
+        <value>Lyn Passordgenerator</value>
+    </data>
+        <data name="Modal_Intro_Text1" xml:space="preserve">
+        <value>lar deg lage sterke, unike passord som du alltid kan regenerere når du trenger dem.</value>
+    </data>
+        <data name="Modal_Intro_Text2" xml:space="preserve">
+        <value>Ved å skrive inn et hovedpassord og gi det et frø (et ord som brukes ved generering av passordet), kan du hente samme genererte passord hver gang.</value>
+    </data>
+        <data name="Modal_Intro_Text3" xml:space="preserve">
+        <value>Du trenger ikke å huske hundrevis av passord eller stole på skytjenester - bare husk ett hovedpassord og bruk enkle frø for hver konto.</value>
+    </data>
+        <data name="Modal_Intro_Text4" xml:space="preserve">
+        <value>Verken hovedpassordet, frøet eller det genererte passordet lagres, så ondsinnede angripere kan ikke få tilgang til denne informasjonen.</value>
+    </data>
+        <data name="Modal_Intro_Text5" xml:space="preserve">
+        <value>Applikasjonen er tilgjengelig på Android, iOS, Windows, macOS og Linux.</value>
+    </data>
+
+    <!-- How to Use Section -->
+    <data name="Modal_HowTo_Title" xml:space="preserve">
+        <value>Slik bruker du appen:</value>
+    </data>
+        <data name="Modal_HowTo_MasterPassword_Label" xml:space="preserve">
+        <value>Hovedpassord:</value>
+    </data>
+        <data name="Modal_HowTo_MasterPassword_Text" xml:space="preserve">
+        <value>Din hemmelige nøkkel (aldri del den)</value>
+    </data>
+        <data name="Modal_HowTo_Seed_Label" xml:space="preserve">
+        <value>Frø:</value>
+    </data>
+        <data name="Modal_HowTo_Seed_Text" xml:space="preserve">
+        <value>Identifikator for hver konto (f.eks. "gmail", "reddit", eller ord du kan huske)</value>
+    </data>
+        <data name="Modal_HowTo_Length_Label" xml:space="preserve">
+        <value>Lengde:</value>
+    </data>
+        <data name="Modal_HowTo_Length_Text" xml:space="preserve">
+        <value>16 tegn er standard. Noen tjenester har minimums- og maksimumsgrenser, så juster lengden deretter. For sikre nøkler kan lengre passord være lurt</value>
+    </data>
+        <data name="Modal_HowTo_SpecialChars_Text" xml:space="preserve">
+        <value>Huk av eller fjern avhuking basert på om tjenesten tillater spesialtegn</value>
+    </data>
+        <data name="Modal_HowTo_Deterministic_Text" xml:space="preserve">
+        <value>Samme hovedpassord + frø = Samme passord hver gang</value>
+    </data>
+    
+        <!-- Security Tips Section -->
+        <data name="Modal_Security_Title" xml:space="preserve">
+        <value>Sikkerhetstips:</value>
+    </data>
+        <data name="Modal_Security_Tip1" xml:space="preserve">
+        <value>Bruk et sterkt, unikt hovedpassord. Ikke glem det! Uten hovedpassordet kan du ikke hente passordene dine igjen</value>
+    </data>
+        <data name="Modal_Security_Tip2" xml:space="preserve">
+        <value>Det anbefales å ikke gjenbruke hovedpassordet andre steder</value>
+    </data>
+        <data name="Modal_Security_Tip3" xml:space="preserve">
+        <value>Bruk forskjellige frø for forskjellige kontoer</value>
+    </data>
+        <data name="Modal_Security_Tip4" xml:space="preserve">
+        <value>Det anbefales å ikke skrive ned hovedpassordet på enhetene dine</value>
+    </data>
+        <data name="Modal_Security_Tip5" xml:space="preserve">
+        <value>En passordbehandler med flere lag gir enda mer sikkerhet, men det er bedre å bruke denne applikasjonen enn å skrive enkle passord som "passord123"</value>
+    </data>
+        <data name="Modal_Security_Tip6" xml:space="preserve">
+        <value>Hold en liste over frøene dine (dette er trygt da de er verdiløse uten hovedpassordet)</value>
+    </data>
+
+    <!-- Privacy Policy Page -->
+    <data name="Privacy_PageTitle" xml:space="preserve">
+        <value>Personvern - Lyn Passordgenerator</value>
+    </data>
+        <data name="Privacy_Title" xml:space="preserve">
+        <value>Personvernerklæring</value>
+    </data>
+        <data name="Privacy_LastUpdated" xml:space="preserve">
+        <value>Sist oppdatert: 10. januar 2026</value>
+    </data>
+    
+        <!-- Section 1: Introduction -->
+        <data name="Privacy_Section1_Title" xml:space="preserve">
+        <value>1. Introduksjon</value>
+    </data>
+        <data name="Privacy_Section1_Text" xml:space="preserve">
+        <value>Lyn Passordgenerator ("vi", "vår" eller "appen") er forpliktet til å beskytte ditt personvern. Denne personvernerklæringen forklarer hvordan vi håndterer informasjonen din når du bruker vår passordgenereringsapplikasjon.</value>
+    </data>
+    
+        <!-- Section 2: Data Collection -->
+        <data name="Privacy_Section2_Title" xml:space="preserve">
+        <value>2. Datainnsamling</value>
+    </data>
+        <data name="Privacy_Section2_Intro" xml:space="preserve">
+        <value>Vi samler ikke inn, lagrer eller overfører noen av dine personlige data.</value>
+    </data>
+        <data name="Privacy_Section2_Specifically" xml:space="preserve">
+        <value>Spesifikt:</value>
+    </data>
+        <data name="Privacy_Section2_Point1" xml:space="preserve">
+        <value>Vi samler ikke inn hovedpassordene dine</value>
+    </data>
+        <data name="Privacy_Section2_Point2" xml:space="preserve">
+        <value>Vi samler ikke inn frøene eller genererte passordene dine</value>
+    </data>
+        <data name="Privacy_Section2_Point3" xml:space="preserve">
+        <value>Vi samler ikke inn noen personlig informasjon</value>
+    </data>
+        <data name="Privacy_Section2_Point4" xml:space="preserve">
+        <value>Vi bruker ikke analyse- eller sporingsverktøy</value>
+    </data>
+        <data name="Privacy_Section2_Point5" xml:space="preserve">
+        <value>Vi deler ikke data med tredjeparter</value>
+    </data>
+    
+        <!-- Section 3: How the App Works -->
+        <data name="Privacy_Section3_Title" xml:space="preserve">
+        <value>3. Hvordan appen fungerer</value>
+    </data>
+        <data name="Privacy_Section3_Intro" xml:space="preserve">
+        <value>Lyn Passordgenerator opererer helt lokalt på enheten din:</value>
+    </data>
+        <data name="Privacy_Section3_Point1" xml:space="preserve">
+        <value>All passordgenerering skjer lokalt på enheten din</value>
+    </data>
+        <data name="Privacy_Section3_Point2" xml:space="preserve">
+        <value>Hovedpassordet og frøene dine behandles kun i enhetens minne</value>
+    </data>
+        <data name="Privacy_Section3_Point3" xml:space="preserve">
+        <value>Genererte passord lagres eller overføres aldri</value>
+    </data>
+        <data name="Privacy_Section3_Point4" xml:space="preserve">
+        <value>Appen fungerer helt frakoblet</value>
+    </data>
+    
+        <!-- Section 4: Local Storage -->
+        <data name="Privacy_Section4_Title" xml:space="preserve">
+        <value>4. Lokal lagring</value>
+    </data>
+        <data name="Privacy_Section4_Intro" xml:space="preserve">
+        <value>Appen lagrer følgende preferanser lokalt på enheten din:</value>
+    </data>
+        <data name="Privacy_Section4_Point1" xml:space="preserve">
+        <value>Passordlengdepreferanse</value>
+    </data>
+        <data name="Privacy_Section4_Point2" xml:space="preserve">
+        <value>Preferanse for inkludering av spesialtegn</value>
+    </data>
+        <data name="Privacy_Section4_Point3" xml:space="preserve">
+        <value>Temapreferanse (lys/mørk modus)</value>
+    </data>
+        <data name="Privacy_Section4_Point4" xml:space="preserve">
+        <value>Språkpreferanse</value>
+    </data>
+        <data name="Privacy_Section4_Important_Label" xml:space="preserve">
+        <value>Viktig:</value>
+    </data>
+        <data name="Privacy_Section4_Important_Text" xml:space="preserve">
+        <value>Vi lagrer aldri hovedpassordet ditt, frø eller genererte passord lokalt eller eksternt.</value>
+    </data>
+    
+        <!-- Section 5: Security -->
+        <data name="Privacy_Section5_Title" xml:space="preserve">
+        <value>5. Sikkerhet</value>
+    </data>
+        <data name="Privacy_Section5_Intro" xml:space="preserve">
+        <value>Din sikkerhet er vår toppprioritet:</value>
+    </data>
+        <data name="Privacy_Section5_Point1" xml:space="preserve">
+        <value>All passordgenerering bruker industristandardalgoritmen Argon2id</value>
+    </data>
+        <data name="Privacy_Section5_Point2" xml:space="preserve">
+        <value>Dataene dine forlater aldri enheten din</value>
+    </data>
+        <data name="Privacy_Section5_Point3" xml:space="preserve">
+        <value>Ingen internettforbindelse kreves for at appen skal fungere</value>
+    </data>
+        <data name="Privacy_Section5_Point4" xml:space="preserve">
+        <value>Appen kommuniserer ikke med eksterne servere</value>
+    </data>
+    
+        <!-- Section 6: Third-Party Services -->
+        <data name="Privacy_Section6_Title" xml:space="preserve">
+        <value>6. Tredjepartstjenester</value>
+    </data>
+        <data name="Privacy_Section6_Text" xml:space="preserve">
+        <value>Lyn Passordgenerator integrerer ikke med eller bruker noen tredjepartstjenester, analyseverktøy eller annonsenettverk.</value>
+    </data>
+    
+        <!-- Section 7: Children's Privacy -->
+        <data name="Privacy_Section7_Title" xml:space="preserve">
+        <value>7. Barns personvern</value>
+    </data>
+        <data name="Privacy_Section7_Text" xml:space="preserve">
+        <value>Appen vår samler ikke bevisst inn informasjon fra noen, inkludert barn under 13 år. Appen kan trygt brukes av alle som trenger å generere sikre passord.</value>
+    </data>
+    
+        <!-- Section 8: Changes to Policy -->
+        <data name="Privacy_Section8_Title" xml:space="preserve">
+        <value>8. Endringer i denne personvernerklæringen</value>
+    </data>
+        <data name="Privacy_Section8_Text" xml:space="preserve">
+        <value>Vi kan oppdatere denne personvernerklæringen fra tid til annen. Eventuelle endringer vil bli publisert på denne siden med en oppdatert "Sist oppdatert"-dato.</value>
+    </data>
+    
+        <!-- Section 9: Contact Us -->
+        <data name="Privacy_Section9_Title" xml:space="preserve">
+        <value>9. Kontakt oss</value>
+    </data>
+        <data name="Privacy_Section9_Intro" xml:space="preserve">
+        <value>Hvis du har spørsmål om denne personvernerklæringen, vennligst kontakt oss på:</value>
+    </data>
+        <data name="Privacy_Section9_Email_Label" xml:space="preserve">
+        <value>E-post:</value>
+    </data>
+    
+        <!-- Section 10: Summary -->
+        <data name="Privacy_Section10_Title" xml:space="preserve">
+        <value>10. Oppsummering</value>
+    </data>
+        <data name="Privacy_Section10_Summary" xml:space="preserve">
+        <value>Kort fortalt: Lyn Passordgenerator er en personvern-først applikasjon.</value>
+    </data>
+        <data name="Privacy_Section10_Point1" xml:space="preserve">
+        <value>✓ Null datainnsamling</value>
+    </data>
+        <data name="Privacy_Section10_Point2" xml:space="preserve">
+        <value>✓ Null datalagring</value>
+    </data>
+        <data name="Privacy_Section10_Point3" xml:space="preserve">
+        <value>✓ Null dataoverføring</value>
+    </data>
+        <data name="Privacy_Section10_Point4" xml:space="preserve">
+        <value>✓ Komplett frakoblet funksjonalitet</value>
+    </data>
+        <data name="Privacy_Section10_Point5" xml:space="preserve">
+        <value>✓ Ingen tredjepartstjenester</value>
+    </data>
+</root>

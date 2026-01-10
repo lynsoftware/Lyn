@@ -1,0 +1,27 @@
+﻿@inject IThemeService ThemeService
+@inject ILocalizationService LocalizationService
+@inject NavigationManager Navigation
+
+<Router AppAssembly="@typeof(App).Assembly" NotFoundPage="typeof(Pages.NotFound)">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
+        <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
+    </Found>
+</Router>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        // Initialize localization FIRST (LocalStorage er klar her)
+        await LocalizationService.InitializeAsync();
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await ThemeService.InitializeAsync();
+            await ThemeService.ApplyThemeAsync();
+        }
+    }
+}
