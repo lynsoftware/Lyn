@@ -11,3 +11,55 @@
 2026-01-10 01:06:00.198 +01:00 [INF] Executed endpoint 'Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend)'
 2026-01-10 01:06:00.199 +01:00 [INF] HTTP POST /api/passwordgenerator responded 200 in 253.1866 ms
 2026-01-10 01:06:00.200 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/api/passwordgenerator - 200 null application/json; charset=utf-8 255.4704ms
+2026-01-10 02:27:10.631 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5003/api/passwordgenerator - null null
+2026-01-10 02:27:10.633 +01:00 [INF] CORS policy execution successful.
+2026-01-10 02:27:10.634 +01:00 [INF] HTTP OPTIONS /api/passwordgenerator responded 204 in 0.7645 ms
+2026-01-10 02:27:10.635 +01:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5003/api/passwordgenerator - 204 null null 4.165ms
+2026-01-10 02:27:10.637 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/api/passwordgenerator - application/json; charset=utf-8 79
+2026-01-10 02:27:10.639 +01:00 [INF] CORS policy execution successful.
+2026-01-10 02:27:10.639 +01:00 [INF] Executing endpoint 'Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend)'
+2026-01-10 02:27:10.640 +01:00 [INF] Route matched with {action = "GeneratePassword", controller = "PasswordGenerator"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GeneratePassword(Lyn.Shared.Models.PasswordGenerationRequest) on controller Lyn.Backend.Controllers.PasswordGeneratorController (Lyn.Backend).
+2026-01-10 02:27:10.906 +01:00 [INF] Executing OkObjectResult, writing value of type 'Lyn.Shared.Models.PasswordGenerationResponse'.
+2026-01-10 02:27:10.907 +01:00 [INF] Executed action Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend) in 265.5393ms
+2026-01-10 02:27:10.907 +01:00 [INF] Executed endpoint 'Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend)'
+2026-01-10 02:27:10.908 +01:00 [INF] HTTP POST /api/passwordgenerator responded 200 in 269.0180 ms
+2026-01-10 02:27:10.909 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/api/passwordgenerator - 200 null application/json; charset=utf-8 271.3312ms
+2026-01-10 02:27:55.331 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5003/api/passwordgenerator - null null
+2026-01-10 02:27:55.332 +01:00 [INF] CORS policy execution successful.
+2026-01-10 02:27:55.333 +01:00 [INF] HTTP OPTIONS /api/passwordgenerator responded 204 in 0.4905 ms
+2026-01-10 02:27:55.334 +01:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5003/api/passwordgenerator - 204 null null 3.0066ms
+2026-01-10 02:27:55.335 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/api/passwordgenerator - application/json; charset=utf-8 76
+2026-01-10 02:27:55.337 +01:00 [INF] CORS policy execution successful.
+2026-01-10 02:27:55.337 +01:00 [INF] Executing endpoint 'Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend)'
+2026-01-10 02:27:55.338 +01:00 [INF] Route matched with {action = "GeneratePassword", controller = "PasswordGenerator"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GeneratePassword(Lyn.Shared.Models.PasswordGenerationRequest) on controller Lyn.Backend.Controllers.PasswordGeneratorController (Lyn.Backend).
+2026-01-10 02:27:55.588 +01:00 [INF] Executing OkObjectResult, writing value of type 'Lyn.Shared.Models.PasswordGenerationResponse'.
+2026-01-10 02:27:55.589 +01:00 [INF] Executed action Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend) in 250.0846ms
+2026-01-10 02:27:55.590 +01:00 [INF] Executed endpoint 'Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend)'
+2026-01-10 02:27:55.590 +01:00 [INF] HTTP POST /api/passwordgenerator responded 200 in 253.5474 ms
+2026-01-10 02:27:55.591 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/api/passwordgenerator - 200 null application/json; charset=utf-8 255.9935ms
+2026-01-10 03:26:34.173 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5003/api/passwordgenerator - null null
+2026-01-10 03:26:34.176 +01:00 [INF] CORS policy execution successful.
+2026-01-10 03:26:34.177 +01:00 [INF] HTTP OPTIONS /api/passwordgenerator responded 204 in 1.0521 ms
+2026-01-10 03:26:34.178 +01:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5003/api/passwordgenerator - 204 null null 5.1573ms
+2026-01-10 03:26:34.181 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/api/passwordgenerator - application/json; charset=utf-8 86
+2026-01-10 03:26:34.183 +01:00 [INF] CORS policy execution successful.
+2026-01-10 03:26:34.183 +01:00 [INF] Executing endpoint 'Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend)'
+2026-01-10 03:26:34.184 +01:00 [INF] Route matched with {action = "GeneratePassword", controller = "PasswordGenerator"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GeneratePassword(Lyn.Shared.Models.PasswordGenerationRequest) on controller Lyn.Backend.Controllers.PasswordGeneratorController (Lyn.Backend).
+2026-01-10 03:26:34.465 +01:00 [INF] Executing OkObjectResult, writing value of type 'Lyn.Shared.Models.PasswordGenerationResponse'.
+2026-01-10 03:26:34.466 +01:00 [INF] Executed action Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend) in 279.9777ms
+2026-01-10 03:26:34.466 +01:00 [INF] Executed endpoint 'Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend)'
+2026-01-10 03:26:34.467 +01:00 [INF] HTTP POST /api/passwordgenerator responded 200 in 284.2797 ms
+2026-01-10 03:26:34.468 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/api/passwordgenerator - 200 null application/json; charset=utf-8 287.2692ms
+2026-01-10 03:28:57.529 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5003/api/passwordgenerator - null null
+2026-01-10 03:28:57.531 +01:00 [INF] CORS policy execution successful.
+2026-01-10 03:28:57.531 +01:00 [INF] HTTP OPTIONS /api/passwordgenerator responded 204 in 0.5038 ms
+2026-01-10 03:28:57.532 +01:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5003/api/passwordgenerator - 204 null null 3.1338ms
+2026-01-10 03:28:57.534 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/api/passwordgenerator - application/json; charset=utf-8 76
+2026-01-10 03:28:57.536 +01:00 [INF] CORS policy execution successful.
+2026-01-10 03:28:57.536 +01:00 [INF] Executing endpoint 'Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend)'
+2026-01-10 03:28:57.537 +01:00 [INF] Route matched with {action = "GeneratePassword", controller = "PasswordGenerator"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GeneratePassword(Lyn.Shared.Models.PasswordGenerationRequest) on controller Lyn.Backend.Controllers.PasswordGeneratorController (Lyn.Backend).
+2026-01-10 03:28:57.810 +01:00 [INF] Executing OkObjectResult, writing value of type 'Lyn.Shared.Models.PasswordGenerationResponse'.
+2026-01-10 03:28:57.811 +01:00 [INF] Executed action Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend) in 272.8379ms
+2026-01-10 03:28:57.812 +01:00 [INF] Executed endpoint 'Lyn.Backend.Controllers.PasswordGeneratorController.GeneratePassword (Lyn.Backend)'
+2026-01-10 03:28:57.813 +01:00 [INF] HTTP POST /api/passwordgenerator responded 200 in 277.0484 ms
+2026-01-10 03:28:57.814 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/api/passwordgenerator - 200 null application/json; charset=utf-8 279.4361ms
