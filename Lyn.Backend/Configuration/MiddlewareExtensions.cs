@@ -22,23 +22,31 @@ public static class MiddlewareExtensions
         {
             var origin = context.Request.Headers.Origin.FirstOrDefault();
             var allowedOrigins = app.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
-            
+    
+            // Alltid legg til CORS headers hvis origin matcher
             if (!string.IsNullOrEmpty(origin) && allowedOrigins.Contains(origin))
             {
-                context.Response.Headers.Append("Access-Control-Allow-Origin", origin);
-                context.Response.Headers.Append("Access-Control-Allow-Credentials", "true");
-                context.Response.Headers.Append("Access-Control-Allow-Headers", 
-                    context.Request.Headers["Access-Control-Request-Headers"].FirstOrDefault() ?? "*");
-                context.Response.Headers.Append("Access-Control-Allow-Methods", "*");
+                context.Response.OnStarting(() =>
+                {
+                    if (!context.Response.Headers.ContainsKey("Access-Control-Allow-Origin"))
+                    {
+                        context.Response.Headers.Append("Access-Control-Allow-Origin", origin);
+                        context.Response.Headers.Append("Access-Control-Allow-Credentials", "true");
+                        context.Response.Headers.Append("Access-Control-Allow-Headers", "*");
+                        context.Response.Headers.Append("Access-Control-Allow-Methods", "*");
+                        context.Response.Headers.Append("Access-Control-Max-Age", "600");
+                    }
+                    return Task.CompletedTask;
+                });
             }
-            
+    
             // Handle preflight
             if (context.Request.Method == "OPTIONS")
             {
                 context.Response.StatusCode = 204;
                 return;
             }
-            
+    
             await next();
         });
         
