@@ -15,25 +15,31 @@ ENV BACKEND_URL=${BACKEND_URL}
 
 # Publish
 WORKDIR "/src/Lyn.Web"
-RUN dotnet publish "Lyn.Web.csproj" -c Release -o /app/publish /p:RunAOTCompilation=false
+RUN dotnet publish "Lyn.Web.csproj" -c Release -o /app/publish
 
 # Inject BACKEND_URL into appsettings.json after publish
 RUN if [ -n "$BACKEND_URL" ]; then \
       echo "{\"BACKEND_URL\": \"${BACKEND_URL}\", \"ApiBaseUrl\": \"${BACKEND_URL}\"}" > /app/publish/wwwroot/appsettings.json; \
     fi
 
-# Verify files were published
-RUN ls -la /app/publish/wwwroot/_framework/
+# Debug: List published files
+RUN echo "=== Published files ===" && \
+    ls -la /app/publish/wwwroot/ && \
+    echo "=== Framework files ===" && \
+    ls -la /app/publish/wwwroot/_framework/ | head -20
 
 # Serve with nginx
 FROM nginx:alpine AS final
 WORKDIR /usr/share/nginx/html
 
-# Copy published WASM files
-COPY --from=build /app/publish/wwwroot .
+# Copy ALL wwwroot contents (including subdirectories)
+COPY --from=build /app/publish/wwwroot/ ./
 
-# Verify files in final image
-RUN ls -la /usr/share/nginx/html/_framework/ || echo "Framework folder not found!"
+# Debug: Verify copy worked
+RUN echo "=== Final nginx files ===" && \
+    ls -la /usr/share/nginx/html/ && \
+    echo "=== Final framework files ===" && \
+    ls -la /usr/share/nginx/html/_framework/ | head -20
 
 # Copy nginx config
 COPY --from=build /src/Lyn.Web/nginx.conf /etc/nginx/nginx.conf
