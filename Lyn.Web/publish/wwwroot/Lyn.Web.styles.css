@@ -1,0 +1,36 @@
+@import '_content/Blazor.Bootstrap/Blazor.Bootstrap.olwso25aue.bundle.scp.css';
+
+/* /Layout/MainLayout.razor.rz.scp.css */
+.page[b-xnv9qp216u] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main[b-xnv9qp216u] {
+    flex: 1;
+}
+
+
+@media (min-width: 641px) {
+    .page[b-xnv9qp216u] {
+        flex-direction: row;
+    }
+}
+/* /Layout/PasswordGeneratorLayout.razor.rz.scp.css */
+.page[b-r1ml98mxrn] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main[b-r1ml98mxrn] {
+    flex: 1;
+}
+
+
+@media (min-width: 641px) {
+    .page[b-r1ml98mxrn] {
+        flex-direction: row;
+    }
+}
