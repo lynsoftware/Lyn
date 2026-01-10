@@ -4,10 +4,11 @@ services:
         build: 
             context: .
             dockerfile: Lyn.Web/Dockerfile
+            args:
+                - BACKEND_URL=${BACKEND_URL}
         ports: 
             - "7000:80"
-        environment:
-            - BACKEND_URL=${BACKEND_URL}
+       
         depends_on:
             - backend
         networks:
@@ -38,7 +39,7 @@ services:
             - lyn-network
         restart: unless-stopped
         healthcheck:
-            test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8000/health || exit 1"]
+            test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1"]
             interval: 10s
             timeout: 10s
             retries: 3

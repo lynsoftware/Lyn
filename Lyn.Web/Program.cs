@@ -46,8 +46,9 @@ builder.Services.AddScoped<ILocalizationService, LocalizationService>();
 
 
 // HttpClient with API base URL
-var apiBaseUrl = builder.Configuration["ApiBaseUrl"] 
-                 ?? throw new InvalidOperationException("ApiBaseUrl not configured in appsettings.json");
+var apiBaseUrl = builder.Configuration["BACKEND_URL"] 
+                 ?? builder.Configuration["ApiBaseUrl"] 
+                 ?? throw new InvalidOperationException("BACKEND_URL not configured");
 
 builder.Services.AddScoped(_ => new HttpClient 
 { 
