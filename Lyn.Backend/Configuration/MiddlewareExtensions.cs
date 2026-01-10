@@ -17,6 +17,31 @@ public static class MiddlewareExtensions
     public static WebApplication ConfigureMiddleware(this WebApplication app)
     {
         
+        // Global CORS middleware - MÅ KOMME FØRST for å håndtere alle responses inkludert errors
+        app.Use(async (context, next) =>
+        {
+            var origin = context.Request.Headers.Origin.FirstOrDefault();
+            var allowedOrigins = app.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+            
+            if (!string.IsNullOrEmpty(origin) && allowedOrigins.Contains(origin))
+            {
+                context.Response.Headers.Append("Access-Control-Allow-Origin", origin);
+                context.Response.Headers.Append("Access-Control-Allow-Credentials", "true");
+                context.Response.Headers.Append("Access-Control-Allow-Headers", 
+                    context.Request.Headers["Access-Control-Request-Headers"].FirstOrDefault() ?? "*");
+                context.Response.Headers.Append("Access-Control-Allow-Methods", "*");
+            }
+            
+            // Handle preflight
+            if (context.Request.Method == "OPTIONS")
+            {
+                context.Response.StatusCode = 204;
+                return;
+            }
+            
+            await next();
+        });
+        
         // Exception Handling
         app.UseExceptionHandler();
       
