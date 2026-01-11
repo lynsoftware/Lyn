@@ -153,9 +153,25 @@
         <data name="Download_ComingSoon_Q3" xml:space="preserve">
         <value>Tilgjengelig Q3 2026</value>
     </data>
+
+    <data name="Download_MacOS_Button" xml:space="preserve">
+        <value>Last ned for macOS</value>
+    </data>
+        <data name="Download_Linux_Button" xml:space="preserve">
+        <value>Last ned for Linux</value>
+    </data>
+        <data name="Download_Android_Button" xml:space="preserve">
+        <value>Last ned for Android</value>
+    </data>
+        <data name="Download_iOS_Button" xml:space="preserve">
+        <value>Last ned for iOS</value>
+    </data>
+        <data name="Download_Downloading" xml:space="preserve">
+        <value>Laster ned...</value>
+    </data>
     
-        <!-- Mobile Section -->
-        <data name="Download_Mobile_Title" xml:space="preserve">
+    <!-- Mobile Section -->
+    <data name="Download_Mobile_Title" xml:space="preserve">
         <value>Mobilapplikasjoner</value>
     </data>
         <data name="Download_Android_Title" xml:space="preserve">
