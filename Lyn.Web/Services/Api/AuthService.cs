@@ -74,23 +74,11 @@ public class AuthService(ILogger<AuthService> logger, HttpClient httpClient,
     {
         try
         {
-            logger.LogInformation("=== UPLOAD START ===");
-            logger.LogInformation("File: {FileName}, Size: {Size} bytes", file.Name, file.Size);
-            logger.LogInformation("Version: {Version}, Platform: {Platform}", version, platform);
-            logger.LogInformation("ContentType: {ContentType}", file.ContentType);
+            logger.LogInformation("Uploading file: {FileName}, Version: {Version}, Platform: {Platform}", 
+                file.Name, version, platform);
 
             // Hent token
             var token = await GetTokenAsync(cancellationToken);
-            logger.LogInformation("Token retrieved: {HasToken}, Length: {Length}", 
-                !string.IsNullOrEmpty(token), token?.Length ?? 0);
-            
-            if (!string.IsNullOrEmpty(token))
-            {
-                logger.LogInformation("Token preview: {TokenPreview}...", 
-                    token.Substring(0, Math.Min(30, token.Length)));
-                Console.WriteLine($"Full token: {token}");
-            }
-
             if (string.IsNullOrEmpty(token))
             {
                 logger.LogWarning("Upload failed: Not authenticated");
@@ -98,73 +86,70 @@ public class AuthService(ILogger<AuthService> logger, HttpClient httpClient,
             }
 
             // Opprett multipart form data
-            logger.LogInformation("Creating multipart form data...");
             using var content = new MultipartFormDataContent();
             
             // Legg til fil
-            logger.LogInformation("Adding file to form data...");
-            var fileContent = new StreamContent(file.OpenReadStream(maxAllowedSize: 500 * 1024 * 1024));
-            fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+            var fileContent = new StreamContent(file.OpenReadStream(maxAllowedSize: 500 * 1024 * 1024)); // 500MB max
+            
+            var contentType = string.IsNullOrWhiteSpace(file.ContentType) 
+                ? GetContentTypeFromExtension(file.Name)
+                : file.ContentType;
+
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
             content.Add(fileContent, "file", file.Name);
-            logger.LogInformation("File added: name={Name}, size={Size}", file.Name, file.Size);
             
             // Legg til version
             content.Add(new StringContent(version), "version");
-            logger.LogInformation("Version added: {Version}", version);
             
-            // Legg til platform som STRING
-            var platformString = platform.ToString();
-            content.Add(new StringContent(platformString), "platform");
-            logger.LogInformation("Platform added: {Platform} (as string: {PlatformString})", platform, platformString);
+            // Legg til platform (som integer)
+            content.Add(new StringContent(((int)platform).ToString()), "platform");
 
             // Send request med Bearer token
-            logger.LogInformation("Creating HTTP request...");
             using var request = new HttpRequestMessage(HttpMethod.Post, "api/admin/upload");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
             request.Content = content;
-            
-            logger.LogInformation("Request URL: {Url}", request.RequestUri);
-            logger.LogInformation("Authorization header: {Auth}", request.Headers.Authorization?.ToString());
-            
-            Console.WriteLine("=== ABOUT TO SEND REQUEST ===");
-            Console.WriteLine($"URL: {request.RequestUri}");
-            Console.WriteLine($"Method: {request.Method}");
-            Console.WriteLine($"Auth header: {request.Headers.Authorization}");
-            Console.WriteLine($"Content type: {content.Headers.ContentType}");
 
-            logger.LogInformation("Sending request...");
             var response = await httpClient.SendAsync(request, cancellationToken);
-            
-            logger.LogInformation("Response received: Status={StatusCode}", response.StatusCode);
-            Console.WriteLine($"Response status: {response.StatusCode}");
 
             if (!response.IsSuccessStatusCode)
             {
                 var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
-                logger.LogWarning("Upload failed with {StatusCode}: {Error}", response.StatusCode, errorContent);
-                Console.WriteLine($"Error response body: {errorContent}");
-                return Result<string>.Failure($"Upload failed ({response.StatusCode}): {errorContent}");
+                logger.LogWarning("Upload failed: {Error}", errorContent);
+                Console.WriteLine($@"Full error response: {errorContent}");
+                return Result<string>.Failure(errorContent);
             }
 
             var result = await response.Content.ReadAsStringAsync(cancellationToken);
             logger.LogInformation("File uploaded successfully: {Result}", result);
-            Console.WriteLine($"Success response: {result}");
             
             return Result<string>.Success(result);
         }
         catch (HttpRequestException ex)
         {
             logger.LogError(ex, "Network error during file upload");
-            Console.WriteLine($"Network exception: {ex.Message}");
-            Console.WriteLine($"Inner exception: {ex.InnerException?.Message}");
-            return Result<string>.Failure($"Connection failed: {ex.Message}");
+            return Result<string>.Failure("Connection failed. Please check your internet.");
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Unexpected error during file upload");
-            Console.WriteLine($"Unexpected exception: {ex.GetType().Name} - {ex.Message}");
-            Console.WriteLine($"Stack trace: {ex.StackTrace}");
-            return Result<string>.Failure($"Unexpected error: {ex.Message}");
+            return Result<string>.Failure("Unexpected error occurred. Try again later.");
         }
+    }
+    
+    private static string GetContentTypeFromExtension(string fileName)
+    {
+        var extension = Path.GetExtension(fileName).ToLowerInvariant();
+    
+        return extension switch
+        {
+            ".apk" => "application/vnd.android.package-archive",
+            ".exe" => "application/vnd.microsoft.portable-executable",
+            ".msi" => "application/x-msi",
+            ".dmg" => "application/x-apple-diskimage",
+            ".zip" => "application/zip",
+            ".tar" => "application/x-tar",
+            ".gz" => "application/gzip",
+            _ => "application/octet-stream" // Default for ukjente filtyper
+        };
     }
 }
