@@ -1,10 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35913.81 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyn.Web", "Lyn.Web\Lyn.Web.csproj", "{1F840BFC-A375-4B3C-9535-35505194CC42}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyn.Backend", "Lyn.Backend\Lyn.Backend.csproj", "{3AE41A8B-BBFC-41FC-B8AF-A26408ED4C48}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyn.Shared", "Lyn.Shared\Lyn.Shared.csproj", "{8CC6D390-053E-4B43-88C6-51852FC8285C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PasswordGenerator", "PasswordGenerator\PasswordGenerator.csproj", "{D0739627-B87C-DFC0-57C8-2AD2079432B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +29,14 @@ Global
 		{8CC6D390-053E-4B43-88C6-51852FC8285C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CC6D390-053E-4B43-88C6-51852FC8285C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CC6D390-053E-4B43-88C6-51852FC8285C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0739627-B87C-DFC0-57C8-2AD2079432B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0739627-B87C-DFC0-57C8-2AD2079432B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0739627-B87C-DFC0-57C8-2AD2079432B2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D0739627-B87C-DFC0-57C8-2AD2079432B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0739627-B87C-DFC0-57C8-2AD2079432B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0739627-B87C-DFC0-57C8-2AD2079432B2}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

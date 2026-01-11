@@ -166,7 +166,7 @@
     public List<DownloadResponse> Downloads = new();
 
     private bool _isLoading = true;
-    private bool _isDownloading = false;
+    private bool _isDownloading;
     private string? _errorMessage;
     
     protected override async Task OnInitializedAsync()

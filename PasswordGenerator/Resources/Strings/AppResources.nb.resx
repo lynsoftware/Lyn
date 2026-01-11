@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="AppTitle" xml:space="preserve">
+        <value>Passordgenerator</value>
+    </data>
+    <data name="MasterPassword" xml:space="preserve">
+        <value>Hovedpassord</value>
+    </data>
+    <data name="AppSubtitle" xml:space="preserve">
+        <value>Sikker og pålitelig passordgenerering</value>
+    </data>
+    <data name="Seed" xml:space="preserve">
+        <value>Seed</value>
+    </data>
+    <data name="PasswordLength" xml:space="preserve">
+        <value>Passordlengde (8-256)</value>
+    </data>
+    <data name="GeneratePassword" xml:space="preserve">
+        <value>Generer passord</value>
+    </data>
+    <data name="GeneratedPassword" xml:space="preserve">
+        <value>Generert passord</value>
+    </data>
+    <data name="CopyToClipboard" xml:space="preserve">
+        <value>Kopier til utklippstavle</value>
+    </data>
+    <data name="Language" xml:space="preserve">
+        <value>Språk</value>
+    </data>
+    <data name="Theme" xml:space="preserve">
+        <value>Tema</value>
+    </data>
+    <data name="Dark" xml:space="preserve">
+        <value>Mørk</value>
+    </data>
+    <data name="MasterPasswordPlaceholder" xml:space="preserve">
+        <value>Skriv inn hovedpassordet ditt</value>
+    </data>
+    <data name="SeedRequired" xml:space="preserve">
+        <value>Seed er påkrevd</value>
+    </data>
+    <data name="SeedPlaceholder" xml:space="preserve">
+        <value>Skriv inn en seed</value>
+    </data>
+    <data name="MasterPasswordRequired" xml:space="preserve">
+        <value>Hovedpassord er påkrevd</value>
+    </data>
+    <data name="Light" xml:space="preserve">
+        <value>Lys</value>
+    </data>
+    <data name="IncludeSpecialChars" xml:space="preserve">
+        <value>Inkluder spesialtegn (!@#$%&amp;*-_+=)</value>
+    </data>
+    <data name="Settings" xml:space="preserve">
+        <value>Innstillinger</value>
+    </data>
+    <data name="SelectLanguage" xml:space="preserve">
+        <value>Velg språk</value>
+    </data>
+    <data name="SelectTheme" xml:space="preserve">
+        <value>Velg tema</value>
+    </data>
+    <data name="Help" xml:space="preserve">
+        <value>Hjelp/Om</value>
+    </data>
+    <data name="HelpText" xml:space="preserve">
+        <value>Lyn Password Generator lar deg lage sterke, unike passord som du alltid kan gjenskape når du trenger dem.
+
+Ved å skrive inn et hovedpassord og gi det en seed (et ord som brukes ved generering av passordet), kan du finne tilbake til det samme genererte passordet hver gang.
+
+Du slipper å huske hundrevis av passord eller stole på skytjenester - bare husk ett hovedpassord og bruk enkle seeds for hver konto.
+
+Verken hovedpassordet, seeden eller det genererte passordet lagres, slik at ondsinnet angripere ikke kan få tak i denne informasjonen.
+
+Applikasjonen finnes på Android, iOS, Windows, macOS og Linux
+
+Slik bruker du appen:
+- Hovedpassord: Din hemmelige nøkkel (del den aldri)
+- Seed: Identifikator for hver konto (f.eks. "gmail", "reddit", eller ord du kan huske på)
+- Lengde:  16 tegn er standard. Noen tjenester har minimum- og maksimumgrenser, så endre lengde deretter. For sikre nøkler kan lengre passord være lurt
+- Huk av eller fjern avhuking basert på om tjenesten tillater spesialtegn
+- Samme hovedpassord og seed = Samme passord hver gang
+
+Sikkerhetstips:
+- Bruk et sterkt, unikt hovedpassord. Ikke glem det! Uten hovedpassordet kan du ikke finne tilbake til passordet igjen
+- Det er anbefalt å ikke gjenbruk hovedpassordet andre steder
+- Bruk forskjellige seeds for ulike kontoer
+- Det anbefales å ikke notere hovedpassordet på enhetene dine
+- En Password Manager med flere lag gir enda mer sikkerhet, men det er bedre å ta en tur innom denne applikasjonen enn å skrive simple passord slik som "passord123"
+- Hold en liste over dine seeds (dette er trygt da de er verdiløse uten hovedpassordet)</value>
+    </data>
+</root>

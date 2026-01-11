@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:PasswordGenerator.Resources.Strings"
+             x:Class="PasswordGenerator.MainPage">
+
+   <ScrollView>
+        <VerticalStackLayout
+            Spacing="0"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand">
+            
+            <!-- Header Card with Menu -->
+            <Border
+                BackgroundColor="#1F1F1F"
+                Padding="10,10"
+                StrokeThickness="0"
+                HorizontalOptions="FillAndExpand">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="0" />
+                </Border.StrokeShape>
+                
+                <Border.Shadow>
+                    <Shadow Brush="Black"
+                            Opacity="0.15"
+                            Radius="20"
+                            Offset="0,5" />
+                </Border.Shadow>
+                
+                <Grid ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="60" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Logo - Left column -->
+                    <Image Source="logo.png" 
+                           Grid.Column="0"
+                           WidthRequest="70"
+                           HeightRequest="70"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+                    
+                    <!-- Title and subtitle - Middle column -->
+                    <VerticalStackLayout Grid.Column="1" 
+                                        Spacing="4"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center">
+                        <Label
+                            Text="{x:Static strings:AppResources.AppTitle}"
+                            FontSize="28"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            TextColor="#FEE447"/>
+                        <Label
+                            Text="{x:Static strings:AppResources.AppSubtitle}"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            TextColor="#FEE447"/>
+                    </VerticalStackLayout>
+                    
+                    <!-- Hamburger Menu - Right column -->
+                    <Button
+                        Grid.Column="2"
+                        Text="☰"
+                        FontSize="28"
+                        TextColor="#FEE447"
+                        BackgroundColor="Transparent"
+                        WidthRequest="50"
+                        HeightRequest="50"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        Clicked="OnMenuClicked">
+                    </Button>
+                </Grid>
+            </Border>
+            
+            <!-- Content Area with Padding -->
+            <VerticalStackLayout
+                Padding="20"
+                Spacing="20">
+                
+                <!-- Master Password Section -->
+                <VerticalStackLayout Spacing="8">
+                    
+                    <!-- Master Password Title -->
+                    <Label
+                        Text="{x:Static strings:AppResources.MasterPassword}"
+                        Style="{StaticResource Body}"
+                        FontAttributes="Bold"/>
+                    
+                    <!-- Master Password Container -->
+                    <Border
+                        Stroke="#E0E0E0"
+                        StrokeThickness="1"
+                        BackgroundColor="White"
+                        HorizontalOptions="FillAndExpand"
+                        HeightRequest="55">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        
+                        <Grid ColumnSpacing="0" Padding="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="50" />
+                            </Grid.ColumnDefinitions>
+                            
+                            
+                            <!-- Master Password Input -->
+                            <Entry
+                                x:Name="MasterPasswordEntry"
+                                Placeholder="{x:Static strings:AppResources.MasterPasswordPlaceholder}"
+                                IsPassword="True"
+                                Grid.Column="0"
+                                BackgroundColor="Transparent"
+                                TextColor="#2C3E50"
+                                PlaceholderColor="#95A5A6"
+                                TextChanged="OnMasterPasswordTextChanged" />
+                            
+                            <!-- Toggle Password Button -->
+                            <Button
+                                x:Name="TogglePasswordButton"
+                                Text="&#xf06e;"
+                                FontFamily="FontAwesome"
+                                FontSize="18"
+                                Grid.Column="1"
+                                BackgroundColor="Transparent"
+                                TextColor="Black"
+                                Clicked="OnTogglePasswordClicked" />
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Master Password Error Section -->
+                    <Label
+                        x:Name="MasterPasswordError"
+                        Text="{x:Static strings:AppResources.MasterPasswordRequired}"
+                        TextColor="#E74C3C"
+                        FontSize="12"
+                        IsVisible="False"
+                        Margin="5,0,0,0" />
+                </VerticalStackLayout>
+                
+                <!-- Seed Section -->
+                <VerticalStackLayout Spacing="8">
+                    
+                    <!-- Seed Title -->
+                    <Label
+                        Text="{x:Static strings:AppResources.Seed}"
+                        Style="{StaticResource Body}"
+                        FontAttributes="Bold"/>
+                    
+                    <!-- Seed Container -->
+                    <Border
+                        Stroke="#E0E0E0"
+                        StrokeThickness="1"
+                        BackgroundColor="White"
+                        HorizontalOptions="FillAndExpand"
+                        HeightRequest="55">
+                        
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        
+                        <!-- Seed Input -->
+                        <Entry 
+                            x:Name="SeedEntry"
+                            Placeholder="{x:Static strings:AppResources.SeedPlaceholder}"
+                            BackgroundColor="Transparent"
+                            TextColor="#2C3E50"
+                            PlaceholderColor="#95A5A6"
+                            Margin="10,0"
+                            TextChanged="OnSeedTextChanged"/>
+                    </Border>
+                    
+                    <!-- Seed Error Section -->
+                    <Label
+                        x:Name="SeedError"
+                        Text="{x:Static strings:AppResources.SeedRequired}"
+                        TextColor="#E74C3C"
+                        FontSize="12"
+                        IsVisible="False"
+                        Margin="5,0,0,0" />
+                </VerticalStackLayout>
+                
+                <!-- Password Length Section -->
+                <VerticalStackLayout Spacing="8">
+                    <HorizontalStackLayout Spacing="10">
+                        <Label 
+                            Text="{x:Static strings:AppResources.PasswordLength}"
+                            Style="{StaticResource Body}"
+                            FontAttributes="Bold"
+                            VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                    
+                    <Grid ColumnSpacing="15" HorizontalOptions="FillAndExpand"> 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="70" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        
+                        <!-- Password Length Slider -->
+                        <Slider 
+                            x:Name="LengthSlider"
+                            Minimum="8"
+                            Maximum="256"
+                            Value="16"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            MinimumTrackColor="#FEE447"
+                            MaximumTrackColor="#E0E0E0"
+                            ThumbColor="#FEE447"
+                            HorizontalOptions="FillAndExpand"
+                            ValueChanged="OnLengthSliderChanged"/>
+                        
+                        <!-- Password Length Slider Min Value and Max Value -->
+                        <Grid Grid.Row="1" Grid.Column="0" HorizontalOptions="Fill">
+                            <Label
+                                Text="8"
+                                Style="{StaticResource Caption}"
+                                Grid.Column="0"
+                                HorizontalOptions="Start"/>
+                            
+                            <Label
+                                Text="256"
+                                Style="{StaticResource Caption}"
+                                Grid.Column="0"
+                                HorizontalOptions="End"/>
+                        </Grid>
+                        
+                        <!-- Password Length InputContainer -->
+                        <Border
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Grid.RowSpan="2"
+                            Stroke="#E0E0E0"
+                            StrokeThickness="1"
+                            BackgroundColor="White">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8" />
+                            </Border.StrokeShape>
+                            
+                            <!-- Password Length Input -->
+                            <Entry
+                                x:Name="LengthEntry"
+                                Text="16"
+                                Keyboard="Numeric"
+                                MaxLength="3"
+                                VerticalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                FontSize="16"
+                                BackgroundColor="Transparent"
+                                TextColor="#2C3E50"
+                                Completed="OnLengthEntryCompleted"/>
+                        </Border>
+                    </Grid>
+                    
+                    <Grid HorizontalOptions="FillAndExpand" Margin="0,5,0,0">
+                        
+                    </Grid>
+                </VerticalStackLayout>
+                
+                <!-- Special Characters Section -->
+                <Border
+                    BackgroundColor="White"
+                    Padding="15"
+                    Stroke="#FEE447"
+                    StrokeThickness="1"
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="55">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+                    
+                    <!-- Special Characters Checkbox and Description -->
+                    <HorizontalStackLayout Spacing="12">
+                        <CheckBox
+                            x:Name="SpecialCharsCheckBox"
+                            IsChecked="True"
+                            Color="#FEE447"/>
+                        
+                        <Label
+                            Text="{x:Static strings:AppResources.IncludeSpecialChars}"
+                            VerticalOptions="Center"
+                            FontSize="14"
+                            TextColor="#2C3E50"/>
+                    </HorizontalStackLayout>
+                </Border>
+                
+                <!-- Generate Button Section -->
+                <Border
+                    BackgroundColor="#FEE447"
+                    Stroke="Transparent"
+                    StrokeThickness="0"
+                    Margin="0,10,0,0"
+                    HeightRequest="55"
+                    HorizontalOptions="FillAndExpand">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="#FFD84D"
+                                Opacity="0.5"
+                                Radius="15"
+                                Offset="0,5" />
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnGenerateClicked" />
+                    </Border.GestureRecognizers>
+                    
+                    <!-- Generate Button Icon and Text -->
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="&#xf0e7;" 
+                               FontFamily="FontAwesome" 
+                               FontSize="18" 
+                               TextColor="Black"
+                               VerticalOptions="Center"/>
+                        <Label Text="{x:Static strings:AppResources.GeneratePassword}" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Border>
+                
+                <!-- Result Section -->
+                <Border
+                        x:Name="PasswordDisplayBox"
+                        BackgroundColor="{AppThemeBinding Light=White, Dark=#2C2C2C}"
+                        Padding="20"
+                        StrokeThickness="2"
+                        Stroke="{AppThemeBinding Light=#BDC3C7, Dark=#555555}"
+                        HorizontalOptions="FillAndExpand"
+                        IsVisible="False">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
+                        
+                        <Border.Shadow>
+                            <Shadow Brush="Black"
+                                    Opacity="0.1"
+                                    Radius="8"
+                                    Offset="0,2" />
+                        </Border.Shadow>
+                        
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnCopyClicked" />
+                        </Border.GestureRecognizers>
+                        
+                        <!-- Result Generated Password-->
+                        <Label 
+                            x:Name="ResultLabel"
+                            FontSize="18"
+                            FontFamily="CourierNew"
+                            TextColor="{AppThemeBinding Light=#2C3E50, Dark=White}"
+                            LineBreakMode="CharacterWrap"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+                    </Border>
+                    
+                    <!-- Copy Button -->
+                    <Border
+                        x:Name="CopyButtonBorder"
+                        BackgroundColor="#FEE447"
+                        Stroke="Transparent"
+                        StrokeThickness="0"
+                        HeightRequest="55"
+                        HorizontalOptions="FillAndExpand"
+                        IsVisible="False"
+                        >
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="#FFD84D"
+                                    Opacity="0.5"
+                                    Radius="15"
+                                    Offset="0,5" />
+                        </Border.Shadow>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnCopyClicked" />
+                        </Border.GestureRecognizers>
+                        
+                        <!-- Copy Button Icon and Text -->
+                        <HorizontalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="&#xf0c5;" 
+                                   FontFamily="FontAwesome" 
+                                   FontSize="18" 
+                                   TextColor="Black"
+                                   VerticalOptions="Center"/>
+                            <Label
+                                x:Name="CopyButton"
+                                Text="{x:Static strings:AppResources.CopyToClipboard}" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold"
+                                   TextColor="Black"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+            </VerticalStackLayout>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

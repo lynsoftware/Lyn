@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="AppTitle" xml:space="preserve">
+        <value>Password Generator</value>
+    </data>
+    <data name="AppSubtitle" xml:space="preserve">
+        <value>Secure and reliable password generation</value>
+    </data>
+    <data name="MasterPassword" xml:space="preserve">
+        <value>Master Password</value>
+    </data>
+    <data name="MasterPasswordPlaceholder" xml:space="preserve">
+        <value>Enter your master password</value>
+    </data>
+    <data name="MasterPasswordRequired" xml:space="preserve">
+        <value>Master password is required</value>
+    </data>
+    <data name="Seed" xml:space="preserve">
+        <value>Seed</value>
+    </data>
+    <data name="SeedPlaceholder" xml:space="preserve">
+        <value>Enter a seed</value>
+    </data>
+    <data name="PasswordLength" xml:space="preserve">
+        <value>Password Length (8-256)</value>
+    </data>
+    <data name="GeneratePassword" xml:space="preserve">
+        <value>Generate Password</value>
+    </data>
+    <data name="GeneratedPassword" xml:space="preserve">
+        <value>Generated Password</value>
+    </data>
+    <data name="CopyToClipboard" xml:space="preserve">
+        <value>Copy to Clipboard</value>
+    </data>
+    <data name="Language" xml:space="preserve">
+        <value>Language</value>
+    </data>
+    <data name="Theme" xml:space="preserve">
+        <value>Theme</value>
+    </data>
+    <data name="Light" xml:space="preserve">
+        <value>Light </value>
+    </data>
+    <data name="Dark" xml:space="preserve">
+        <value>Dark</value>
+    </data>
+    <data name="SeedRequired" xml:space="preserve">
+        <value>Seed is required</value>
+    </data>
+    <data name="IncludeSpecialChars" xml:space="preserve">
+        <value>Include special characters (!@#$%&amp;*-_+=)</value>
+    </data>
+    <data name="Settings" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="SelectLanguage" xml:space="preserve">
+        <value>Select Language</value>
+    </data>
+    <data name="SelectTheme" xml:space="preserve">
+        <value>Select Theme</value>
+    </data>
+    <data name="Help" xml:space="preserve">
+        <value>Help/About</value>
+    </data>
+    <data name="HelpText" xml:space="preserve">
+        <value>Lyn Password Generator lets you create strong, unique passwords that you can always regenerate when you need them.
+By entering a master password and providing it with a seed (a word used when generating the password), you can retrieve the same generated password every time.
+You don't need to remember hundreds of passwords or rely on cloud services - just remember one master password and use simple seeds for each account.
+Neither the master password, the seed, nor the generated password is stored, so malicious attackers cannot access this information.
+The application is available on Android, iOS, Windows, macOS, and Linux.
+How to use the app:
+
+Master Password: Your secret key (never share it)
+Seed: Identifier for each account (e.g., "gmail", "reddit", or words you can remember)
+Length: 16 characters is standard. Some services have minimum and maximum limits, so adjust the length accordingly. For secure keys, longer passwords can be wise
+Check or uncheck based on whether the service allows special characters
+Same master password + seed = Same password every time
+
+Security Tips:
+
+Use a strong, unique master password. Don't forget it! Without the master password, you cannot retrieve your passwords again
+It is recommended not to reuse the master password elsewhere
+Use different seeds for different accounts
+It is recommended not to write down the master password on your devices
+A password manager with multiple layers provides even more security, but it's better to use this application than to write simple passwords like "password123"
+Keep a list of your seeds (this is safe as they are worthless without the master password)</value>
+    </data>
+</root>

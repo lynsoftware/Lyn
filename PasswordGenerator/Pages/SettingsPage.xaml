@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:resources="using:PasswordGenerator.Resources.Strings"
+             x:Class="PasswordGenerator.Pages.SettingsPage">
+    <Grid RowDefinitions="Auto,*">
+        
+        <!-- Header Card -->
+        <Border
+            Grid.Row="0"
+            BackgroundColor="#1F1F1F"
+            Padding="10,10"
+            StrokeThickness="0"
+            HorizontalOptions="FillAndExpand">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0" />
+            </Border.StrokeShape>
+            
+            <Border.Shadow>
+                <Shadow Brush="Black"
+                        Opacity="0.15"
+                        Radius="20"
+                        Offset="0,5" />
+            </Border.Shadow>
+            
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+                
+                <!-- Logo - Left Column -->
+                <Image Source="logo.png" 
+                       Grid.Column="0"
+                       WidthRequest="70"
+                       HeightRequest="70"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+                
+                <!-- Settings Title - Middle column -->
+                <Label
+                    Grid.Column="1"
+                    Text="{x:Static resources:AppResources.Settings}"
+                    FontSize="28"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    TextColor="#FEE447"/>
+                
+                <!-- Return-button - Right column -->
+                <Button
+                    Grid.Column="2"
+                    Text="&#xf00d;"
+                    FontFamily="FontAwesome"
+                    FontSize="24"
+                    TextColor="#FEE447"
+                    BackgroundColor="Transparent"
+                    WidthRequest="50"
+                    HeightRequest="50"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Clicked="OnCloseClicked">
+                </Button>
+            </Grid>
+        </Border>
+        
+        <!-- Main content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20" Spacing="20">
+            
+                <!-- Language Section -->
+                <Label 
+                    Text="{x:Static resources:AppResources.Language}"
+                    Style="{StaticResource SubHeadline}"/>
+            
+                <!-- English Button -->
+                <Border
+                    BackgroundColor="#FEE447"
+                    Stroke="Transparent"
+                    StrokeThickness="0"
+                    Margin="0,10,0,0"
+                    HeightRequest="55"
+                    HorizontalOptions="FillAndExpand">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="#FFD84D"
+                                Opacity="0.5"
+                                Radius="15"
+                                Offset="0,5" />
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEnglishClicked" />
+                    </Border.GestureRecognizers>
+                    
+                    <!-- Icon and Title for English language -->
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="🇬🇧" 
+                               FontSize="18"
+                               TextColor="Black"
+                               VerticalOptions="Center"/>
+                        <Label Text="English" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Border>
+
+                <!-- Norwegian Button -->
+                <Border
+                    BackgroundColor="#FEE447"
+                    Stroke="Transparent"
+                    StrokeThickness="0"
+                    Margin="0,10,0,0"
+                    HeightRequest="55"
+                    HorizontalOptions="FillAndExpand">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="#FFD84D"
+                                Opacity="0.5"
+                                Radius="15"
+                                Offset="0,5" />
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnNorskClicked" />
+                    </Border.GestureRecognizers>
+                    
+                    <!-- Icon and Title for Norwegian language -->
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="🇳🇴" 
+                               FontSize="18"
+                               TextColor="Black"
+                               VerticalOptions="Center"/>
+                        <Label Text="Norsk" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Border>
+            
+                <!-- Theme Section -->
+                <Label 
+                    Text="{x:Static resources:AppResources.Theme}"
+                    Style="{StaticResource SubHeadline}"
+                    Margin="0,20,0,0"/>
+            
+                <!-- Light Theme Button -->
+                <Border
+                    BackgroundColor="#FEE447"
+                    Stroke="Transparent"
+                    StrokeThickness="0"
+                    Margin="0,10,0,0"
+                    HeightRequest="55"
+                    HorizontalOptions="FillAndExpand">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="#FFD84D"
+                                Opacity="0.5"
+                                Radius="15"
+                                Offset="0,5" />
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLightThemeClicked" />
+                    </Border.GestureRecognizers>
+                    
+                    <!-- Light Theme Icon and Text -->
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="&#xf185;" 
+                               FontFamily="FontAwesome" 
+                               FontSize="18" 
+                               TextColor="Black"
+                               VerticalOptions="Center"/>
+                        <Label Text="{x:Static resources:AppResources.Light}" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Border>
+
+                <!-- Dark Theme Button -->
+                <Border
+                    BackgroundColor="#FEE447"
+                    Stroke="Transparent"
+                    StrokeThickness="0"
+                    Margin="0,10,0,0"
+                    HeightRequest="55"
+                    HorizontalOptions="FillAndExpand">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="#FFD84D"
+                                Opacity="0.5"
+                                Radius="15"
+                                Offset="0,5" />
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnDarkThemeClicked" />
+                    </Border.GestureRecognizers>
+                    
+                    <!-- Dark Theme Icon and Text -->
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="&#xf186;" 
+                               FontFamily="FontAwesome" 
+                               FontSize="18" 
+                               TextColor="Black"
+                               VerticalOptions="Center"/>
+                        <Label Text="{x:Static resources:AppResources.Dark}" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Border>
+            
+                <!-- Help Section -->
+                <!-- Help Title -->
+                <Label 
+                    Text="{x:Static resources:AppResources.Help}"
+                    Style="{StaticResource SubHeadline}"
+                    Margin="0,20,0,0"/>
+                
+                <!-- Help Text -->
+                <Label 
+                    Text="{x:Static resources:AppResources.HelpText}"
+                    Style="{StaticResource Secondary}"
+                    LineBreakMode="WordWrap"/>
+            
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
