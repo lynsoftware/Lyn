@@ -28,16 +28,7 @@
             @_errorMessage
         </div>
     }
-
-    @if (_isDownloading)
-    {
-        <div class="text-center" style="padding: 20px;">
-            <div class="spinner-border text-warning" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="text-theme-primary" style="margin-top: 10px;">@Localizer["Download_Downloading"]</p>
-        </div>
-    }
+    
 
     <!-- Desktop Downloads -->
     <div class="section-spacing-large">
@@ -54,6 +45,7 @@
                 Subtitle="@Localizer["Download_Windows_Subtitle"]"
                 ButtonText="@Localizer["Download_Windows_Button"]"
                 IsAvailable="@IsDownloadAvailable(DownloadPlatform.Windows)"
+                IsDownloading="@_isDownloading"
                 Version="@GetDownloadForPlatform(DownloadPlatform.Windows)?.Version"
                 StoreUrl="ms-windows-store://pdp/?productid=9P5RJK0RQR8W"
                 StoreText="@Localizer["Download_Windows_Store"]"
@@ -67,6 +59,7 @@
                 Subtitle="@Localizer["Download_MacOS_Subtitle"]"
                 ButtonText="@Localizer["Download_MacOS_Button"]"
                 IsAvailable="@IsDownloadAvailable(DownloadPlatform.MacOS)"
+                IsDownloading="@_isDownloading"
                 Version="@GetDownloadForPlatform(DownloadPlatform.MacOS)?.Version"
                 ComingSoonText="@Localizer["Download_ComingSoon_Q2"]"
                 OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.MacOS)!))" />
@@ -78,6 +71,7 @@
                 Subtitle="@Localizer["Download_Linux_Subtitle"]"
                 ButtonText="@Localizer["Download_Linux_Button"]"
                 IsAvailable="@IsDownloadAvailable(DownloadPlatform.Linux)"
+                IsDownloading="@_isDownloading"
                 Version="@GetDownloadForPlatform(DownloadPlatform.Linux)?.Version"
                 ComingSoonText="@Localizer["Download_ComingSoon_Q2"]"
                 OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.Linux)!))" />
@@ -99,6 +93,7 @@
                 Subtitle="@Localizer["Download_Android_Subtitle"]"
                 ButtonText="@Localizer["Download_Android_Button"]"
                 IsAvailable="@IsDownloadAvailable(DownloadPlatform.Android)"
+                IsDownloading="@_isDownloading"
                 Version="@GetDownloadForPlatform(DownloadPlatform.Android)?.Version"
                 ComingSoonText="@Localizer["Download_ComingSoon_Q3"]"
                 OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.Android)!))" />
@@ -110,6 +105,7 @@
                 Subtitle="@Localizer["Download_iOS_Subtitle"]"
                 ButtonText="@Localizer["Download_iOS_Button"]"
                 IsAvailable="@IsDownloadAvailable(DownloadPlatform.iOS)"
+                IsDownloading="@_isDownloading"
                 Version="@GetDownloadForPlatform(DownloadPlatform.iOS)?.Version"
                 ComingSoonText="@Localizer["Download_ComingSoon_Q3"]"
                 OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.iOS)!))" />
@@ -240,6 +236,7 @@
         finally
         {
             _isDownloading = false;
+            StateHasChanged();
         }
     }
 }

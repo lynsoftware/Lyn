@@ -1,10 +1,13 @@
 ﻿@inject IStringLocalizer<Localization> Localizer
+@inject NavigationManager Navigation
 
 
 <header class="app-header">
     <div class="header-content">
         <div class="header-left">
-            <img src="@LogoPath" alt="@LogoAlt" class="header-logo" />
+            <a href="/" style="cursor: pointer;">
+                <img src="@LogoPath" alt="@LogoAlt" class="header-logo" />
+            </a>
         </div>
 
         <div class="header-center">
@@ -17,7 +20,7 @@
                     class="menu-button"
                     @onclick="ToggleMenu"
                     aria-label="@Localizer["Header_ToggleMenu_AriaLabel"]"
-                    aria-expanded="@(!isMenuCollapsed)">
+                    aria-expanded="@(!_isMenuCollapsed)">
                 ☰
             </button>
         </div>
@@ -37,35 +40,35 @@
             </div>
 
             <div class="menu-items">
-                <NavLink class="menu-link" href="" Match="NavLinkMatch.All">
+                <NavLink class="menu-link" href="" Match="NavLinkMatch.All" @onclick="CloseMenu">
                     <span class="menu-icon">
                         <i class="bi bi-house-door-fill"></i>
                     </span>
                     <span>@Localizer["Header_Menu_Home"]</span>
                 </NavLink>
 
-                <NavLink class="menu-link" href="passwordgenerator">
+                <NavLink class="menu-link" href="passwordgenerator" @onclick="CloseMenu">
                     <span class="menu-icon">
                         <img src="/images/logo.png" alt="" class="menu-logo" />
                     </span>
                     <span>@Localizer["Header_Menu_PasswordGenerator"]</span>
                 </NavLink>
 
-                <NavLink class="menu-link" href="download">
+                <NavLink class="menu-link" href="download" @onclick="CloseMenu">
                     <span class="menu-icon">
                         <i class="bi bi-download"></i>
                     </span>
                     <span>@Localizer["Header_Menu_Download"]</span>
                 </NavLink>
 
-                <NavLink class="menu-link" href="settings">
+                <NavLink class="menu-link" href="settings" @onclick="CloseMenu">
                     <span class="menu-icon">
                         <i class="bi bi-gear-fill"></i>
                     </span>
                     <span>@Localizer["Header_Menu_Settings"]</span>
                 </NavLink>
 
-                <NavLink class="menu-link" href="about">
+                <NavLink class="menu-link" href="about" @onclick="CloseMenu">
                     <span class="menu-icon">
                         <i class="bi bi-info-circle-fill"></i>
                     </span>
@@ -73,7 +76,7 @@
                 </NavLink>
             </div>
 
-            <a href="/privacy" class="menu-link">
+            <a href="/privacy" class="menu-link" @onclick="CloseMenu">
                 <i class="bi bi-shield-lock-fill menu-icon"></i>
                 <span>@Localizer["Header_Menu_Privacy"]</span>
             </a>
@@ -94,12 +97,11 @@
     [Parameter]
     public string Subtitle { get; set; } = "Secure and Simple Deterministic Password Generator";
 
-    private bool isMenuCollapsed = true;
+    private bool _isMenuCollapsed = true;
 
-    private string MenuCssClass => isMenuCollapsed ? "menu-overlay" : "menu-overlay show";
+    private string MenuCssClass => _isMenuCollapsed ? "menu-overlay" : "menu-overlay show";
 
-    private void ToggleMenu()
-    {
-        isMenuCollapsed = !isMenuCollapsed;
-    }
+    private void ToggleMenu() => _isMenuCollapsed = !_isMenuCollapsed;
+    
+    private void CloseMenu() => _isMenuCollapsed = true;
 }

@@ -241,8 +241,8 @@
         <data name="Header_Menu_Settings" xml:space="preserve">
         <value>Settings</value>
     </data>
-        <data name="Header_Menu_About" xml:space="preserve">
-        <value>About (Coming soon)</value>
+    <data name="Header_Menu_About" xml:space="preserve">
+        <value>About</value>
     </data>
         <data name="Header_Menu_Privacy" xml:space="preserve">
         <value>Privacy Policy</value>
@@ -477,8 +477,8 @@
         <value>Email:</value>
     </data>
     
-        <!-- Section 10: Summary -->
-        <data name="Privacy_Section10_Title" xml:space="preserve">
+    <!-- Section 10: Summary -->
+    <data name="Privacy_Section10_Title" xml:space="preserve">
         <value>10. Summary</value>
     </data>
         <data name="Privacy_Section10_Summary" xml:space="preserve">
@@ -498,5 +498,58 @@
     </data>
         <data name="Privacy_Section10_Point5" xml:space="preserve">
         <value>✓ No third-party services</value>
+    </data>
+
+    <!-- Section 10: About -->
+    <data name="About_PageTitle" xml:space="preserve">
+        <value>About Lyn</value>
+    </data>
+        <data name="About_Title" xml:space="preserve">
+        <value>About Lyn</value>
+    </data>
+        <data name="About_Subtitle" xml:space="preserve">
+        <value>Security through simplicity</value>
+    </data>
+        <data name="About_OurMission_Title" xml:space="preserve">
+        <value>Our Mission</value>
+    </data>
+        <data name="About_OurMission_Text" xml:space="preserve">
+        <value>Lyn is dedicated to making password management simpler and more secure for everyone. We believe that security shouldn't come at the cost of usability, and that everyone deserves access to robust password technology.</value>
+    </data>
+        <data name="About_WhyLyn_Title" xml:space="preserve">
+        <value>Why Lyn?</value>
+    </data>
+        <data name="About_WhyLyn_Text" xml:space="preserve">
+        <value>We built Lyn because we saw the need for a private, deterministic alternative to traditional password managers. With Lyn, nothing is stored in the cloud, nothing can be hacked, and you have complete control over your passwords.</value>
+    </data>
+        <data name="About_OurValues_Title" xml:space="preserve">
+        <value>Our Values</value>
+    </data>
+        <data name="About_Value1" xml:space="preserve">
+        <value>Privacy First - We never store your data</value>
+    </data>
+        <data name="About_Value3" xml:space="preserve">
+        <value>User-Friendly - Security should be simple</value>
+    </data>
+        <data name="About_Value4" xml:space="preserve">
+        <value>Cross-Platform - Available wherever you need it</value>
+    </data>
+        <data name="About_Technology_Title" xml:space="preserve">
+        <value>Our Technology</value>
+    </data>
+    <data name="About_Team_Title" xml:space="preserve">
+        <value>The Team</value>
+    </data>
+    <data name="About_Team_Text" xml:space="preserve">
+        <value>Lyn Password Generator is developed by Fredrik Magee.</value>
+    </data>
+        <data name="About_Contact_Title" xml:space="preserve">
+        <value>Contact Us</value>
+    </data>
+        <data name="About_Contact_Text" xml:space="preserve">
+        <value>Have questions, suggestions, or feedback? We'd love to hear from you!</value>
+    </data>
+    <data name="About_Contact_Email" xml:space="preserve">
+        <value>Email: support@lynsoftware.com</value>
     </data>
 </root>

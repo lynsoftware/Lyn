@@ -1,0 +1,59 @@
+﻿@page "/about"
+@layout PasswordGeneratorLayout
+@inject IStringLocalizer<Localization> Localizer
+
+<PageTitle>@Localizer["About_PageTitle"]</PageTitle>
+
+<div class="container-medium">
+
+    <div class="privacy-header">
+        <h1 class="text-theme-primary title-xlarge">@Localizer["About_Title"]</h1>
+        <p class="text-theme-primary">@Localizer["About_Subtitle"]</p>
+    </div>
+
+    <div class="privacy-content">
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["About_OurMission_Title"]</h2>
+            <p class="text-theme-primary">@Localizer["About_OurMission_Text"]</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["About_WhyLyn_Title"]</h2>
+            <p class="text-theme-primary">@Localizer["About_WhyLyn_Text"]</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["About_OurValues_Title"]</h2>
+            <ul class="privacy-list">
+                <li class="text-theme-primary">@Localizer["About_Value1"]</li>
+                <li class="text-theme-primary">@Localizer["About_Value3"]</li>
+                <li class="text-theme-primary">@Localizer["About_Value4"]</li>
+            </ul>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["About_Technology_Title"]</h2>
+            <div class="code-example">
+                <p class="text-theme-primary">.NET MAUI • Cross-Platform • Blazor • Asp.Net Core </p>
+            </div>
+        </section>
+
+   
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["About_Team_Title"]</h2>
+            <p class="text-theme-primary">@Localizer["About_Team_Text"]</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2 class="text-theme-primary title-medium">@Localizer["About_Contact_Title"]</h2>
+            <p class="text-theme-primary">@Localizer["About_Contact_Text"]</p>
+            <p class="text-theme-primary">
+                <strong>@Localizer["About_Contact_Email"]</strong> <a href="mailto:support@lynpassword.com" class="download-link">support@lynpassword.com</a>
+            </p>
+        </section>
+
+    </div>
+
+</div>

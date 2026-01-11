@@ -241,8 +241,8 @@
         <data name="Header_Menu_Settings" xml:space="preserve">
         <value>Innstillinger</value>
     </data>
-        <data name="Header_Menu_About" xml:space="preserve">
-        <value>Om oss (Kommer snart)</value>
+    <data name="Header_Menu_About" xml:space="preserve">
+        <value>Om oss</value>
     </data>
         <data name="Header_Menu_Privacy" xml:space="preserve">
         <value>Personvern</value>
@@ -498,5 +498,58 @@
     </data>
         <data name="Privacy_Section10_Point5" xml:space="preserve">
         <value>✓ Ingen tredjepartstjenester</value>
+    </data>
+    
+    <!-- About -->
+    <data name="About_PageTitle" xml:space="preserve">
+        <value>Om Lyn</value>
+    </data>
+        <data name="About_Title" xml:space="preserve">
+        <value>Om Lyn</value>
+    </data>
+        <data name="About_Subtitle" xml:space="preserve">
+        <value>Sikkerhet gjennom enkelhet</value>
+    </data>
+        <data name="About_OurMission_Title" xml:space="preserve">
+        <value>Vår misjon</value>
+    </data>
+        <data name="About_OurMission_Text" xml:space="preserve">
+        <value>Lyn er dedikert til å gjøre passordadministrasjon enklere og sikrere for alle. Vi tror at sikkerhet ikke skal komme på bekostning av brukervennlighet, og at alle fortjener tilgang til robust passordteknologi.</value>
+    </data>
+        <data name="About_WhyLyn_Title" xml:space="preserve">
+        <value>Hvorfor Lyn?</value>
+    </data>
+        <data name="About_WhyLyn_Text" xml:space="preserve">
+        <value>Vi bygget Lyn fordi vi så behovet for et privat, deterministisk alternativ til tradisjonelle passordbehandlere. Med Lyn lagres ingenting i skyen, ingenting kan hackes, og du har full kontroll over dine passord.</value>
+    </data>
+        <data name="About_OurValues_Title" xml:space="preserve">
+        <value>Våre verdier</value>
+    </data>
+        <data name="About_Value1" xml:space="preserve">
+        <value>Personvern først - Vi lagrer aldri dine data</value>
+    </data>
+    <data name="About_Value3" xml:space="preserve">
+        <value>Brukervennlighet - Sikkerhet skal være enkelt</value>
+    </data>
+        <data name="About_Value4" xml:space="preserve">
+        <value>Tverrplattform - Tilgjengelig hvor du trenger det</value>
+    </data>
+        <data name="About_Technology_Title" xml:space="preserve">
+        <value>Vår teknologi</value>
+    </data>
+    <data name="About_Team_Title" xml:space="preserve">
+        <value>Teamet</value>
+    </data>
+    <data name="About_Team_Text" xml:space="preserve">
+        <value>Lyn Passord Generator er utviklet av Fredrik Magee.</value>
+    </data>
+        <data name="About_Contact_Title" xml:space="preserve">
+        <value>Kontakt oss</value>
+    </data>
+        <data name="About_Contact_Text" xml:space="preserve">
+        <value>Har du spørsmål, forslag eller tilbakemelding? Vi vil gjerne høre fra deg!</value>
+    </data>
+    <data name="About_Contact_Email" xml:space="preserve">
+        <value>E-post: support@lynsoftware.com</value>
     </data>
 </root>
