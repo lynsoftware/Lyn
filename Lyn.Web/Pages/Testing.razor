@@ -1,0 +1,137 @@
+@page "/testing"
+@layout PasswordGeneratorLayout
+
+<PageTitle>Testveiledning - Lyn Passord Generator</PageTitle>
+
+<div class="container-medium">
+
+    <div class="page-header">
+        <h1 class="text-theme-primary title-xlarge" style="font-weight: bold; margin-bottom: 20px;">
+            Takk for at du hjelper meg med å teste Lyn Passord Generator
+        </h1>
+    </div>
+
+    <div class="main-content">
+
+        <section class="main-section">
+            <h2 class="text-theme-primary title-medium">Hva må du gjøre?</h2>
+            <p class="text-theme-primary">
+                Det er veldig enkelt! Du trenger bare å følge disse tre trinnene:
+            </p>
+            <ul class="main-list">
+                <li class="text-theme-primary"><strong>Klikk på testlenken</strong> du har mottatt og trykk 
+                    "Bli tester"</li>
+                <li class="text-theme-primary"><strong>Last ned appen</strong> fra Google Play Store 
+                    (det kan ta 10-15 minutter før den vises)</li>
+                <li class="text-theme-primary"><strong>Forbli opt-in i 14 dager</strong>
+                    - ikke trykk "Opt out" knappen i testprogrammet</li>
+            </ul>
+        </section>
+
+        <section class="main-section">
+            <h2 class="text-theme-primary title-medium">Må jeg bruke appen hver dag?</h2>
+            <p class="text-theme-primary">
+                <strong>Nei!</strong> Du kan teste appen når du vil. 
+                Det viktigste er at du forblir registrert som tester i 14 dager. 
+                Du kan teste den én gang, flere ganger, eller bare la den være installert.
+            </p>
+        </section>
+
+        <section class="main-section">
+            <h2 class="text-theme-primary title-medium">Hva er oppgavene mine som tester?</h2>
+            <p class="text-theme-primary">
+                <strong>Kun ha den installert!</strong> Du trenger ikke å gi feedback eller fylle ut noe, hvis du selv
+                ikke ønsker. Har du et ønske om å gi feedback, rapportere problemer eller gi din mening så setter jeg 
+                veldig pris på det, og du kan bruke denne lenken for å gi meg tilbakemelding:
+            </p>
+            <a href="/support" class="download-link">Gå til support-siden</a>
+        </section>
+
+        <section class="main-section">
+            <h2 class="text-theme-primary title-medium">Hva gjør appen?</h2>
+            <p class="text-theme-primary">
+                Lyn Passord Generator er en sikker passordgenerator som:
+            </p>
+            <ul class="main-list">
+                <li class="text-theme-primary">
+                    Genererer sterke, unike passord basert på et hovedpassord og nettstedsnavn
+                </li>
+                <li class="text-theme-primary">Bruker kryptering</li>
+                <li class="text-theme-primary">Lagrer INGENTING, alt skjer lokalt på din enhet 
+                </li>
+                <li class="text-theme-primary">Gir deg samme passord hver gang for ved bruk av samme master password
+                    og seed</li>
+            </ul>
+        </section>
+
+        <section class="main-section">
+            <h2 class="text-theme-primary title-medium">Hvordan bruker jeg appen?</h2>
+            <p class="text-theme-primary">
+                <strong>Skriv inn et master password, et seed, velg en lengde og trykk Generer/Generate</strong>
+            </p>
+            <p>
+                <strong>Master password</strong> er ditt hemmelig passord, det kan være alt noe slikt: 
+                "passord123", "SuperHemmeligPassord32190@@!" eller "943108h4jknkjf123". Jo sikrere, jo bedre.
+                Dette passordet må du huske på/notere ned (helst ikke digitalt, men jeg er ikke sjefen din)
+            </p>
+            <p>
+                <strong>Seed</strong> brukes sammen med master password til å lage en tekst med krusseduller ut ifra master password
+                og seed. "Passord123" (8 tegn, inkludert spesialteng) med seed "krakk"  gir "+HG&!Zij", mens "dobørste"
+                gir "Bm&gEHmm".
+            </p>
+            <p>
+                <strong>Length</strong> er lengde på det genererte passordet. 16 fungere på de fleste sider, men det er støtte for opp 
+                til 256 for ENV og andre lange passord.
+            </p>
+            <p>
+                <strong>Spesial tegn</strong> er ikke alltid godkjent av alle sider, derfor er det mulighet til å skru
+                det av.
+            </p>
+            <p>
+                Ved å huske både passordet og seed, lengde og om passordet har spesialtegn eller ikke, 
+                så vil du kunne hente det samme krussedull-passordet hver gang. Disse 3 tingene er lurt å skrive ned.
+                Bruk notater på mobilen eller Google Dokumenter, eller hva du vil. De er ubrukelig utenom master
+                password.
+            </p>
+            
+            <p>
+                Fordeler med appen er å lage passord som ikke er i kjente ordlister som ondsinnete brukere gjerne
+                tester først. Passord123 er mindre sikkert enn +HG&!Zij vil jeg påstå. Det fungerer på alle platformer,
+                Windows, mobil og Linux. Og samtidig så slipper man å stole på Password Managere som lagrer det i skyen.
+                Det skal sies at Password Managere har flere lag med sikkerhet, så det er nok det tryggeste.
+            </p>
+        </section>
+
+        <section class="main-section">
+            <h2 class="text-theme-primary title-medium">Viktige ting å huske</h2>
+            <div class="privacy-summary">
+                <ul class="main-list">
+                    <li class="text-theme-primary">
+                        <strong>Ikke trykk "Opt out" da dette vil fjerne deg fra testprogrammet</strong>
+                    </li>
+                    <li class="text-theme-primary">
+                        <strong>Du må være logget inn med e-posten du fikk invitasjonen til</strong>
+                    </li>
+                    <li class="text-theme-primary"><strong>det kan ta opptil 15 minutter før appen vises i Play Store 
+                        etter du ble tester</strong></li>
+                    <li class="text-theme-primary"><strong>Hold appen installert selv om du ikke bruker den, 
+                            la den være på telefonen i 14 dager</strong>
+                        </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="main-section">
+            <h2 class="text-theme-primary title-medium">Har du problemer eller vil tilbakemelding?</h2>
+            <p class="text-theme-primary">
+                Hvis du opplever problemer med testing, oppdager bugs, har forslag til forbedringer,
+                eller bare vil dele dine tanker om appen, kan du ta kontakt:
+            </p>
+            <ul class="main-list">
+                <li class="text-theme-primary">Besøke <a href="/support" class="download-link">support-siden</a> vår</li>
+                <li class="text-theme-primary">Sende e-post direkte til <a href="mailto:support@lynpassword.com" class="download-link">support@lynpassword.com</a></li>
+            </ul>
+        </section>
+    </div>
+
+</div>

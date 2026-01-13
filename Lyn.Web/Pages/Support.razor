@@ -1,0 +1,268 @@
+@page "/support"
+@layout PasswordGeneratorLayout
+@inject IJSRuntime JSRuntime
+@inject IStringLocalizer<Localization> Localizer
+
+<PageTitle>@Localizer["Support_PageTitle"]</PageTitle>
+
+<div class="container-medium">
+
+    <!-- Title and subtitle -->
+    <div class="page-header">
+        <h1 class="text-theme-primary title-xlarge" style="font-weight: bold; margin-bottom: 20px;">
+            @Localizer["Support_Title"]
+        </h1>
+        <p class="text-theme-primary" style="font-size: 14px; opacity: 0.8;">
+            @Localizer["Support_Subtitle"]
+        </p>
+    </div>
+
+
+    <div class="main-content">
+
+        @if (isSubmitted)
+        {
+            <section class="main-section">
+                <div class="privacy-summary" style="background-color: rgba(76, 175, 80, 0.1); border-left: 4px solid #4CAF50; padding: 20px; border-radius: 8px;">
+                    <h2 class="text-theme-primary title-medium" style="color: #4CAF50; margin-bottom: 10px;">@Localizer["Support_Success_Title"]</h2>
+                    <p class="text-theme-primary">
+                        @Localizer["Support_Success_Message", supportModel.Email]
+                    </p>
+                    <button @onclick="ResetForm" class="btn-primary" style="margin-top: 15px;">
+                        @Localizer["Support_Button_SendNew"]
+                    </button>
+                </div>
+            </section>
+        }
+        else
+        {
+            <EditForm Model="@supportModel" OnValidSubmit="HandleSubmit">
+                <DataAnnotationsValidator />
+
+                <section class="main-section">
+                    <div class="form-section">
+                        <label for="email" class="main-label">
+                            @Localizer["Support_Label_Email"]
+                        </label>
+                        <div class="input-container">
+                            <InputText id="email"
+                                       @bind-Value="supportModel.Email"
+                                       class="form-input"
+                                       placeholder="@Localizer["Support_Placeholder_Email"]" />
+                        </div>
+                        <ValidationMessage For="@(() => supportModel.Email)"/>
+                    </div>
+
+                    <div class="form-section">
+                        <label for="title" class="main-label">
+                            @Localizer["Support_Label_Title"]
+                        </label>
+                        <div class="input-container">
+                            <InputText id="title"
+                                       @bind-Value="supportModel.Title"
+                                       class="form-input"
+                                       placeholder="@Localizer["Support_Placeholder_Title"]" />
+                        </div>
+                        <ValidationMessage For="@(() => supportModel.Title)" />
+                    </div>
+
+                    <div class="form-section">
+                        <label for="category" class="main-label">
+                            @Localizer["Support_Label_Category"]
+                        </label>
+                        <div class="input-container">
+                            <InputSelect id="category"
+                                         @bind-Value="supportModel.Category"
+                                         class="form-input">
+                                <option value="">@Localizer["Support_Category_SelectPlaceholder"]</option>
+                                <option value="Testing">@Localizer["Support_Category_Testing"]</option>
+                                <option value="Bug">@Localizer["Support_Category_Bug"]</option>
+                                <option value="Feature">@Localizer["Support_Category_Feature"]</option>
+                                <option value="Question">@Localizer["Support_Category_Question"]</option>
+                                <option value="Security">@Localizer["Support_Category_Security"]</option>
+                                <option value="Other">@Localizer["Support_Category_Other"]</option>
+                            </InputSelect>
+                        </div>
+                        <ValidationMessage For="@(() => supportModel.Category)" />
+                    </div>
+
+                    <div class="form-section">
+                        <label for="description" class="main-label">
+                            @Localizer["Support_Label_Description"]
+                        </label>
+                        <div >
+                            <InputTextArea id="description"
+                                           @bind-Value="supportModel.Description"
+                                           class="form-textarea"
+                                           placeholder="@Localizer["Support_Placeholder_Description"]"
+                                           rows="8" />
+                        </div>
+                        <ValidationMessage For="@(() => supportModel.Description)"/>
+                    </div>
+
+                    <div class="form-section">
+                        <label for="images" class="main-label">
+                            @Localizer["Support_Label_Attachments"]
+                        </label>
+                        <p class="text-theme-primary less-visible-info-text">
+                            @Localizer["Support_Attachments_Info"]
+                        </p>
+                        <div class="upload-image-section">
+                            <InputFile id="images"
+                                       OnChange="HandleFileSelection"
+                                       multiple
+                                       accept="image/*"
+                                       class="form-input-file" />
+
+                            @if (selectedFiles.Count > 0)
+                            {
+                                <div style="margin-top: 15px; padding: 12px;">
+                                    <p class="text-theme-primary">
+                                        @Localizer["Support_Files_Selected", selectedFiles.Count]
+                                    </p>
+                                    <ul class="main-list">
+                                        @foreach (var file in selectedFiles)
+                                        {
+                                            <li class="text-theme-primary list-with-remove-button-style">
+                                                <span>@file.Name (@FormatFileSize(file.Size))</span>
+                                                <button type="button"
+                                                        @onclick="() => RemoveFile(file)"
+                                                        class="btn-remove remove-button-small">
+                                                    ✕
+                                                </button>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(fileError))
+                            {
+                                <div style="margin-top: 15px; padding: 12px;">
+                                    <p class="validation-message" style="margin-top: 10px;">@fileError</p>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn-primary-yellow" disabled="@isSubmitting">
+                        @if (isSubmitting)
+                        {
+                            <span>@Localizer["Support_Button_Sending"]</span>
+                        }
+                        else
+                        {
+                            <span>@Localizer["Support_Button_Send"]</span>
+                        }
+                    </button>
+                </section>
+            </EditForm>
+        }
+
+        <section class="main-section more-space-between-sections">
+            <h2 class="text-theme-primary title-medium">@Localizer["Support_Alternative_Contact_Title"]</h2>
+            <p class="text-theme-primary">
+                @Localizer["Support_Alternative_Contact_Text"]
+            </p>
+            <p class="text-theme-primary">
+                <a href="mailto:support@lynpassword.com" class="download-link link-text-size" >
+                    support@lynpassword.com
+                </a>
+            </p>
+        </section>
+    </div>
+
+</div>
+
+
+@code {
+    private SupportModel supportModel = new();
+    private List<IBrowserFile> selectedFiles = new();
+    private bool isSubmitting = false;
+    private bool isSubmitted = false;
+    private string fileError = string.Empty;
+    private const long MaxFileSize = 5 * 1024 * 1024; // 5MB
+    private const int MaxFileCount = 5;
+
+    private async Task HandleFileSelection(InputFileChangeEventArgs e)
+    {
+        fileError = string.Empty;
+
+        var newFiles = e.GetMultipleFiles(MaxFileCount);
+
+        if (selectedFiles.Count + newFiles.Count() > MaxFileCount)
+        {
+            fileError = Localizer["Support_Error_MaxFiles", MaxFileCount];
+            return;
+        }
+
+        foreach (var file in newFiles)
+        {
+            if (file.Size > MaxFileSize)
+            {
+                fileError = Localizer["Support_Error_FileSize", file.Name];
+                continue;
+            }
+
+            if (!file.ContentType.StartsWith("image/"))
+            {
+                fileError = Localizer["Support_Error_InvalidImage", file.Name];
+                continue;
+            }
+
+            selectedFiles.Add(file);
+        }
+    }
+
+    private void RemoveFile(IBrowserFile file)
+    {
+        selectedFiles.Remove(file);
+        fileError = string.Empty;
+    }
+
+    private string FormatFileSize(long bytes)
+    {
+        string[] sizes = { "B", "KB", "MB", "GB" };
+        double len = bytes;
+        int order = 0;
+
+        while (len >= 1024 && order < sizes.Length - 1)
+        {
+            order++;
+            len = len / 1024;
+        }
+
+        return $"{len:0.##} {sizes[order]}";
+    }
+
+    private async Task HandleSubmit()
+    {
+        isSubmitting = true;
+
+        try
+        {
+            // TODO: Implementer faktisk innsending til backend/e-post service
+            await Task.Delay(1500);
+
+            isSubmitted = true;
+        }
+        catch (Exception ex)
+        {
+            fileError = Localizer["Support_Error_Submit"];
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+
+    private void ResetForm()
+    {
+        supportModel = new();
+        selectedFiles.Clear();
+        fileError = string.Empty;
+        isSubmitted = false;
+    }
+
+}

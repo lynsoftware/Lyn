@@ -73,17 +73,17 @@
     color: var(--input-placeholder);
 }
 
-.form-label-bold {
+.main-label {
     color: var(--text-primary);
 }
 
 /* Length input container */
-.length-input-container {
+.small-input-container {
     background-color: var(--input-bg);
     border-color: var(--input-border);
 }
 
-.length-input {
+.small-input {
     color: var(--input-text);
 }
 
@@ -148,14 +148,29 @@ input[type="range"] {
     color: var(--text-muted) !important;
 }
 
-/* Download link (for "How to use" button) */
+/* Download links */
 .download-link {
-    color: var(--accent-yellow) !important;
+    color: var(--text-primary) !important;
+    font-weight: bold;
+    text-decoration: underline;
+    transition: opacity 0.2s;
 }
 
 .download-link:hover {
-    color: var(--accent-yellow-hover) !important;
+    color: var(--text-primary) !important;
+    opacity: 0.6;
 }
+
+[data-theme="dark"] .download-link {
+    color: #FEE447 !important;
+}
+
+[data-theme="dark"] .download-link:hover {
+    color: #FFE94D !important;
+    opacity: 0.6;
+}
+
+
 
 /* Smooth transitions for theme changes */
 * {

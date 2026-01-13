@@ -73,17 +73,17 @@
     color: var(--input-placeholder);
 }
 
-.form-label-bold {
+.main-label {
     color: var(--text-primary);
 }
 
 /* Length input container */
-.length-input-container {
+.small-input-container {
     background-color: var(--input-bg);
     border-color: var(--input-border);
 }
 
-.length-input {
+.small-input {
     color: var(--input-text);
 }
 

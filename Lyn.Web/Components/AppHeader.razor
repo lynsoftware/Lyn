@@ -76,6 +76,15 @@
                 </NavLink>
             </div>
 
+
+            <a href="/testing" class="menu-link" @onclick="CloseMenu">
+                <i class="bi bi-flask menu-icon"></i>
+                <span>Er du en tester? Trykk her</span>
+            </a>
+            <a href="/support" class="menu-link" @onclick="CloseMenu">
+                <i class="bi bi-headset menu-icon"></i>
+                <span>@Localizer["Header_Menu_Support"]</span>
+            </a>
             <a href="/privacy" class="menu-link" @onclick="CloseMenu">
                 <i class="bi bi-shield-lock-fill menu-icon"></i>
                 <span>@Localizer["Header_Menu_Privacy"]</span>

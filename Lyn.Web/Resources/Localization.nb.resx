@@ -219,7 +219,7 @@
         <value>Bruk nettgenerator</value>
     </data>
 
-    <!-- Header -->
+    <!-- Header and Menu -->
     <data name="Header_ToggleMenu_AriaLabel" xml:space="preserve">
         <value>Åpne/lukk navigasjonsmeny</value>
     </data>
@@ -246,6 +246,9 @@
     </data>
         <data name="Header_Menu_Privacy" xml:space="preserve">
         <value>Personvern</value>
+    </data>
+    <data name="Header_Menu_Support" xml:space="preserve">
+        <value>Brukerstøtte</value>
     </data>
 
     <!-- How to Use Modal -->
@@ -552,4 +555,100 @@
     <data name="About_Contact_Email" xml:space="preserve">
         <value>E-post: support@lynsoftware.com</value>
     </data>
+
+    <!-- Support -->
+    <data name="Support_PageTitle" xml:space="preserve">
+    <value>Support - Lyn Passord Generator</value>
+  </data>
+    <data name="Support_Title" xml:space="preserve">
+    <value>Support</value>
+  </data>
+    <data name="Support_Subtitle" xml:space="preserve">
+    <value>Vi er her for å hjelpe deg! Send oss en melding så svarer vi så snart som mulig.</value>
+  </data>
+    <data name="Support_Success_Title" xml:space="preserve">
+    <value>✓ Takk for din henvendelse!</value>
+  </data>
+    <data name="Support_Success_Message" xml:space="preserve">
+    <value>Vi har mottatt meldingen din og vil svare på {0} så snart som mulig.</value>
+  </data>
+    <data name="Support_Button_SendNew" xml:space="preserve">
+    <value>Send en ny melding</value>
+  </data>
+    <data name="Support_Label_Email" xml:space="preserve">
+    <value>E-postadresse *</value>
+  </data>
+    <data name="Support_Placeholder_Email" xml:space="preserve">
+    <value>din@epost.no</value>
+  </data>
+    <data name="Support_Label_Title" xml:space="preserve">
+    <value>Tittel *</value>
+  </data>
+    <data name="Support_Placeholder_Title" xml:space="preserve">
+    <value>Beskriv kort hva det gjelder</value>
+  </data>
+    <data name="Support_Label_Category" xml:space="preserve">
+    <value>Kategori *</value>
+  </data>
+    <data name="Support_Category_SelectPlaceholder" xml:space="preserve">
+    <value>-- Velg kategori --</value>
+  </data>
+    <data name="Support_Category_Testing" xml:space="preserve">
+    <value>Testing / Beta-program</value>
+  </data>
+    <data name="Support_Category_Bug" xml:space="preserve">
+    <value>Feil / Bug</value>
+  </data>
+    <data name="Support_Category_Feature" xml:space="preserve">
+    <value>Forslag til ny funksjon</value>
+  </data>
+    <data name="Support_Category_Question" xml:space="preserve">
+    <value>Spørsmål om appen</value>
+  </data>
+    <data name="Support_Category_Security" xml:space="preserve">
+    <value>Sikkerhet / Personvern</value>
+  </data>
+    <data name="Support_Category_Other" xml:space="preserve">
+    <value>Annet</value>
+  </data>
+    <data name="Support_Label_Description" xml:space="preserve">
+    <value>Beskrivelse *</value>
+  </data>
+    <data name="Support_Placeholder_Description" xml:space="preserve">
+    <value>Beskriv ditt problem, spørsmål eller forslag i detalj...</value>
+  </data>
+    <data name="Support_Label_Attachments" xml:space="preserve">
+    <value>Vedlegg (valgfritt)</value>
+  </data>
+    <data name="Support_Attachments_Info" xml:space="preserve">
+    <value>Last opp bilder eller skjermbilder som kan hjelpe oss å forstå problemet (maks 5 filer, 5MB per fil)</value>
+  </data>
+    <data name="Support_Files_Selected" xml:space="preserve">
+    <value>Valgte filer ({0}):</value>
+  </data>
+    <data name="Support_Button_Sending" xml:space="preserve">
+    <value>Sender...</value>
+  </data>
+    <data name="Support_Button_Send" xml:space="preserve">
+    <value>Send melding</value>
+  </data>
+    <data name="Support_Alternative_Contact_Title" xml:space="preserve">
+    <value>Alternativ kontakt</value>
+  </data>
+    <data name="Support_Alternative_Contact_Text" xml:space="preserve">
+    <value>Du kan også kontakte oss direkte via e-post:</value>
+  </data>
+    <data name="Support_Error_MaxFiles" xml:space="preserve">
+    <value>Du kan maksimalt laste opp {0} filer.</value>
+  </data>
+    <data name="Support_Error_FileSize" xml:space="preserve">
+    <value>Filen '{0}' er for stor. Maksimal filstørrelse er 5MB.</value>
+  </data>
+    <data name="Support_Error_InvalidImage" xml:space="preserve">
+    <value>Filen '{0}' er ikke et gyldig bilde.</value>
+  </data>
+    <data name="Support_Error_Submit" xml:space="preserve">
+    <value>En feil oppstod ved sending av meldingen. Vennligst prøv igjen eller kontakt oss på support@lynpassword.com</value>
+  </data>
+    
 </root>
