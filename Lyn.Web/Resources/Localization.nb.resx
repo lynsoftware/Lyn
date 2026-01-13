@@ -57,13 +57,13 @@
     </data>
 
     <data name="Seed_Label" xml:space="preserve">
-        <value>Frø</value>
+        <value>Seed</value>
     </data>
     <data name="Seed_Placeholder" xml:space="preserve">
-        <value>Skriv inn et frø</value>
+        <value>Skriv inn et seed</value>
     </data>
     <data name="Seed_Required" xml:space="preserve">
-        <value>Frø er påkrevd</value>
+        <value>Seed er påkrevd</value>
     </data>
 
     <data name="PasswordLength_Label" xml:space="preserve">

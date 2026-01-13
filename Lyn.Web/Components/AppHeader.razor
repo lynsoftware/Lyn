@@ -74,21 +74,30 @@
                     </span>
                     <span>@Localizer["Header_Menu_About"]</span>
                 </NavLink>
+
+                <NavLink class="menu-link" href="/testing" @onclick="CloseMenu">
+                    <span class="menu-icon">
+                        <i class="bi bi-flask menu-icon"></i>
+                    </span>
+                    <span>Er du en tester? Trykk her</span>
+                </NavLink>
+
+                <NavLink class="menu-link" href="/support" @onclick="CloseMenu">
+                    <span class="menu-icon">
+                        <i class="bi bi-headset menu-icon"></i>
+                    </span>
+                    <span>@Localizer["Header_Menu_Support"]</span>
+                </NavLink>
+
+                <NavLink class="menu-link" href="/privacy" @onclick="CloseMenu">
+                    <span class="menu-icon">
+                        <i class="bi bi-shield-lock-fill menu-icon"></i>
+                    </span>
+                    <span>@Localizer["Header_Menu_Privacy"]</span>
+                </NavLink>
             </div>
 
-
-            <a href="/testing" class="menu-link" @onclick="CloseMenu">
-                <i class="bi bi-flask menu-icon"></i>
-                <span>Er du en tester? Trykk her</span>
-            </a>
-            <a href="/support" class="menu-link" @onclick="CloseMenu">
-                <i class="bi bi-headset menu-icon"></i>
-                <span>@Localizer["Header_Menu_Support"]</span>
-            </a>
-            <a href="/privacy" class="menu-link" @onclick="CloseMenu">
-                <i class="bi bi-shield-lock-fill menu-icon"></i>
-                <span>@Localizer["Header_Menu_Privacy"]</span>
-            </a>
+            
         </nav>
     </div>
 </header>

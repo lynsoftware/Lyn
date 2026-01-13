@@ -1456,4 +1456,8 @@ input[type="range"]:focus-visible::-moz-range-thumb {
 
 
 
-
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .form-textarea {
+        width: 100% !important;
+    }
+}
