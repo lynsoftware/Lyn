@@ -32,6 +32,7 @@ services:
                 - JwtSettings__TokenValidityMinutes=${JWT_TOKEN_VALIDITY_MINUTES}
                 - AdminUser__Email=${ADMIN_USER_EMAIL}
                 - AdminUser__Password=${ADMIN_USER_PASSWORD}
+                - ResendApiKey=${RESEND_API_KEY}
         depends_on:
             database:
                 condition: service_healthy

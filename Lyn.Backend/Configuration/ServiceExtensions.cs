@@ -262,7 +262,7 @@ public static class ServiceExtensions
     
       // HttpClient for Resend
       services.AddHttpClient<IResend, ResendClient>();
-      
+       
     
       services.AddScoped<IEmailService, EmailService>();
       
