@@ -19,7 +19,12 @@ RUN dotnet publish "Lyn.Web.csproj" -c Release -o /app/publish
 
 # Inject BACKEND_URL into appsettings.json after publish
 RUN if [ -n "$BACKEND_URL" ]; then \
-      echo "{\"BACKEND_URL\": \"${BACKEND_URL}\", \"ApiBaseUrl\": \"${BACKEND_URL}\"}" > /app/publish/wwwroot/appsettings.json; \
+      apt-get update && apt-get install -y jq && \
+      jq --arg url "$BACKEND_URL" \
+         '. + {BACKEND_URL: $url, ApiBaseUrl: $url}' \
+         /app/publish/wwwroot/appsettings.json > /tmp/appsettings.json && \
+      mv /tmp/appsettings.json /app/publish/wwwroot/appsettings.json && \
+      rm -rf /var/lib/apt/lists/*; \
     fi
 
 # Debug: List published files
