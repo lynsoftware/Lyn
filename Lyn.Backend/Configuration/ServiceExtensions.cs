@@ -252,7 +252,7 @@ public static class ServiceExtensions
   private static IServiceCollection AddEmailService(this IServiceCollection services, IConfiguration configuration)
   {
       // Email Service Resend
-      var resendApiKey = configuration["ResendApiKey"]
+      var resendApiKey = configuration["Resend:ApiKey"]
                          ?? throw new InvalidOperationException(
                              "Resend:ApiKey is not configured. " +
                              "Add RESEND_API_KEY to environment variables or appsettings.json");
