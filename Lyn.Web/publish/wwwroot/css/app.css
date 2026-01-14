@@ -114,24 +114,7 @@ code {
 /*========================================= Utility Classes ==============================================*/
 /*========================================================================================================*/
 
-/* Containers */
-.container-narrow {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-}
 
-.container-medium {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.container-wide {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
 
 /* Typography - Yellow Titles */
 .title-yellow {
@@ -140,31 +123,14 @@ code {
     margin: 0;
 }
 
-.title-xlarge {
-    font-size: 36px;
-}
 
-.title-large {
-    font-size: 28px;
-}
-
-.title-medium {
-    font-size: 24px;
-}
-
-.title-small {
-    font-size: 20px;
-}
 
 /* Text Colors */
 .text-yellow {
     color: #FEE447;
 }
 
-.text-yellow-dim {
-    color: #FEE447;
-    opacity: 0.8;
-}
+
 
 .text-yellow-dimmer {
     color: #FEE447;
@@ -197,23 +163,7 @@ code {
     font-size: 24px;
 }
 
-/* Cards */
-.card-dark {
-    background: linear-gradient(135deg, #2A2A2A 0%, #1F1F1F 100%);
-    border: 2px solid #FEE447;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 4px 12px rgba(254, 228, 71, 0.1);
-}
 
-.card-dark-hover {
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.card-dark-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(254, 228, 71, 0.2);
-}
 
 /* Spacing */
 .section-spacing {
@@ -308,62 +258,6 @@ code {
     padding: 20px;
 }
 
-.form-section {
-    margin-bottom: 20px;
-}
-
-.main-label {
-    display: block;
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--text-primary);
-    margin-bottom: 8px;
-}
-
-.input-container {
-    position: relative;
-}
-
-.form-input {
-    width: 100%;
-    height: 55px;
-    padding: 0 15px;
-    border: 1px solid #FEE447;
-    border-radius: 10px;
-    background-color: var(--input-bg);
-    color: var(--input-text);
-    font-size: 14px;
-    transition: border-color 0.2s;
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: #FEE447;
-}
-
-.form-input::placeholder {
-    color: var(--input-placeholder);
-}
-
-.form-input.input-error {
-    background-color: rgba(255, 0, 0, 0.05);
-    border-color: #E74C3C;
-}
-
-.error-message {
-    color: #E74C3C;
-    font-size: 12px;
-    margin-top: 5px;
-    margin-left: 5px;
-}
-
-.password-input-wrapper {
-    position: relative;
-}
-
-.password-input-wrapper input {
-    padding-right: 40px;
-}
 
 .password-toggle-icon {
     position: absolute;
@@ -392,30 +286,6 @@ code {
     accent-color: #FEE447;
 }
 
-.small-input-container {
-    border: 1px solid var(--input-border);
-    border-radius: 8px;
-    background-color: var(--input-bg);
-    width: 70px;
-    height: 55px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.small-input {
-    width: 100%;
-    text-align: center;
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    color: var(--input-text);
-    font-weight: 500;
-}
-
-.small-input:focus {
-    outline: none;
-}
 
 .special-chars-container {
     background-color: var(--input-bg);
@@ -426,10 +296,6 @@ code {
     height: 55px;
     display: flex;
     align-items: center;
-}
-
-.special-chars-checkbox {
-    accent-color: #FEE447;
 }
 
 .special-chars-label {
@@ -918,10 +784,6 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     justify-content: center;
 }
 
-.download-text {
-    flex: 1;
-}
-
 .download-text h3 {
     color: #FEE447;
     font-size: 20px;
@@ -934,18 +796,6 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     opacity: 0.8;
     font-size: 14px;
     margin: 0;
-}
-
-.download-link {
-    color: var(--accent-yellow);
-    font-weight: bold;
-    text-decoration: underline;
-    transition: opacity 0.2s;
-}
-
-.download-link:hover {
-    opacity: 1;
-    color: var(--accent-yellow-hover);
 }
 
 /*========================================================================================================*/
@@ -1244,17 +1094,8 @@ input[type="range"]:focus-visible::-moz-range-thumb {
 /*========================================================================================================*/
 
 
-.page-header {
-    text-align: center;
-    padding: 40px 20px 20px 20px;
-    border-bottom: 2px solid var(--border-color);
-    margin-bottom: 40px;
-}
 
-.main-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
+
 
 .main-section {
     margin-bottom: 40px;
@@ -1268,28 +1109,6 @@ input[type="range"]:focus-visible::-moz-range-thumb {
 .main-section p {
     line-height: 1.8;
     margin-bottom: 15px;
-}
-
-.main-list {
-    list-style: none;
-    padding-left: 0;
-    margin: 15px 0;
-}
-
-.main-list li {
-    padding: 8px 0;
-    padding-left: 30px;
-    position: relative;
-    line-height: 1.6;
-}
-
-.main-list li::before {
-    content: "•";
-    position: absolute;
-    left: 10px;
-    color: #FEE447;
-    font-weight: bold;
-    font-size: 20px;
 }
 
 .privacy-summary {
@@ -1314,5 +1133,331 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     }
 }
 
+.code-example {
+    background: var(--input-bg);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-family: monospace;
+}
+
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.spinner-yellow {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(254, 228, 71, 0.2);
+    border-top-color: #FEE447;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+ 
+
+/* ============================= Main Page Setup ================================ */
+
+/* Page Setup is:  */
+/* Container (choose size)  */
+/* Main header  */
+/* Main Section per section */
 
 
+/* Containers for whole site */
+.container-narrow {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.container-medium {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.container-wide {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Title and subtitles */
+.page-header {
+    text-align: center;
+    padding: 40px 20px 20px 20px;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 40px;
+}
+
+/* Main content section - Sets the size of the content on the page */
+.main-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Lyn specific lists */
+.main-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 15px 0;
+}
+
+.main-list li {
+    padding: 8px 0;
+    padding-left: 30px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.main-list li::before {
+    content: "•";
+    position: absolute;
+    left: 10px;
+    color: #FEE447;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.more-space-between-sections {
+    margin-top: 40px;
+    padding-top: 30px;
+}
+
+/* ============================= Main CSS-classes FORM ================================ */
+
+/* Form setup is:  */
+/* Start inside a Main Section  */
+/* Div inside again with form-section (for padding)  */
+/* Main-label */
+/* Input Container for yellow border */
+
+/* Label styling */
+.main-label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+/* Container for inputs */
+.input-container {
+    position: relative;
+}
+
+/* Each form section with label and input container with input-field */
+.form-section {
+    margin-bottom: 20px;
+}
+
+/* Lyn specific form-styling */
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--accent-yellow);
+    border-radius: 9px;
+    color: var(--input-text);
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--accent-yellow);
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+
+.form-input-file {
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.05); /* Funker ikke med farger her, men lar de bli itilfelle*/
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #FEE447;
+}
+
+
+/* Label styling */
+.validation-message {
+    color: #f44336;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+}
+
+.small-input-container {
+    border: 1px solid #FEE447 !important;
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    width: 70px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.small-input {
+    width: 100%;
+    text-align: center;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: var(--input-text);
+    font-weight: 500;
+}
+
+.small-input:focus {
+    outline: none;
+}
+
+
+/* ============================= Main CSS-classes TEXTS ================================ */
+
+/* Titles */
+.title-xlarge {
+    font-size: 36px;
+}
+
+.title-large {
+    font-size: 28px;
+}
+
+.title-medium {
+    font-size: 24px;
+}
+
+.title-small {
+    font-size: 20px;
+}
+
+/* Less visible text (under text, see attachmetns in Support) */
+.less-visible-info-text {
+    font-size: 14px; 
+    opacity: 0.8;
+    margin-bottom: 10px;
+}
+
+/* Link/Contact */
+
+.link-text-size {
+    font-size: 18px;
+}
+
+/* ============================= TEXT Utility ================================ */
+
+/* Use with title size if yellow title*/
+.title-yellow {
+    color: #FEE447;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Yellow text with lower opacity */
+.text-yellow-dim {
+    color: #FEE447;
+    opacity: 0.8;
+}
+
+.font-size-14{
+    font-size: 14px;
+}
+
+
+/* ============================= Main CSS-classes LINKS ================================ */
+
+.download-link-yellow {
+    color: var(--accent-yellow);
+    font-weight: bold;
+    text-decoration: underline;
+    transition: opacity 0.2s;
+}
+
+.download-link-yellow:hover {
+    color: var(--accent-yellow);
+    opacity: 0.6;
+}
+
+/*======================================= Cards =======================================*/
+
+/* Cards */
+.card-dark {
+    background: linear-gradient(135deg, #2A2A2A 0%, #1F1F1F 100%);
+    border: 2px solid #FEE447;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(254, 228, 71, 0.1);
+}
+
+.card-dark-hover {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-dark-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(254, 228, 71, 0.2);
+}
+
+
+/*========================================================================================================*/
+/*============================================= Page related ==================================================*/
+/*========================================================================================================*/
+
+
+/* ============================= Support-page classes ================================ */
+
+.list-with-remove-button-style {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+}
+
+.remove-button-small {
+    background: none; 
+    border: none; 
+    color: #f44336;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.btn-remove:hover {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.upload-image-section{
+    border: 1px solid var(--accent-yellow); 
+    border-radius: 8px;
+}
+
+
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .form-textarea {
+        width: 100% !important;
+    }
+}
