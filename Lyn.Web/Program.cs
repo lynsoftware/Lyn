@@ -36,6 +36,7 @@ builder.Services.AddLocalization();
 builder.Services.AddScoped<IPasswordGenerationService, PasswordGenerationService>();
 builder.Services.AddScoped<IDownloadService, DownloadService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ISupportTicketService, SupportTicketService>();
 
 
 

@@ -1,5 +1,7 @@
 ﻿using Lyn.Backend.Services;
 using Lyn.Shared.Models;
+using Lyn.Shared.Models.Request;
+using Lyn.Shared.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lyn.Backend.Controllers;

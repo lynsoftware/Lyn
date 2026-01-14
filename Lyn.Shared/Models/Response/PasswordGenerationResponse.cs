@@ -1,4 +1,4 @@
-﻿namespace Lyn.Shared.Models;
+﻿namespace Lyn.Shared.Models.Response;
 
 /// <summary>
 /// Represents the result of a password generation operation.

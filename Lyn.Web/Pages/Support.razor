@@ -1,7 +1,12 @@
 @page "/support"
+@using Lyn.Shared.Helpers
+@using Lyn.Shared.Models.Request
+@using Lyn.Web.Services.Api
 @layout PasswordGeneratorLayout
-@inject IJSRuntime JSRuntime
 @inject IStringLocalizer<Localization> Localizer
+@inject ISupportTicketService SupportTicketService
+@inject ILogger<Support> Logger
+@implements IDisposable
 
 <PageTitle>@Localizer["Support_PageTitle"]</PageTitle>
 
@@ -20,15 +25,20 @@
 
     <div class="main-content">
 
-        @if (isSubmitted)
+        @if (_isSubmitted)
         {
             <section class="main-section">
-                <div class="privacy-summary" style="background-color: rgba(76, 175, 80, 0.1); border-left: 4px solid #4CAF50; padding: 20px; border-radius: 8px;">
-                    <h2 class="text-theme-primary title-medium" style="color: #4CAF50; margin-bottom: 10px;">@Localizer["Support_Success_Title"]</h2>
+                <div class="privacy-summary" 
+                     style="background-color: rgba(76, 175, 80, 0.1); 
+                             border-left: 4px solid #4CAF50; 
+                             padding: 20px; 
+                             border-radius: 8px;">
+                    <h2 class="text-theme-primary title-medium" 
+                        style="color: #4CAF50; margin-bottom: 10px;">@Localizer["Support_Success_Title"]</h2>
                     <p class="text-theme-primary">
-                        @Localizer["Support_Success_Message", supportModel.Email]
+                        @Localizer["Support_Success_Message", _supportTicketModel.Email]
                     </p>
-                    <button @onclick="ResetForm" class="btn-primary" style="margin-top: 15px;">
+                    <button @onclick="ResetForm" class="btn-primary-yellow" style="margin-top: 15px;">
                         @Localizer["Support_Button_SendNew"]
                     </button>
                 </div>
@@ -36,7 +46,7 @@
         }
         else
         {
-            <EditForm Model="@supportModel" OnValidSubmit="HandleSubmit">
+            <EditForm Model="@_supportTicketModel" OnValidSubmit="HandleSubmit">
                 <DataAnnotationsValidator />
 
                 <section class="main-section">
@@ -46,11 +56,11 @@
                         </label>
                         <div class="input-container">
                             <InputText id="email"
-                                       @bind-Value="supportModel.Email"
+                                       @bind-Value="_supportTicketModel.Email"
                                        class="form-input"
                                        placeholder="@Localizer["Support_Placeholder_Email"]" />
                         </div>
-                        <ValidationMessage For="@(() => supportModel.Email)"/>
+                        <ValidationMessage For="@(() => _supportTicketModel.Email)"/>
                     </div>
 
                     <div class="form-section">
@@ -59,11 +69,11 @@
                         </label>
                         <div class="input-container">
                             <InputText id="title"
-                                       @bind-Value="supportModel.Title"
+                                       @bind-Value="_supportTicketModel.Title"
                                        class="form-input"
                                        placeholder="@Localizer["Support_Placeholder_Title"]" />
                         </div>
-                        <ValidationMessage For="@(() => supportModel.Title)" />
+                        <ValidationMessage For="@(() => _supportTicketModel.Title)" />
                     </div>
 
                     <div class="form-section">
@@ -72,7 +82,7 @@
                         </label>
                         <div class="input-container">
                             <InputSelect id="category"
-                                         @bind-Value="supportModel.Category"
+                                         @bind-Value="_supportTicketModel.Category"
                                          class="form-input">
                                 <option value="">@Localizer["Support_Category_SelectPlaceholder"]</option>
                                 <option value="Testing">@Localizer["Support_Category_Testing"]</option>
@@ -83,7 +93,7 @@
                                 <option value="Other">@Localizer["Support_Category_Other"]</option>
                             </InputSelect>
                         </div>
-                        <ValidationMessage For="@(() => supportModel.Category)" />
+                        <ValidationMessage For="@(() => _supportTicketModel.Category)" />
                     </div>
 
                     <div class="form-section">
@@ -92,12 +102,12 @@
                         </label>
                         <div >
                             <InputTextArea id="description"
-                                           @bind-Value="supportModel.Description"
+                                           @bind-Value="_supportTicketModel.Description"
                                            class="form-textarea"
                                            placeholder="@Localizer["Support_Placeholder_Description"]"
                                            rows="8" />
                         </div>
-                        <ValidationMessage For="@(() => supportModel.Description)"/>
+                        <ValidationMessage For="@(() => _supportTicketModel.Description)"/>
                     </div>
 
                     <div class="form-section">
@@ -114,17 +124,17 @@
                                        accept="image/*"
                                        class="form-input-file" />
 
-                            @if (selectedFiles.Count > 0)
+                            @if (_selectedFiles.Count > 0)
                             {
                                 <div style="margin-top: 15px; padding: 12px;">
                                     <p class="text-theme-primary">
-                                        @Localizer["Support_Files_Selected", selectedFiles.Count]
+                                        @Localizer["Support_Files_Selected", _selectedFiles.Count]
                                     </p>
                                     <ul class="main-list">
-                                        @foreach (var file in selectedFiles)
+                                        @foreach (var file in _selectedFiles)
                                         {
                                             <li class="text-theme-primary list-with-remove-button-style">
-                                                <span>@file.Name (@FormatFileSize(file.Size))</span>
+                                                <span>@file.Name (@FileHelper.FormatFileSize(file.Size))</span>
                                                 <button type="button"
                                                         @onclick="() => RemoveFile(file)"
                                                         class="btn-remove remove-button-small">
@@ -136,18 +146,18 @@
                                 </div>
                             }
 
-                            @if (!string.IsNullOrEmpty(fileError))
+                            @if (!string.IsNullOrEmpty(_fileError))
                             {
                                 <div style="margin-top: 15px; padding: 12px;">
-                                    <p class="validation-message" style="margin-top: 10px;">@fileError</p>
+                                    <p class="validation-message" style="margin-top: 10px;">@_fileError</p>
                                 </div>
                             }
                         </div>
 
                     </div>
 
-                    <button type="submit" class="btn-primary-yellow" disabled="@isSubmitting">
-                        @if (isSubmitting)
+                    <button type="submit" class="btn-primary-yellow" disabled="@_isSubmitting">
+                        @if (_isSubmitting)
                         {
                             <span>@Localizer["Support_Button_Sending"]</span>
                         }
@@ -166,8 +176,8 @@
                 @Localizer["Support_Alternative_Contact_Text"]
             </p>
             <p class="text-theme-primary">
-                <a href="mailto:support@lynpassword.com" class="download-link link-text-size" >
-                    support@lynpassword.com
+                <a href="mailto:support@lynsoftware.com" class="download-link link-text-size" >
+                    support@lynsoftware.com
                 </a>
             </p>
         </section>
@@ -177,92 +187,98 @@
 
 
 @code {
-    private SupportModel supportModel = new();
-    private List<IBrowserFile> selectedFiles = new();
-    private bool isSubmitting = false;
-    private bool isSubmitted = false;
-    private string fileError = string.Empty;
-    private const long MaxFileSize = 5 * 1024 * 1024; // 5MB
-    private const int MaxFileCount = 5;
+    private SupportTicketRequest _supportTicketModel = new();
+    private List<IBrowserFile> _selectedFiles = [];
+    private bool _isSubmitting;
+    private bool _isSubmitted;
+    private string? _fileError;
 
-    private async Task HandleFileSelection(InputFileChangeEventArgs e)
+
+    private CancellationTokenSource _cts = new();
+
+    private void HandleFileSelection(InputFileChangeEventArgs e)
     {
-        fileError = string.Empty;
+        _fileError = string.Empty;
 
-        var newFiles = e.GetMultipleFiles(MaxFileCount);
+        var newFiles = e.GetMultipleFiles(FileSupportTicketUploadConstants.TicketMaxFileCount);
 
-        if (selectedFiles.Count + newFiles.Count() > MaxFileCount)
+        if (_selectedFiles.Count + newFiles.Count() > FileSupportTicketUploadConstants.TicketMaxFileCount)
         {
-            fileError = Localizer["Support_Error_MaxFiles", MaxFileCount];
+            _fileError = Localizer["Support_Error_MaxFiles", FileSupportTicketUploadConstants.TicketMaxFileCount];
             return;
         }
 
         foreach (var file in newFiles)
         {
-            if (file.Size > MaxFileSize)
+            if (file.Size > FileSupportTicketUploadConstants.TicketMaxFileSizeBytes)
             {
-                fileError = Localizer["Support_Error_FileSize", file.Name];
+                _fileError = Localizer["Support_Error_FileSize", file.Name];
                 continue;
             }
 
             if (!file.ContentType.StartsWith("image/"))
             {
-                fileError = Localizer["Support_Error_InvalidImage", file.Name];
+                _fileError = Localizer["Support_Error_InvalidImage", file.Name];
                 continue;
             }
 
-            selectedFiles.Add(file);
+            _selectedFiles.Add(file);
         }
     }
 
     private void RemoveFile(IBrowserFile file)
     {
-        selectedFiles.Remove(file);
-        fileError = string.Empty;
-    }
-
-    private string FormatFileSize(long bytes)
-    {
-        string[] sizes = { "B", "KB", "MB", "GB" };
-        double len = bytes;
-        int order = 0;
-
-        while (len >= 1024 && order < sizes.Length - 1)
-        {
-            order++;
-            len = len / 1024;
-        }
-
-        return $"{len:0.##} {sizes[order]}";
+        _selectedFiles.Remove(file);
+        _fileError = string.Empty;
     }
 
     private async Task HandleSubmit()
     {
-        isSubmitting = true;
+        _isSubmitting = true;
+        _fileError = string.Empty;
 
         try
         {
-            // TODO: Implementer faktisk innsending til backend/e-post service
-            await Task.Delay(1500);
+            var result = await SupportTicketService.CreateSupportTicketAsync(
+                _supportTicketModel, 
+                _selectedFiles.Count > 0 ? _selectedFiles : null, _cts!.Token);
 
-            isSubmitted = true;
+            if (result.IsFailure)
+                _fileError = result.Error; 
+            else
+                _isSubmitted = true;
+            
         }
         catch (Exception ex)
         {
-            fileError = Localizer["Support_Error_Submit"];
+            _fileError = Localizer["Support_Error_Submit"];
+            Logger.LogError($"Error sending submit ticket: {ex}");
         }
         finally
         {
-            isSubmitting = false;
+            _isSubmitting = false;
         }
     }
 
     private void ResetForm()
     {
-        supportModel = new();
-        selectedFiles.Clear();
-        fileError = string.Empty;
-        isSubmitted = false;
+        _supportTicketModel = new();
+        _selectedFiles.Clear();
+        _fileError = string.Empty;
+        _isSubmitted = false;
     }
+    
+    protected override void OnInitialized()
+    {
+        _cts = new CancellationTokenSource();
+    }
+
+    
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+
 
 }

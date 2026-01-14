@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Lyn.Shared.Models;
+namespace Lyn.Shared.Models.Request;
 
 /// <summary>
 /// Represents the input parameters required for deterministic password generation using Argon2id.

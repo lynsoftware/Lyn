@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Lyn.Shared.Models;
+namespace Lyn.Shared.Models.Request;
 
 /// <summary>
 /// Request with Email and Password

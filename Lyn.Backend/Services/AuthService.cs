@@ -1,6 +1,7 @@
 ﻿
 using Lyn.Backend.Models;
 using Lyn.Shared.Models;
+using Lyn.Shared.Models.Request;
 using Lyn.Shared.Result;
 using Microsoft.AspNetCore.Identity;
 

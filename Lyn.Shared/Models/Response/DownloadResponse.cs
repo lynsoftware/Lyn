@@ -1,6 +1,6 @@
 ﻿using Lyn.Backend.Models.Enums;
 
-namespace Lyn.Shared.Models;
+namespace Lyn.Shared.Models.Response;
 
 public class DownloadResponse
 {

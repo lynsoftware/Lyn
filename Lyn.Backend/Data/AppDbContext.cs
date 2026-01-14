@@ -1,4 +1,5 @@
 ﻿using Lyn.Backend.Models;
+using Lyn.Shared.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<PasswordGeneratorUsageStatistic> PasswordGeneratorUsageStatistics { get; set; }
     public DbSet<AppDownload> AppDownloads { get; set; }
     
+    public DbSet<SupportTicket> SupportTickets { get; set; }
+    
+    public DbSet<SupportAttachment> SupportAttachments { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     
     {
@@ -28,6 +33,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         modelBuilder.Entity<AppDownload>()
             .Property(e => e.FileData)
             .HasColumnType("bytea"); 
+        
+        
+        // ==================== SupportTicket ====================
+        modelBuilder.Entity<SupportTicket>()
+            .HasMany(e => e.Attachments)
+            .WithOne(e => e.SupportTicket)
+            .HasForeignKey(e => e.SupportTicketId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         // Seed initial statistic
         modelBuilder.Entity<PasswordGeneratorUsageStatistic>().HasData(

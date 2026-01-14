@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Lyn.Shared.Models;
+namespace Lyn.Shared.Models.Request;
 
-public class SupportModel
+public class SupportTicketRequest
 {
     [Required(ErrorMessage = "Email is required")]
     [EmailAddress(ErrorMessage = "Invalid email")]

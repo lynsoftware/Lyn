@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+using Resend;
 using Serilog;
 
 namespace Lyn.Backend.Configuration;
@@ -36,6 +37,9 @@ public static class ServiceExtensions
       
       // Application Services
       builder.Services.AddApplicationServices();
+      
+      // ReSend Email Service
+      builder.Services.AddEmailService(builder.Configuration);
      
       // Infrastruktur (Database, Repositories, Services etc.)
       builder.Services.AddInfrastructure(builder.Configuration);
@@ -242,22 +246,52 @@ public static class ServiceExtensions
       return services;
   }
   
-  
+  /// <summary>
+  /// Add ReSend Email service
+  /// </summary>
+  private static IServiceCollection AddEmailService(this IServiceCollection services, IConfiguration configuration)
+  {
+      // Email Service Resend
+      var resendApiKey = configuration["ResendApiKey"]
+                         ?? throw new InvalidOperationException(
+                             "Resend:ApiKey is not configured. " +
+                             "Add RESEND_API_KEY to environment variables or appsettings.json");
+      
+      // Register Resend options
+      services.Configure<ResendClientOptions>(o => o.ApiToken = resendApiKey);
+    
+      // HttpClient for Resend
+      services.AddHttpClient<IResend, ResendClient>();
+      
+    
+      services.AddScoped<IEmailService, EmailService>();
+      
+      return services;
+  }
+
+
 
   /// <summary>
   /// Registrerer alle applikasjonsspesifikke tjenester og deres avhengigheter
   /// </summary>
   private static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
   {
+      
+      
+      
       // Services
       services.AddScoped<IPasswordService, PasswordService>();
       services.AddScoped<IDownloadService, DownloadService>();
       services.AddScoped<IAuthService, AuthService>();
+      services.AddScoped<ISupportTicketService, SupportTicketTicketService>();
       
     
       // Repository
       services.AddScoped<IStatisticsRepository, StatisticsRepository>();
       services.AddScoped<IDownloadRepository, DownloadRepository>();
+      services.AddScoped<ISupportRepository, SupportRepository>();
+      
+      
       
       // Database Seeder
       services.AddScoped<DatabaseSeeder>();

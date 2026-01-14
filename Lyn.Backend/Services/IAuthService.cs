@@ -2,6 +2,7 @@
 
 using Lyn.Backend.Models;
 using Lyn.Shared.Models;
+using Lyn.Shared.Models.Request;
 using Lyn.Shared.Result;
 
 namespace Lyn.Backend.Services;

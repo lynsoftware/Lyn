@@ -3,6 +3,7 @@ using Lyn.Backend.Models.Enums;
 using Lyn.Backend.Repository;
 using Lyn.Shared.Enum;
 using Lyn.Shared.Models;
+using Lyn.Shared.Models.Response;
 using Lyn.Shared.Result;
 
 namespace Lyn.Backend.Services;
@@ -21,14 +22,6 @@ public class DownloadService(IDownloadRepository downloadRepository,
             logger.LogWarning("File with Id {Id} does not exist or is not active", id);
             return Result<FileDownloadDto>.Failure("File does not exist", ErrorTypeEnum.NotFound);
         }
-        
-        // Increment statistic
-        await (file.Platform switch
-        {
-            DownloadPlatform.Windows => statisticsRepository.IncrementWindowsDownloadAsync(),
-            DownloadPlatform.Android => statisticsRepository.IncrementApkDownloadAsync(),
-            _ => Task.CompletedTask
-        });
         
         var response = new FileDownloadDto
         {
@@ -86,7 +79,8 @@ public class DownloadService(IDownloadRepository downloadRepository,
                 FileSizeBytes = fileBytes.Length,
                 ContentType = file.ContentType,
                 UploadedAt = DateTime.UtcNow,
-                IsActive = true
+                IsActive = true,
+                FileExtension = Path.GetExtension(file.FileName).ToLowerInvariant()
             };
 
             await downloadRepository.AddAsync(download);

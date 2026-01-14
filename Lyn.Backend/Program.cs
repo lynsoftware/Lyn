@@ -7,7 +7,7 @@ using Serilog;
 // ============================================== 1. BUILDER CONFIGURATION ==============================================
 var builder = WebApplication.CreateBuilder(args);
 
-// Konfigurer Kestrel limits
+// Konfigurer Kestrel limits og setter maks MB pr forespørsel
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.Limits.MaxRequestBodySize = 104_857_600; // 100 MB
@@ -29,6 +29,7 @@ builder.Services.Configure<FormOptions>(options =>
 // ============================================== 3. APP CONFIGURATION ==============================================
 var app = builder.Build();
 
+// Automatiserer databasemigrasjoner
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();

@@ -1,5 +1,6 @@
 ﻿using Lyn.Backend.Models.Enums;
 using Lyn.Shared.Models;
+using Lyn.Shared.Models.Request;
 using Lyn.Shared.Result;
 using Microsoft.AspNetCore.Components.Forms;
 

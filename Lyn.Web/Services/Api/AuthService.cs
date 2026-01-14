@@ -2,7 +2,8 @@
 using System.Net.Http.Json;
 using Blazored.SessionStorage;
 using Lyn.Backend.Models.Enums;
-using Lyn.Shared.Models;
+using Lyn.Shared.Helpers;
+using Lyn.Shared.Models.Request;
 using Lyn.Shared.Result;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -33,7 +34,7 @@ public class AuthService(ILogger<AuthService> logger, HttpClient httpClient,
 
             var token = await response.Content.ReadAsStringAsync(cancellationToken);
             
-            token = token?.Trim('"');
+            token = token.Trim('"');
             
             if (string.IsNullOrEmpty(token))
             {
@@ -92,7 +93,7 @@ public class AuthService(ILogger<AuthService> logger, HttpClient httpClient,
             var fileContent = new StreamContent(file.OpenReadStream(maxAllowedSize: 500 * 1024 * 1024)); // 500MB max
             
             var contentType = string.IsNullOrWhiteSpace(file.ContentType) 
-                ? GetContentTypeFromExtension(file.Name)
+                ? FileHelper.GetContentTypeFromExtension(file.Name)
                 : file.ContentType;
 
             fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
@@ -136,20 +137,5 @@ public class AuthService(ILogger<AuthService> logger, HttpClient httpClient,
         }
     }
     
-    private static string GetContentTypeFromExtension(string fileName)
-    {
-        var extension = Path.GetExtension(fileName).ToLowerInvariant();
-    
-        return extension switch
-        {
-            ".apk" => "application/vnd.android.package-archive",
-            ".exe" => "application/vnd.microsoft.portable-executable",
-            ".msi" => "application/x-msi",
-            ".dmg" => "application/x-apple-diskimage",
-            ".zip" => "application/zip",
-            ".tar" => "application/x-tar",
-            ".gz" => "application/gzip",
-            _ => "application/octet-stream" // Default for ukjente filtyper
-        };
-    }
+   
 }

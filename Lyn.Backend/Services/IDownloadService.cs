@@ -1,5 +1,6 @@
 ﻿using Lyn.Backend.Models.Enums;
 using Lyn.Shared.Models;
+using Lyn.Shared.Models.Response;
 using Lyn.Shared.Result;
 
 namespace Lyn.Backend.Services;

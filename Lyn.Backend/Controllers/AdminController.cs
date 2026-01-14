@@ -1,6 +1,6 @@
 ﻿using Lyn.Backend.Models.Enums;
 using Lyn.Backend.Services;
-using Lyn.Shared.Models;
+using Lyn.Shared.Models.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +10,7 @@ namespace Lyn.Backend.Controllers;
 [Route("api/[controller]")]
 [Authorize]
 public class AdminController(IDownloadService downloadService,
-    IAuthService authService, ILogger<AdminController> logger) : BaseController
+    IAuthService authService) : BaseController
 {   
     /// <summary>
     /// Uploads a file to the database from a file sent with Postman. Requires Authetntication
@@ -20,7 +20,7 @@ public class AdminController(IDownloadService downloadService,
     /// <param name="platform">Platform</param>
     /// <returns>200 Ok or 400 Bad Request</returns>
     [HttpPost("upload")]
-    [Authorize] // 👈 Tilbake til Authorize (fjern AllowAnonymous)
+    [Authorize]
     [RequestSizeLimit(104_857_600)] // 100 MB
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<IActionResult> UploadFile(
