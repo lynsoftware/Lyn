@@ -19,12 +19,12 @@ RUN dotnet publish "Lyn.Web.csproj" -c Release -o /app/publish
 
 # Inject BACKEND_URL into appsettings.json after publish
 RUN if [ -n "$BACKEND_URL" ]; then \
-      apt-get update && apt-get install -y jq && \
-      jq --arg url "$BACKEND_URL" \
-         '. + {BACKEND_URL: $url, ApiBaseUrl: $url}' \
-         /app/publish/wwwroot/appsettings.json > /tmp/appsettings.json && \
-      mv /tmp/appsettings.json /app/publish/wwwroot/appsettings.json && \
-      rm -rf /var/lib/apt/lists/*; \
+    apt-get update && apt-get install -y jq && \
+    jq --arg url "$BACKEND_URL" \
+    '. + {BACKEND_URL: $url, ApiBaseUrl: $url}' \
+    /app/publish/wwwroot/appsettings.json > /tmp/appsettings.json && \
+    mv /tmp/appsettings.json /app/publish/wwwroot/appsettings.json && \
+    rm -rf /var/lib/apt/lists/*; \
     fi
 
 # Debug: List published files
@@ -38,7 +38,7 @@ FROM nginx:alpine AS final
 WORKDIR /usr/share/nginx/html
 
 # Copy ALL wwwroot contents (including subdirectories)
-COPY --from=build /app/publish/wwwroot/ ./
+COPY --from=build /src/Lyn.Web.Development/nginx.conf /etc/nginx/nginx.conf
 
 # Debug: Verify copy worked
 RUN echo "=== Final nginx files ===" && \
