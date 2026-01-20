@@ -6,7 +6,7 @@ on:
     paths:
       - 'Lyn.Backend/**'
       - 'Lyn.Shared/**'
-      - 'docker-compose.ec2.yml'   # ← ENDRET fra docker-compose.prod.yml
+      - 'docker-compose.ec2.yml'
   workflow_dispatch:
 
 jobs:
@@ -40,8 +40,8 @@ jobs:
             --parameters 'commands=[
               "cd /home/ubuntu/Lyn",
               "git pull origin main",
-              "docker compose -f docker-compose.ec2.yml down",           # ← ENDRET
-              "docker compose -f docker-compose.ec2.yml up -d --build",  # ← ENDRET
+              "docker compose -f docker-compose.ec2.yml down",           
+              "docker compose -f docker-compose.ec2.yml up -d --build",
               "echo Deployment completed"
             ]' \
             --region eu-north-1 \
