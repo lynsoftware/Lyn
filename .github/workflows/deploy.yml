@@ -20,6 +20,10 @@ jobs:
       
       - name: Restore dependencies
         run: dotnet restore ./Lyn.Web/Lyn.Web.csproj
+
+      - name: Create appsettings.Production.json
+        run: |
+          echo '{"ApiBaseUrl":"${{ secrets.API_GATEWAY_URL }}"}' > ./Lyn.Web/wwwroot/appsettings.Production.json
       
       - name: Build and Publish Blazor WASM
         run: dotnet publish ./Lyn.Web/Lyn.Web.csproj -c Release -o ./publish
