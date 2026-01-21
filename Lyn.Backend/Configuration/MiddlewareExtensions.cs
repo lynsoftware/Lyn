@@ -64,8 +64,6 @@ public static class MiddlewareExtensions
             app.UseSwaggerUI();
         }
         
-        // Security & Routing
-        app.UseCors("AllowBlazorApp"); 
         // app.UseHttpsRedirection();
         
         

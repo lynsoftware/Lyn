@@ -26,9 +26,6 @@ public static class ServiceExtensions
       // Logging
       builder.AddLogging();
       
-      // CORS / RateLimiting
-      builder.Services.AddCorsPolicy(builder.Configuration);
-      
       // Database
       builder.Services.AddDatabase(builder.Configuration);
       
@@ -67,39 +64,6 @@ public static class ServiceExtensions
       builder.Host.UseSerilog();
     
       return builder;
-  }
-  
-  /// <summary>
-  /// Konfigurerer CORS-policy for å tillate requests fra spesifikke origins
-  /// Origins hentes fra appsettings.json og kan variere per miljø (dev/prod)
-  /// </summary>
-  /// <param name="services">Service collection hvor CORS skal registreres</param>
-  /// <param name="configuration">Configuration for å hente allowed origins</param>
-  /// <returns>Den oppdaterte IServiceCollection-instansen for method chaining</returns>
-  private static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
-  {
-      var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
-    
-      if (allowedOrigins == null || allowedOrigins.Length == 0)
-          throw new InvalidOperationException(
-              "Cors:AllowedOrigins does not exists or is empty in appsettings.json. " +
-              "Add atleast one allowed origin.");
-
-      services.AddCors(options =>
-      {
-          // Policy for Blazor frontend
-          options.AddPolicy("AllowBlazorApp", policy =>
-          {
-              policy.WithOrigins(allowedOrigins)
-                  .AllowAnyMethod()
-                  .AllowAnyHeader()
-                  .AllowCredentials()
-                  .SetPreflightMaxAge(TimeSpan.FromMinutes(10))
-                  .WithExposedHeaders("*"); 
-          });
-      });
-
-      return services;
   }
   
   /// <summary>
