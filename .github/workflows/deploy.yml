@@ -1,5 +1,4 @@
 name: Deploy Blazor WASM to AWS
-
 on:
   push:
     branches: [ main ]
@@ -20,13 +19,11 @@ jobs:
       
       - name: Restore dependencies
         run: dotnet restore ./Lyn.Web/Lyn.Web.csproj
-
-      - name: Create appsettings.Production.json
-        run: |
-          echo '{"ApiBaseUrl":"${{ secrets.API_GATEWAY_URL }}"}' > ./Lyn.Web/wwwroot/appsettings.Production.json
       
       - name: Build and Publish Blazor WASM
         run: dotnet publish ./Lyn.Web/Lyn.Web.csproj -c Release -o ./publish
+        env:
+          BACKEND_URL: ${{ secrets.API_GATEWAY_URL }}
       
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
