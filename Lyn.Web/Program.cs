@@ -44,16 +44,8 @@ builder.Services.AddScoped<IThemeService, ThemeService>();
 builder.Services.AddScoped<ILocalizationService, LocalizationService>();
 
 
-string apiBaseUrl;
+var apiBaseUrl = "https://q5l7vwi956.execute-api.eu-north-1.amazonaws.com/prod";
 
-if (builder.HostEnvironment.IsProduction())
-{
-    apiBaseUrl = "https://q5l7vwi956.execute-api.eu-north-1.amazonaws.com/prod";
-}
-else
-{
-    apiBaseUrl = "http://localhost:8000";
-}
 
 // HttpClient with API base URL
 // var apiBaseUrl = builder.Configuration["BACKEND_URL"] 
