@@ -16,7 +16,7 @@ public class PasswordGenerationService(HttpClient httpClient,
         try
         {
             var response = await httpClient.PostAsJsonAsync(
-                "prod/api/passwordgenerator", request, cancellationToken);
+                "api/passwordgenerator", request, cancellationToken);
 
             response.EnsureSuccessStatusCode();
             
