@@ -44,13 +44,12 @@ builder.Services.AddScoped<IThemeService, ThemeService>();
 builder.Services.AddScoped<ILocalizationService, LocalizationService>();
 
 
-var apiBaseUrl = "https://q5l7vwi956.execute-api.eu-north-1.amazonaws.com/prod";
 
 
 // HttpClient with API base URL
-// var apiBaseUrl = builder.Configuration["BACKEND_URL"] 
-//                  ?? builder.Configuration["ApiBaseUrl"] 
-//                  ?? throw new InvalidOperationException("BACKEND_URL not configured");
+var apiBaseUrl = builder.Configuration["BACKEND_URL"] 
+                 ?? builder.Configuration["ApiBaseUrl"] 
+                 ?? throw new InvalidOperationException("BACKEND_URL not configured");
 
 builder.Services.AddScoped(_ => new HttpClient 
 { 
