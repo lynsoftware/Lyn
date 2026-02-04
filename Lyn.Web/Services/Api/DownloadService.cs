@@ -15,7 +15,7 @@ public class DownloadService(HttpClient httpClient,
         try
         {
             var response = await httpClient.GetAsync(
-                $"api/download/{id}", cancellationToken);
+                $"api/AppRelease/download/{id}", cancellationToken);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -59,7 +59,7 @@ public class DownloadService(HttpClient httpClient,
         try
         {
             var downloads = await httpClient.GetFromJsonAsync<List<AppReleaseResponse>>(
-                "api/download/latest", cancellationToken);
+                "api/AppRelease/latest", cancellationToken);
 
             if (downloads == null)
             {
