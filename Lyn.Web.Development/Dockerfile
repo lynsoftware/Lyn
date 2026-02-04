@@ -37,16 +37,10 @@ RUN echo "=== Published files ===" && \
 FROM nginx:alpine AS final
 WORKDIR /usr/share/nginx/html
 
-# Copy ALL wwwroot contents (including subdirectories)
-COPY --from=build /src/Lyn.Web.Development/nginx.conf /etc/nginx/nginx.conf
-
-# Debug: Verify copy worked
-RUN echo "=== Final nginx files ===" && \
-    ls -la /usr/share/nginx/html/ && \
-    echo "=== Final framework files ===" && \
-    ls -la /usr/share/nginx/html/_framework/ | head -20
+# Copy published Blazor app
+COPY --from=build /app/publish/wwwroot .
 
 # Copy nginx config
-COPY --from=build /src/Lyn.Web/nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /src/Lyn.Web.Development/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80

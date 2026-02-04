@@ -13,5 +13,5 @@ public interface IPasswordService
     /// whether to include special characters in the generated password</param>
     /// <returns>A deterministically generated password string</returns>
     /// <exception cref="ArgumentException">Thrown when masterPassword or seed is null, empty, or whitespace</exception>
-    GeneratedPassword GeneratePassword(PasswordGenerationRequest request);
+    Task<GeneratedPassword> GeneratePasswordAsync(PasswordGenerationRequest request);
 }

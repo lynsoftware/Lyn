@@ -156,6 +156,15 @@ namespace PasswordGenerator.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lengden må være mellom {0} og {1}.
+        /// </summary>
+        internal static string LengthValidationError {
+            get {
+                return ResourceManager.GetString("LengthValidationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lys.
         /// </summary>
         internal static string Light {
@@ -170,6 +179,15 @@ namespace PasswordGenerator.Resources.Strings {
         internal static string MasterPassword {
             get {
                 return ResourceManager.GetString("MasterPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hovedpassord må fylles ut.
+        /// </summary>
+        internal static string MasterPasswordEmpty {
+            get {
+                return ResourceManager.GetString("MasterPasswordEmpty", resourceCulture);
             }
         }
         

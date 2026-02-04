@@ -102,6 +102,12 @@ It is recommended not to reuse the master password elsewhere
 Use different seeds for different accounts
 It is recommended not to write down the master password on your devices
 A password manager with multiple layers provides even more security, but it's better to use this application than to write simple passwords like "password123"
-Keep a list of your seeds (this is safe as they are worthless without the master password)</value>
+Keep a list of your seeds and length (this is safe as they are worthless without the master password)</value>
+    </data>
+    <data name="MasterPasswordEmpty" xml:space="preserve">
+        <value>Master password cannot be empty</value>
+    </data>
+    <data name="LengthValidationError" xml:space="preserve">
+        <value>Length must be between {0} and {1}</value>
     </data>
 </root>

@@ -1,6 +1,6 @@
-﻿using Lyn.Shared.Models;
-using Lyn.Shared.Models.Response;
+﻿using Lyn.Shared.Models.Response;
 using Lyn.Shared.Result;
+using Lyn.Web.DTOs;
 
 namespace Lyn.Web.Services.Api;
 
@@ -19,6 +19,6 @@ public interface IDownloadService
     /// Retrieves the latest active download for each platform
     /// </summary>
     /// <returns>List of latest downloads with metadata</returns>
-    Task<Result<List<DownloadResponse>>> GetLatestDownloadsAsync(
+    Task<Result<List<AppReleaseResponse>>> GetLatestDownloadsAsync(
         CancellationToken cancellationToken = default);
 }

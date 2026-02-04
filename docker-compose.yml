@@ -3,7 +3,7 @@ services:
         container_name: lyn-frontend
         build: 
             context: .
-            dockerfile: Lyn.Web/Dockerfile
+            dockerfile: Lyn.Web.Development/Dockerfile
             args:
                 - BACKEND_URL=${BACKEND_URL}
         ports: 
@@ -33,6 +33,11 @@ services:
                 - AdminUser__Email=${ADMIN_USER_EMAIL}
                 - AdminUser__Password=${ADMIN_USER_PASSWORD}
                 - Resend__ApiKey=${RESEND_API_KEY}
+                - AWS__BucketName=${AWS_BUCKET_NAME}
+                - AWS__Region=${AWS_REGION}
+                - AWS__AccessKey=${AWS_ACCESS_KEY}
+                - AWS__SecretKey=${AWS_SECRET_KEY}
+                - ReleaseApiKey=${RELEASE_API_KEY}
         depends_on:
             database:
                 condition: service_healthy

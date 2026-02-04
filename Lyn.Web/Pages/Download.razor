@@ -1,5 +1,5 @@
 ﻿@page "/download"
-@using Lyn.Backend.Models.Enums
+@using Lyn.Shared.Enum
 @using Lyn.Shared.Models.Response
 @using Lyn.Web.Services.Api
 @layout PasswordGeneratorLayout
@@ -45,12 +45,14 @@
                 Title="@Localizer["Download_Windows_Title"]"
                 Subtitle="@Localizer["Download_Windows_Subtitle"]"
                 ButtonText="@Localizer["Download_Windows_Button"]"
-                IsAvailable="@IsDownloadAvailable(DownloadPlatform.Windows)"
+                IsAvailable="@IsDownloadAvailable(ReleaseType.WindowsInstaller)"
                 IsDownloading="@_isDownloading"
-                Version="@GetDownloadForPlatform(DownloadPlatform.Windows)?.Version"
+                Version="@GetDownloadForPlatform(ReleaseType.WindowsInstaller)?.Version"
                 StoreUrl="ms-windows-store://pdp/?productid=9P1X3L10CQ1P"
                 StoreText="@Localizer["Download_Windows_Store"]"
-                OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.Windows)!))"
+                OnDownloadClick="@(async () 
+                                     => await OnDownload(GetDownloadForPlatform(
+                                         ReleaseType.WindowsInstaller)!))"
                 ComingSoonText="@Localizer["Download_ComingSoon_Q2"]" />
 
             <!-- macOS -->
@@ -59,11 +61,12 @@
                 Title="@Localizer["Download_MacOS_Title"]"
                 Subtitle="@Localizer["Download_MacOS_Subtitle"]"
                 ButtonText="@Localizer["Download_MacOS_Button"]"
-                IsAvailable="@IsDownloadAvailable(DownloadPlatform.MacOS)"
+                IsAvailable="@IsDownloadAvailable(ReleaseType.MacOS)"
                 IsDownloading="@_isDownloading"
-                Version="@GetDownloadForPlatform(DownloadPlatform.MacOS)?.Version"
+                Version="@GetDownloadForPlatform(ReleaseType.MacOS)?.Version"
                 ComingSoonText="@Localizer["Download_ComingSoon_Q2"]"
-                OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.MacOS)!))" />
+                OnDownloadClick="@(async () 
+                                     => await OnDownload(GetDownloadForPlatform(ReleaseType.MacOS)!))" />
 
             <!-- Linux -->
             <DownloadCard 
@@ -71,11 +74,12 @@
                 Title="@Localizer["Download_Linux_Title"]"
                 Subtitle="@Localizer["Download_Linux_Subtitle"]"
                 ButtonText="@Localizer["Download_Linux_Button"]"
-                IsAvailable="@IsDownloadAvailable(DownloadPlatform.Linux)"
+                IsAvailable="@IsDownloadAvailable(ReleaseType.Linux)"
                 IsDownloading="@_isDownloading"
-                Version="@GetDownloadForPlatform(DownloadPlatform.Linux)?.Version"
+                Version="@GetDownloadForPlatform(ReleaseType.Linux)?.Version"
                 ComingSoonText="@Localizer["Download_ComingSoon_Q2"]"
-                OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.Linux)!))" />
+                OnDownloadClick="@(async () 
+                                     => await OnDownload(GetDownloadForPlatform(ReleaseType.Linux)!))" />
         </div>
     </div>
 
@@ -93,11 +97,13 @@
                 Title="@Localizer["Download_Android_Title"]"
                 Subtitle="@Localizer["Download_Android_Subtitle"]"
                 ButtonText="@Localizer["Download_Android_Button"]"
-                IsAvailable="@IsDownloadAvailable(DownloadPlatform.Android)"
+                IsAvailable="@IsDownloadAvailable(ReleaseType.AndroidApk)"
                 IsDownloading="@_isDownloading"
-                Version="@GetDownloadForPlatform(DownloadPlatform.Android)?.Version"
+                Version="@GetDownloadForPlatform(ReleaseType.AndroidApk)?.Version"
                 ComingSoonText="@Localizer["Download_ComingSoon_Q3"]"
-                OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.Android)!))" />
+                OnDownloadClick="@(async () 
+                                     => await OnDownload(GetDownloadForPlatform(
+                                         ReleaseType.AndroidApk)!))" />
 
             <!-- iOS -->
             <DownloadCard 
@@ -105,11 +111,12 @@
                 Title="@Localizer["Download_iOS_Title"]"
                 Subtitle="@Localizer["Download_iOS_Subtitle"]"
                 ButtonText="@Localizer["Download_iOS_Button"]"
-                IsAvailable="@IsDownloadAvailable(DownloadPlatform.iOS)"
+                IsAvailable="@IsDownloadAvailable(ReleaseType.iOS)"
                 IsDownloading="@_isDownloading"
-                Version="@GetDownloadForPlatform(DownloadPlatform.iOS)?.Version"
+                Version="@GetDownloadForPlatform(ReleaseType.iOS)?.Version"
                 ComingSoonText="@Localizer["Download_ComingSoon_Q3"]"
-                OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(DownloadPlatform.iOS)!))" />
+                OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(
+                                     ReleaseType.iOS)!))" />
         </div>
     </div>
 
@@ -164,7 +171,7 @@
 
 @code
 {
-    public List<DownloadResponse> Downloads = new();
+    public List<AppReleaseResponse> Downloads = new();
 
     private bool _isLoading = true;
     private bool _isDownloading;
@@ -192,24 +199,24 @@
         }
     }
 
-    private bool IsDownloadAvailable(DownloadPlatform platform)
+    private bool IsDownloadAvailable(ReleaseType type)
     {
-        return Downloads?.Any(d => d.Platform == platform) ?? false;
+        return Downloads.Any(d => d.Type == type);
     }
 
-    private DownloadResponse? GetDownloadForPlatform(DownloadPlatform platform)
+    private AppReleaseResponse? GetDownloadForPlatform(ReleaseType platform)
     {
-        return Downloads?.FirstOrDefault(d => d.Platform == platform);
+        return Downloads.FirstOrDefault(d => d.Type == platform);
     }
     
-    private async Task OnDownload(DownloadResponse download)
+    private async Task OnDownload(AppReleaseResponse appRelease)
     {
         _isDownloading = true;
         _errorMessage = null;
         
         try
         {
-            var result = await DownloadService.GetDownloadAsync(download.Id);
+            var result = await DownloadService.GetDownloadAsync(appRelease.Id);
 
             if (result.IsFailure)
             {

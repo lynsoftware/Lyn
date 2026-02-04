@@ -1,6 +1,5 @@
 ﻿using System.Net.Http.Headers;
 using Lyn.Shared.Configuration;
-using Lyn.Shared.Helpers;
 using Lyn.Shared.Models.Request;
 using Lyn.Shared.Result;
 using Microsoft.AspNetCore.Components.Forms;
@@ -42,12 +41,12 @@ public class SupportTicketService(
                 foreach (var file in attachments)
                 {
                     var stream = file.OpenReadStream(
-                        maxAllowedSize: FileSupportTicketUploadConstants.TicketMaxFileSizeBytes);
+                        maxAllowedSize: SupportTicketFileConfig.TicketMaxFileSizeBytes);
                     
                     var fileContent = new StreamContent(stream);
                     
                     var contentType = string.IsNullOrWhiteSpace(file.ContentType) 
-                        ? FileHelper.GetContentTypeFromExtension(file.Name)
+                        ? FileConstants.GetContentType(file.Name)
                         : file.ContentType;
 
                     fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);

@@ -1,8 +1,6 @@
-﻿using Lyn.Backend.Models.Enums;
-using Lyn.Shared.Models;
-using Lyn.Shared.Models.Request;
+﻿using Lyn.Shared.Models.Request;
 using Lyn.Shared.Result;
-using Microsoft.AspNetCore.Components.Forms;
+
 
 namespace Lyn.Web.Services.Api;
 
@@ -16,10 +14,4 @@ public interface IAuthService
     /// <param name="cancellationToken"></param>
     /// <returns>SignupResponse - userid, name, email og token</returns>
     Task<Result> LoginAsync(LoginRequest request, CancellationToken cancellationToken);
-
-    Task<Result<string>> UploadFileAsync(
-        IBrowserFile file,
-        string version,
-        DownloadPlatform platform,
-        CancellationToken cancellationToken);
 }

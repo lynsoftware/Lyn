@@ -1,4 +1,5 @@
 ﻿using Lyn.Backend.EmailTemplates;
+using Lyn.Backend.Services.Interface;
 using Lyn.Shared.Models;
 using Resend;
 

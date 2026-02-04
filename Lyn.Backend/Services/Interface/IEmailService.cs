@@ -1,6 +1,6 @@
 ﻿using Lyn.Shared.Models;
 
-namespace Lyn.Backend.Services;
+namespace Lyn.Backend.Services.Interface;
 
 public interface IEmailService
 {
