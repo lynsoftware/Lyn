@@ -120,10 +120,7 @@
         <data name="Download_Windows_Title" xml:space="preserve">
         <value>Windows</value>
     </data>
-        <data name="Download_Windows_Subtitle" xml:space="preserve">
-        <value>Versjon 1.0.0 • Windows 10/11</value>
-    </data>
-        <data name="Download_Windows_Button" xml:space="preserve">
+    <data name="Download_Windows_Button" xml:space="preserve">
         <value>Last ned for Windows</value>
     </data>
         <data name="Download_Windows_Store" xml:space="preserve">
@@ -133,18 +130,10 @@
         <data name="Download_MacOS_Title" xml:space="preserve">
         <value>macOS</value>
     </data>
-        <data name="Download_MacOS_Subtitle" xml:space="preserve">
-        <value>Versjon 1.0.0 • macOS 11+</value>
-    </data>
-    
-        <data name="Download_Linux_Title" xml:space="preserve">
+    <data name="Download_Linux_Title" xml:space="preserve">
         <value>Linux</value>
     </data>
-        <data name="Download_Linux_Subtitle" xml:space="preserve">
-        <value>Versjon 1.0.0 • Ubuntu 20.04+</value>
-    </data>
-    
-        <data name="Download_ComingSoon_Button" xml:space="preserve">
+    <data name="Download_ComingSoon_Button" xml:space="preserve">
         <value>Kommer snart</value>
     </data>
         <data name="Download_ComingSoon_Q2" xml:space="preserve">
@@ -177,15 +166,23 @@
         <data name="Download_Android_Title" xml:space="preserve">
         <value>Android</value>
     </data>
-        <data name="Download_Android_Subtitle" xml:space="preserve">
-        <value>Versjon 1.0.0 • Android 8.0+</value>
-    </data>
-    
-        <data name="Download_iOS_Title" xml:space="preserve">
+    <data name="Download_iOS_Title" xml:space="preserve">
         <value>iOS</value>
     </data>
-        <data name="Download_iOS_Subtitle" xml:space="preserve">
-        <value>Versjon 1.0.0 • iOS 14+</value>
+    <data name="Download_Android_Store" xml:space="preserve">
+      <value>Google Play Store</value>
+    </data>
+        <data name="Download_Apple_Mobile_Title" xml:space="preserve">
+      <value>iPhone og iPad</value>
+    </data>
+    <data name="Download_iOS_Store" xml:space="preserve">
+      <value>App Store (iPhone)</value>
+    </data>
+        <data name="Download_iPad_Store" xml:space="preserve">
+      <value>App Store (iPad)</value>
+    </data>
+        <data name="Download_MacOS_Store" xml:space="preserve">
+      <value>Mac App Store</value>
     </data>
     
         <!-- Why Download Section -->

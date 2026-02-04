@@ -43,12 +43,11 @@
             <DownloadCard
                 IconClass="windows"
                 Title="@Localizer["Download_Windows_Title"]"
-                Subtitle="@Localizer["Download_Windows_Subtitle"]"
+                Subtitle="@GetDownloadForPlatform(ReleaseType.WindowsInstaller)?.Version"
                 ButtonText="@Localizer["Download_Windows_Button"]"
                 IsAvailable="@IsDownloadAvailable(ReleaseType.WindowsInstaller)"
                 IsDownloading="@_isDownloading"
-                Version="@GetDownloadForPlatform(ReleaseType.WindowsInstaller)?.Version"
-                StoreUrl="ms-windows-store://pdp/?productid=9P1X3L10CQ1P"
+                StoreUrl="https://apps.microsoft.com/detail/9P1X3L10CQ1P?hl=nb-no&gl=NO"
                 StoreText="@Localizer["Download_Windows_Store"]"
                 OnDownloadClick="@(async () 
                                      => await OnDownload(GetDownloadForPlatform(
@@ -59,27 +58,27 @@
             <DownloadCard 
                 IconClass="apple"
                 Title="@Localizer["Download_MacOS_Title"]"
-                Subtitle="@Localizer["Download_MacOS_Subtitle"]"
+                Subtitle="@GetDownloadForPlatform(ReleaseType.MacOS)?.Version"
                 ButtonText="@Localizer["Download_MacOS_Button"]"
                 IsAvailable="@IsDownloadAvailable(ReleaseType.MacOS)"
                 IsDownloading="@_isDownloading"
-                Version="@GetDownloadForPlatform(ReleaseType.MacOS)?.Version"
-                ComingSoonText="@Localizer["Download_ComingSoon_Q2"]"
+                StoreUrl="https://apps.apple.com/no/app/lyn-password-generator/id6757705391?l=nb&platform=mac"
+                StoreText="@Localizer["Download_MacOS_Store"]"
                 OnDownloadClick="@(async () 
-                                     => await OnDownload(GetDownloadForPlatform(ReleaseType.MacOS)!))" />
+                                     => await OnDownload(GetDownloadForPlatform(ReleaseType.MacOS)!))"
+                ComingSoonText="@Localizer["Download_ComingSoon_Q2"]" />
 
             <!-- Linux -->
             <DownloadCard 
                 IconClass="ubuntu"
                 Title="@Localizer["Download_Linux_Title"]"
-                Subtitle="@Localizer["Download_Linux_Subtitle"]"
+                Subtitle="@GetDownloadForPlatform(ReleaseType.Linux)?.Version"
                 ButtonText="@Localizer["Download_Linux_Button"]"
                 IsAvailable="@IsDownloadAvailable(ReleaseType.Linux)"
                 IsDownloading="@_isDownloading"
-                Version="@GetDownloadForPlatform(ReleaseType.Linux)?.Version"
-                ComingSoonText="@Localizer["Download_ComingSoon_Q2"]"
                 OnDownloadClick="@(async () 
-                                     => await OnDownload(GetDownloadForPlatform(ReleaseType.Linux)!))" />
+                                     => await OnDownload(GetDownloadForPlatform(ReleaseType.Linux)!))"
+                ComingSoonText="@Localizer["Download_ComingSoon_Q2"]" />
         </div>
     </div>
 
@@ -95,28 +94,30 @@
             <DownloadCard 
                 IconClass="android2"
                 Title="@Localizer["Download_Android_Title"]"
-                Subtitle="@Localizer["Download_Android_Subtitle"]"
+                Subtitle="@GetDownloadForPlatform(ReleaseType.AndroidApk)?.Version"
                 ButtonText="@Localizer["Download_Android_Button"]"
                 IsAvailable="@IsDownloadAvailable(ReleaseType.AndroidApk)"
                 IsDownloading="@_isDownloading"
-                Version="@GetDownloadForPlatform(ReleaseType.AndroidApk)?.Version"
-                ComingSoonText="@Localizer["Download_ComingSoon_Q3"]"
+                StoreUrl="https://play.google.com/store/apps/details?id=com.lynsoftware.lynpasswordgenerator"
+                StoreText="@Localizer["Download_Android_Store"]"
                 OnDownloadClick="@(async () 
                                      => await OnDownload(GetDownloadForPlatform(
-                                         ReleaseType.AndroidApk)!))" />
+                                         ReleaseType.AndroidApk)!))"
+                ComingSoonText="@Localizer["Download_ComingSoon_Q3"]" />
 
-            <!-- iOS -->
+            <!-- iOS & iPad -->
             <DownloadCard 
                 IconClass="apple"
-                Title="@Localizer["Download_iOS_Title"]"
-                Subtitle="@Localizer["Download_iOS_Subtitle"]"
+                Title="@Localizer["Download_Apple_Mobile_Title"]"
+                Subtitle="@GetDownloadForPlatform(ReleaseType.iOS)?.Version"
                 ButtonText="@Localizer["Download_iOS_Button"]"
-                IsAvailable="@IsDownloadAvailable(ReleaseType.iOS)"
+                IsAvailable="true"
                 IsDownloading="@_isDownloading"
-                Version="@GetDownloadForPlatform(ReleaseType.iOS)?.Version"
-                ComingSoonText="@Localizer["Download_ComingSoon_Q3"]"
-                OnDownloadClick="@(async () => await OnDownload(GetDownloadForPlatform(
-                                     ReleaseType.iOS)!))" />
+                StoreUrl="https://apps.apple.com/no/app/lyn-password-generator/id6757705391?l=nb"
+                StoreText="@Localizer["Download_iOS_Store"]"
+                SecondaryStoreUrl="https://apps.apple.com/no/app/lyn-password-generator/id6757705391?l=nb&platform=ipad"
+                SecondaryStoreText="@Localizer["Download_iPad_Store"]"
+                ComingSoonText="@Localizer["Download_ComingSoon_Q3"]" />
         </div>
     </div>
 

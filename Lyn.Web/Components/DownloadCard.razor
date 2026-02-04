@@ -7,53 +7,20 @@
     <h3 class="title-yellow title-medium" style="margin: 0 0 8px 0;">
         @Title
     </h3>
-    <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
-        @Subtitle
-    </p>
-
-    @if (IsAvailable)
+    @if (!string.IsNullOrEmpty(Subtitle))
     {
-        @* Hvis både direkte nedlasting og Store er tilgjengelig *@
-        @if (!string.IsNullOrEmpty(StoreUrl) && OnDownloadClick.HasDelegate)
-        {
-            <!-- Direkte nedlasting (primary) -->
-            <button class="btn-primary-yellow"
-                    @onclick="OnDownloadClick"
-                    disabled="@IsDownloading"
-                    style="margin-bottom: 10px;">
-                @if (IsDownloading)
-                {
-                    <div class="spinner-yellow-small"></div>
-                    <span>@Localizer["Download_Downloading"]</span>
-                }
-                else
-                {
-                    <i class="bi bi-download"></i>
-                    <span>@ButtonText</span>
-                }
-            </button>
+        <p class="text-yellow-dimmer" style="font-size: 14px; margin: 0 0 20px 0;">
+            @Subtitle
+        </p>
+    }
+    else
+    {
+        <div style="margin-bottom: 20px;"></div>
+    }
 
-            <!-- Store-lenke (secondary) -->
-            <a href="@StoreUrl"
-               class="btn-secondary-yellow"
-               target="_blank"
-               style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
-                <i class="bi bi-shop"></i>
-                <span>@StoreText</span>
-            </a>
-        }
-        @* Kun Store *@
-        else if (!string.IsNullOrEmpty(StoreUrl))
-        {
-            <a href="@StoreUrl"
-               class="btn-primary-yellow"
-               target="_blank">
-                <i class="bi bi-download"></i>
-                <span>@ButtonText</span>
-            </a>
-        }
-        @* Kun direkte nedlasting *@
-        else
+    <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+        @* Direkte nedlasting - kun hvis tilgjengelig *@
+        @if (IsAvailable && OnDownloadClick.HasDelegate)
         {
             <button class="btn-primary-yellow"
                     @onclick="OnDownloadClick"
@@ -71,16 +38,43 @@
             </button>
         }
 
-        <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
-            @Version
-        </small>
-    }
-    else
+        @* Primær Store-lenke - vises alltid hvis URL finnes *@
+        @if (!string.IsNullOrEmpty(StoreUrl))
+        {
+            <a href="@StoreUrl"
+               class="btn-primary-yellow"
+               target="_blank"
+               style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+                <i class="bi bi-shop"></i>
+                <span>@StoreText</span>
+            </a>
+        }
+
+        @* Sekundær Store-lenke (f.eks. iPad) *@
+        @if (!string.IsNullOrEmpty(SecondaryStoreUrl))
+        {
+            <a href="@SecondaryStoreUrl"
+               class="btn-primary-yellow"
+               target="_blank"
+               style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+                <i class="bi bi-shop"></i>
+                <span>@SecondaryStoreText</span>
+            </a>
+        }
+
+        @* Coming Soon - kun hvis ingen nedlasting OG ingen store-lenker *@
+        @if (!IsAvailable && string.IsNullOrEmpty(StoreUrl) && string.IsNullOrEmpty(SecondaryStoreUrl))
+        {
+            <button class="btn-primary-yellow" disabled>
+                <i class="bi bi-download"></i>
+                <span>@Localizer["Download_ComingSoon_Button"]</span>
+            </button>
+        }
+    </div>
+
+    @* Versjon eller Coming Soon tekst *@
+    @if (!IsAvailable && string.IsNullOrEmpty(StoreUrl) && string.IsNullOrEmpty(SecondaryStoreUrl))
     {
-        <button class="btn-primary-yellow" disabled>
-            <i class="bi bi-download"></i>
-            <span>@Localizer["Download_ComingSoon_Button"]</span>
-        </button>
         <small class="text-yellow-dimmest" style="display: block; margin-top: 10px; font-size: 12px;">
             @ComingSoonText
         </small>
@@ -94,8 +88,8 @@
     [Parameter, EditorRequired]
     public string Title { get; set; } = string.Empty;
 
-    [Parameter, EditorRequired]
-    public string Subtitle { get; set; } = string.Empty;
+    [Parameter]
+    public string? Subtitle { get; set; }
 
     [Parameter, EditorRequired]
     public string ButtonText { get; set; } = string.Empty;
@@ -107,13 +101,16 @@
     public bool IsDownloading { get; set; }
 
     [Parameter]
-    public string? Version { get; set; }
-
-    [Parameter]
     public string? StoreUrl { get; set; }
 
     [Parameter]
     public string? StoreText { get; set; }
+
+    [Parameter]
+    public string? SecondaryStoreUrl { get; set; }
+
+    [Parameter]
+    public string? SecondaryStoreText { get; set; }
 
     [Parameter]
     public string ComingSoonText { get; set; } = string.Empty;
