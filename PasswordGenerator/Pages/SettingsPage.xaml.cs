@@ -1,4 +1,8 @@
-﻿using PasswordGenerator.Configuration;
+﻿using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
+using PasswordGenerator.Configuration;
+
 
 
 namespace PasswordGenerator.Pages;

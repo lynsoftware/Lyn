@@ -1,4 +1,4 @@
-﻿namespace Lyn.Backend.Services;
+﻿namespace Lyn.Backend.Services.Interface;
 
 public interface IJwtService
 {

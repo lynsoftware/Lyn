@@ -18,7 +18,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     // - RoleClaims
 
     public DbSet<PasswordGeneratorUsageStatistic> PasswordGeneratorUsageStatistics { get; set; }
-    public DbSet<AppDownload> AppDownloads { get; set; }
+    public DbSet<AppRelease> AppReleases { get; set; }
     
     public DbSet<SupportTicket> SupportTickets { get; set; }
     
@@ -28,11 +28,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     
     {
         base.OnModelCreating(modelBuilder);
-        
-        // Bytes for FileData
-        modelBuilder.Entity<AppDownload>()
-            .Property(e => e.FileData)
-            .HasColumnType("bytea"); 
         
         
         // ==================== SupportTicket ====================

@@ -21,7 +21,7 @@ namespace PasswordGenerator.Resources.Strings {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AppResources {
+    public class AppResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -35,7 +35,7 @@ namespace PasswordGenerator.Resources.Strings {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PasswordGenerator.Resources.Strings.AppResources", typeof(AppResources).Assembly);
@@ -50,7 +50,7 @@ namespace PasswordGenerator.Resources.Strings {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -62,7 +62,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Secure and reliable password generation.
         /// </summary>
-        internal static string AppSubtitle {
+        public static string AppSubtitle {
             get {
                 return ResourceManager.GetString("AppSubtitle", resourceCulture);
             }
@@ -71,7 +71,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Password Generator.
         /// </summary>
-        internal static string AppTitle {
+        public static string AppTitle {
             get {
                 return ResourceManager.GetString("AppTitle", resourceCulture);
             }
@@ -80,7 +80,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Copy to Clipboard.
         /// </summary>
-        internal static string CopyToClipboard {
+        public static string CopyToClipboard {
             get {
                 return ResourceManager.GetString("CopyToClipboard", resourceCulture);
             }
@@ -89,7 +89,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Dark.
         /// </summary>
-        internal static string Dark {
+        public static string Dark {
             get {
                 return ResourceManager.GetString("Dark", resourceCulture);
             }
@@ -98,7 +98,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Generated Password.
         /// </summary>
-        internal static string GeneratedPassword {
+        public static string GeneratedPassword {
             get {
                 return ResourceManager.GetString("GeneratedPassword", resourceCulture);
             }
@@ -107,7 +107,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Generate Password.
         /// </summary>
-        internal static string GeneratePassword {
+        public static string GeneratePassword {
             get {
                 return ResourceManager.GetString("GeneratePassword", resourceCulture);
             }
@@ -116,7 +116,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Help/About.
         /// </summary>
-        internal static string Help {
+        public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
             }
@@ -128,7 +128,7 @@ namespace PasswordGenerator.Resources.Strings {
         ///You don&apos;t need to remember hundreds of passwords or rely on cloud services - just remember one master password and use simple seeds for each account.
         ///Neither the master password, the seed, nor the generated password is stored, so mali [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string HelpText {
+        public static string HelpText {
             get {
                 return ResourceManager.GetString("HelpText", resourceCulture);
             }
@@ -137,7 +137,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Include special characters (!@#$%&amp;*-_+=).
         /// </summary>
-        internal static string IncludeSpecialChars {
+        public static string IncludeSpecialChars {
             get {
                 return ResourceManager.GetString("IncludeSpecialChars", resourceCulture);
             }
@@ -146,16 +146,25 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
-        internal static string Language {
+        public static string Language {
             get {
                 return ResourceManager.GetString("Language", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Length must be between {0} and {1}.
+        /// </summary>
+        public static string LengthValidationError {
+            get {
+                return ResourceManager.GetString("LengthValidationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Light .
         /// </summary>
-        internal static string Light {
+        public static string Light {
             get {
                 return ResourceManager.GetString("Light", resourceCulture);
             }
@@ -164,16 +173,25 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Master Password.
         /// </summary>
-        internal static string MasterPassword {
+        public static string MasterPassword {
             get {
                 return ResourceManager.GetString("MasterPassword", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Master password cannot be empty.
+        /// </summary>
+        public static string MasterPasswordEmpty {
+            get {
+                return ResourceManager.GetString("MasterPasswordEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter your master password.
         /// </summary>
-        internal static string MasterPasswordPlaceholder {
+        public static string MasterPasswordPlaceholder {
             get {
                 return ResourceManager.GetString("MasterPasswordPlaceholder", resourceCulture);
             }
@@ -182,7 +200,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Master password is required.
         /// </summary>
-        internal static string MasterPasswordRequired {
+        public static string MasterPasswordRequired {
             get {
                 return ResourceManager.GetString("MasterPasswordRequired", resourceCulture);
             }
@@ -191,7 +209,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Password Length (8-256).
         /// </summary>
-        internal static string PasswordLength {
+        public static string PasswordLength {
             get {
                 return ResourceManager.GetString("PasswordLength", resourceCulture);
             }
@@ -200,7 +218,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Seed.
         /// </summary>
-        internal static string Seed {
+        public static string Seed {
             get {
                 return ResourceManager.GetString("Seed", resourceCulture);
             }
@@ -209,7 +227,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Enter a seed.
         /// </summary>
-        internal static string SeedPlaceholder {
+        public static string SeedPlaceholder {
             get {
                 return ResourceManager.GetString("SeedPlaceholder", resourceCulture);
             }
@@ -218,7 +236,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Seed is required.
         /// </summary>
-        internal static string SeedRequired {
+        public static string SeedRequired {
             get {
                 return ResourceManager.GetString("SeedRequired", resourceCulture);
             }
@@ -227,7 +245,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Select Language.
         /// </summary>
-        internal static string SelectLanguage {
+        public static string SelectLanguage {
             get {
                 return ResourceManager.GetString("SelectLanguage", resourceCulture);
             }
@@ -236,7 +254,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Select Theme.
         /// </summary>
-        internal static string SelectTheme {
+        public static string SelectTheme {
             get {
                 return ResourceManager.GetString("SelectTheme", resourceCulture);
             }
@@ -245,7 +263,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
-        internal static string Settings {
+        public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
             }
@@ -254,7 +272,7 @@ namespace PasswordGenerator.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Theme.
         /// </summary>
-        internal static string Theme {
+        public static string Theme {
             get {
                 return ResourceManager.GetString("Theme", resourceCulture);
             }

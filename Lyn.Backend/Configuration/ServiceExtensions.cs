@@ -1,9 +1,13 @@
-﻿using Lyn.Backend.Configuration.Options;
+﻿using Amazon.Runtime;
+using Amazon.S3;
+using Lyn.Backend.Configuration.Options;
 using Lyn.Backend.Data;
 using Lyn.Backend.Middleware;
 using Lyn.Backend.Models;
 using Lyn.Backend.Repository;
 using Lyn.Backend.Services;
+using Lyn.Backend.Services.Interface;
+using Lyn.Backend.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +29,9 @@ public static class ServiceExtensions
   {
       // Logging
       builder.AddLogging();
+
+      // AWS (S3)
+      builder.AddAWS();
       
       // Database
       builder.Services.AddDatabase(builder.Configuration);
@@ -80,6 +87,31 @@ public static class ServiceExtensions
       });
     
       return services;
+  }
+  
+  /// <summary>
+  /// Registrerer AWS (S3)
+  /// </summary>
+  private static WebApplicationBuilder AddAWS(this WebApplicationBuilder builder)
+  {
+      var awsOptions = builder.Configuration.GetAWSOptions();
+      
+      // Bruker appsetttings AccessKey/SecretKey til dev S3-bucket i development
+      if (builder.Environment.IsDevelopment())
+      {
+          var accessKey = builder.Configuration["AWS:AccessKey"];
+          var secretKey = builder.Configuration["AWS:SecretKey"];
+        
+          if (!string.IsNullOrEmpty(accessKey) && !string.IsNullOrEmpty(secretKey))
+          {
+              awsOptions.Credentials = new BasicAWSCredentials(accessKey, secretKey);
+          }
+      }
+      
+      builder.Services.AddDefaultAWSOptions(awsOptions); 
+      builder.Services.AddAWSService<IAmazonS3>();
+    
+      return builder;
   }
 
   
@@ -169,7 +201,7 @@ public static class ServiceExtensions
       services.AddEndpointsApiExplorer();
       services.AddSwaggerGen(options =>
       { 
-          // Lager er jwtSecurityScheme
+          // Lager en jwtSecurityScheme
           var jwtSecurityScheme = new OpenApiSecurityScheme
           {
               // Setter det at bearer skal inneholde JWT
@@ -197,16 +229,29 @@ public static class ServiceExtensions
           options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
           {
               {
-                  new OpenApiSecuritySchemeReference(
-                      JwtBearerDefaults.AuthenticationScheme,
-                      document),
+                  new OpenApiSecuritySchemeReference(JwtBearerDefaults.AuthenticationScheme, document),
+                  []
+              }
+          });
+          
+          // API Key for GitHub release uploads
+          options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+          {
+              Name = "X-Api-Key",
+              Type = SecuritySchemeType.ApiKey,
+              In = ParameterLocation.Header,
+              Description = "API Key for release uploads (GitHub Actions)"
+          });
+
+          options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+          {
+              {
+                  new OpenApiSecuritySchemeReference("ApiKey", document),
                   []
               }
           });
       });
-
-
-     
+      
       return services;
   }
   
@@ -245,17 +290,24 @@ public static class ServiceExtensions
       
       // Services
       services.AddScoped<IPasswordService, PasswordService>();
-      services.AddScoped<IDownloadService, DownloadService>();
       services.AddScoped<IAuthService, AuthService>();
-      services.AddScoped<ISupportTicketService, SupportTicketTicketService>();
+      services.AddScoped<ISupportTicketService, SupportTicketService>();
+      services.AddScoped<IReleaseService, ReleaseService>();
+      services.AddScoped<IStorageService, S3StorageService>();
+      
+      
+      
       
     
       // Repository
       services.AddScoped<IStatisticsRepository, StatisticsRepository>();
-      services.AddScoped<IDownloadRepository, DownloadRepository>();
       services.AddScoped<ISupportRepository, SupportRepository>();
+      services.AddScoped<IReleaseRepository, ReleaseRepository>();
       
       
+      
+      // Validators
+      services.AddScoped<IFileValidator, FileValidator>();
       
       // Database Seeder
       services.AddScoped<DatabaseSeeder>();

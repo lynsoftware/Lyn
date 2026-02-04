@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Lyn.Backend.Configuration.Options;
+using Lyn.Backend.Services.Interface;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 

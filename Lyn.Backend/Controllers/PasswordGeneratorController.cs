@@ -1,4 +1,5 @@
 ﻿using Lyn.Backend.Services;
+using Lyn.Backend.Services.Interface;
 using Lyn.Shared.Models;
 using Lyn.Shared.Models.Request;
 using Lyn.Shared.Models.Response;

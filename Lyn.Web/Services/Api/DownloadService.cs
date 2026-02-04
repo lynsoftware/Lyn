@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Json;
-using Lyn.Shared.Models;
 using Lyn.Shared.Models.Response;
 using Lyn.Shared.Result;
+using Lyn.Web.DTOs;
 
 namespace Lyn.Web.Services.Api;
 
@@ -53,31 +53,31 @@ public class DownloadService(HttpClient httpClient,
     }
     
     // See interface for summary
-    public async Task<Result<List<DownloadResponse>>> GetLatestDownloadsAsync(
+    public async Task<Result<List<AppReleaseResponse>>> GetLatestDownloadsAsync(
         CancellationToken cancellationToken = default)
     {
         try
         {
-            var downloads = await httpClient.GetFromJsonAsync<List<DownloadResponse>>(
+            var downloads = await httpClient.GetFromJsonAsync<List<AppReleaseResponse>>(
                 "api/download/latest", cancellationToken);
 
             if (downloads == null)
             {
                 logger.LogError("Failed to deserialize download list");
-                return Result<List<DownloadResponse>>.Failure("Could not retrieve downloads. Try again later");
+                return Result<List<AppReleaseResponse>>.Failure("Could not retrieve downloads. Try again later");
             }
             
-            return Result<List<DownloadResponse>>.Success(downloads);
+            return Result<List<AppReleaseResponse>>.Success(downloads);
         }
         catch (HttpRequestException ex)
         {
             logger.LogError(ex, "HTTP request failed when getting latest downloads");
-            return Result<List<DownloadResponse>>.Failure("Could not retrieve downloads");
+            return Result<List<AppReleaseResponse>>.Failure("Could not retrieve downloads");
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Unexpected error when getting latest downloads");
-            return Result<List<DownloadResponse>>.Failure("Unexpected error occurred");
+            return Result<List<AppReleaseResponse>>.Failure("Unexpected error occurred");
         }
     }
 }

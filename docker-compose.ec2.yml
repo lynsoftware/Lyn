@@ -18,6 +18,9 @@ services:
       - AdminUser__Email=${ADMIN_USER_EMAIL}
       - AdminUser__Password=${ADMIN_USER_PASSWORD}
       - Resend__ApiKey=${RESEND_API_KEY}
+      - AWS__BucketName=${AWS_BUCKET_NAME}
+      - AWS__Region=${AWS_REGION}
+      - ReleaseApiKey=${RELEASE_API_KEY}
     depends_on:
       database:
         condition: service_healthy

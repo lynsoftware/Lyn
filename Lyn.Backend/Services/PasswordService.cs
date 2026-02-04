@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Konscious.Security.Cryptography;
 using Lyn.Backend.Repository;
+using Lyn.Backend.Services.Interface;
 using Lyn.Shared.Configuration;
 using Lyn.Shared.Models;
 using Lyn.Shared.Models.Request;

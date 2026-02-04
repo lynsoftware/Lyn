@@ -200,17 +200,17 @@
     {
         _fileError = string.Empty;
 
-        var newFiles = e.GetMultipleFiles(FileSupportTicketUploadConstants.TicketMaxFileCount);
+        var newFiles = e.GetMultipleFiles(SupportTicketFileConfig.TicketMaxFileCount);
 
-        if (_selectedFiles.Count + newFiles.Count() > FileSupportTicketUploadConstants.TicketMaxFileCount)
+        if (_selectedFiles.Count + newFiles.Count() > SupportTicketFileConfig.TicketMaxFileCount)
         {
-            _fileError = Localizer["Support_Error_MaxFiles", FileSupportTicketUploadConstants.TicketMaxFileCount];
+            _fileError = Localizer["Support_Error_MaxFiles", SupportTicketFileConfig.TicketMaxFileCount];
             return;
         }
 
         foreach (var file in newFiles)
         {
-            if (file.Size > FileSupportTicketUploadConstants.TicketMaxFileSizeBytes)
+            if (file.Size > SupportTicketFileConfig.TicketMaxFileSizeBytes)
             {
                 _fileError = Localizer["Support_Error_FileSize", file.Name];
                 continue;

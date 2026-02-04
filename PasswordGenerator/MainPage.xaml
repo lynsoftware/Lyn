@@ -256,7 +256,9 @@
                                 FontSize="16"
                                 BackgroundColor="Transparent"
                                 TextColor="#2C3E50"
+                                TextChanged="OnLengthEntryTextChanged"
                                 Completed="OnLengthEntryCompleted"/>
+                            
                         </Border>
                     </Grid>
                     

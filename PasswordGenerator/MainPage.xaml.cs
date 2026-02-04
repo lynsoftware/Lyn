@@ -61,8 +61,21 @@ public partial class MainPage : ContentPage
     }
     
     /// <summary>
-    /// Updates both the slider and input field when the user manually enters a length value.
+    /// Updates the slider in real-time as the user types in the length entry field.
     /// Clamps the value within the allowed min/max range.
+    /// </summary>
+    private void OnLengthEntryTextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (int.TryParse(LengthEntry.Text, out int value))
+        {
+            int clampedValue = Math.Clamp(value, (int)LengthSlider.Minimum, (int)LengthSlider.Maximum);
+            LengthSlider.Value = clampedValue;
+        }
+    }
+
+    /// <summary>
+    /// Updates both the slider and input field when the user completes editing.
+    /// Ensures the displayed value is properly formatted.
     /// </summary>
     private void OnLengthEntryCompleted(object sender, EventArgs e)
     {
@@ -109,39 +122,71 @@ public partial class MainPage : ContentPage
                 SeedEntry.BackgroundColor = Color.FromRgba(255, 0, 0, 30);
                 return;
             }
-            
-            _ = ShakeButtonAsync(sender as Border);
-            
-            var result = _passwordService.GeneratePassword(request);
 
-            _generatedPassword = result.Value;
+            var button = sender as Border;
+
+            var cts = new CancellationTokenSource();
+            var startShakingTask = ContinuousShakeAsync(button, cts.Token);
+
+            try
+            {
+                var result = await _passwordService.GeneratePasswordAsync(request);
+
+                _generatedPassword = result.Value;
+
+                ResultLabel.Text = _generatedPassword;
+                CopyButtonBorder.IsVisible = true;
+                PasswordDisplayBox.IsVisible = true;
+
+                Preferences.Set(AppConstants.PreferenceKeyPasswordLength, request.Length);
+                Preferences.Set(AppConstants.PreferenceKeyIncludeSpecialChars, request.IncludeSpecialChars);
+            }
+            finally
+            {
+                cts.Cancel();
+                await startShakingTask;
+
+                if (button != null)
+                    await button.TranslateToAsync(0, 0, 100);
+            }
             
-            ResultLabel.Text = _generatedPassword;
-            CopyButtonBorder.IsVisible = true;
-            PasswordDisplayBox.IsVisible = true;
             
-            Preferences.Set(AppConstants.PreferenceKeyPasswordLength, request.Length);
-            Preferences.Set(AppConstants.PreferenceKeyIncludeSpecialChars, request.IncludeSpecialChars);
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Failed to generate password: {ex.Message}", "OK");
+            await DisplayAlertAsync("Error", $"Failed to generate password: {ex.Message}", "OK");
         }
     }
     
     /// <summary>
-    /// Creates a shake animation effect by rapidly translating the button left and right.
-    /// Provides visual feedback when the generate button is clicked.
+    /// Creates a continuous shake animation effect that runs until cancelled.
+    /// Provides visual feedback as a loading indicator while password is being generated.
     /// </summary>
-    private async Task ShakeButtonAsync(Border? button)
+    private async Task ContinuousShakeAsync(Border? button, CancellationToken cancellationToken)
     {
         if (button == null) return;
-    
-        await button.TranslateTo(-10, 0, 50);
-        await button.TranslateTo(10, 0, 50);
-        await button.TranslateTo(-10, 0, 50);
-        await button.TranslateTo(10, 0, 50);
-        await button.TranslateTo(0, 0, 50);
+
+        try
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                await button.TranslateToAsync(-10, 0, 50);
+                if (cancellationToken.IsCancellationRequested) break;
+
+                await button.TranslateToAsync(10, 0, 50);
+                if (cancellationToken.IsCancellationRequested) break;
+
+                await button.TranslateToAsync(-10, 0, 50);
+                if (cancellationToken.IsCancellationRequested) break;
+
+                await button.TranslateToAsync(10, 0, 50);
+                if (cancellationToken.IsCancellationRequested) break;
+            }
+        }
+        catch (TaskCanceledException)
+        {
+            // Exception when animation is cancelled
+        }
     }
     
     /// <summary>
@@ -168,7 +213,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Failed to copy password: {ex.Message}", "OK");
+            await DisplayAlertAsync("Error", $"Failed to copy password: {ex.Message}", "OK");
         }
     }
     

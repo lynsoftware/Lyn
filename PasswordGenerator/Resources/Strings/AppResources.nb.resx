@@ -105,6 +105,12 @@ Sikkerhetstips:
 - Bruk forskjellige seeds for ulike kontoer
 - Det anbefales å ikke notere hovedpassordet på enhetene dine
 - En Password Manager med flere lag gir enda mer sikkerhet, men det er bedre å ta en tur innom denne applikasjonen enn å skrive simple passord slik som "passord123"
-- Hold en liste over dine seeds (dette er trygt da de er verdiløse uten hovedpassordet)</value>
+- Hold en liste over dine seeds og lengde (dette er trygt da de er verdiløse uten hovedpassordet)</value>
+    </data>
+    <data name="MasterPasswordEmpty" xml:space="preserve">
+        <value>Hovedpassord må fylles ut</value>
+    </data>
+    <data name="LengthValidationError" xml:space="preserve">
+        <value>Lengden må være mellom {0} og {1}</value>
     </data>
 </root>
