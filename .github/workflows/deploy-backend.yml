@@ -39,7 +39,8 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --parameters 'commands=[
               "cd /home/ubuntu/Lyn",
-              "git pull origin main",
+              "git fetch origin",
+              "git reset --hard origin/main",
               "docker compose -f docker-compose.ec2.yml down",           
               "docker compose -f docker-compose.ec2.yml up -d --build",
               "echo Deployment completed"
