@@ -249,7 +249,7 @@ code {
 }
 
 .shake-animation {
-    animation: shake 0.5s;
+    animation: shake 0.5s infinite;
 }
 
 .password-generator-container {

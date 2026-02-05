@@ -1,9 +1,10 @@
 ﻿using System.Globalization;
 using Blazored.LocalStorage;
+using Microsoft.JSInterop;
 
 namespace Lyn.Web.Services;
 
-public class LocalizationService(ILocalStorageService localStorage) : ILocalizationService
+public class LocalizationService(ILocalStorageService localStorage,  IJSRuntime jsRuntime) : ILocalizationService
 {
     private const string LanguageKey = "selected-language";
     private string _currentLanguage = "en";
@@ -16,7 +17,16 @@ public class LocalizationService(ILocalStorageService localStorage) : ILocalizat
         try
         {
             var savedLanguage = await localStorage.GetItemAsStringAsync(LanguageKey);
-            _currentLanguage = string.IsNullOrEmpty(savedLanguage) ? "en" : savedLanguage.Trim('"');
+            
+            if (string.IsNullOrEmpty(savedLanguage))
+            {
+                _currentLanguage = await DetectBrowserLanguageAsync();
+                await localStorage.SetItemAsStringAsync(LanguageKey, _currentLanguage);
+            }
+            else
+            {
+                _currentLanguage = savedLanguage.Trim('"');
+            }
             
             SetCulture(_currentLanguage);
         }
@@ -24,6 +34,21 @@ public class LocalizationService(ILocalStorageService localStorage) : ILocalizat
         {
             _currentLanguage = "en";
             SetCulture("en");
+        }
+    }
+    
+    private async Task<string> DetectBrowserLanguageAsync()
+    {
+        try
+        {
+            var browserLang = await jsRuntime.InvokeAsync<string>(
+                "eval", "navigator.language.substring(0, 2)");
+
+            return browserLang is "nb" or "nn" or "no" ? "no" : "en";
+        }
+        catch
+        {
+            return "en";
         }
     }
 
