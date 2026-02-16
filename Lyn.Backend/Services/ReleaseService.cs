@@ -5,7 +5,6 @@ using Lyn.Backend.Repository;
 using Lyn.Backend.Services.Interface;
 using Lyn.Backend.Validators;
 using Lyn.Shared.Enum;
-using Lyn.Shared.Models;
 using Lyn.Shared.Models.Response;
 using Lyn.Shared.Result;
 
@@ -138,5 +137,4 @@ public class ReleaseService(
             FileName = $"{appRelease.Type}-{appRelease.Version}{appRelease.FileExtension}"
         });
     }
-
 }
