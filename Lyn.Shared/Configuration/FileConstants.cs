@@ -47,6 +47,9 @@ public static class FileConstants
     /// </summary>
     public static readonly HashSet<string> SkipMagicByteValidation = [
         ".ipa", // iOS
+        ".aab", // Android App Bundle
+        ".pkg", // macOS package
+        ".dmg", // macOS disk image
         ".enc", // 
         ".txt", // Tekstfiler har ingen magic bytes
         ".log"  // Loggfiler har ingen magic bytes

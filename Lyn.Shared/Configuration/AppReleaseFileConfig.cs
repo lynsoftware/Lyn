@@ -32,7 +32,8 @@ public class AppReleaseFileConfig
         [ReleaseType.AndroidApk] = ".apk",
         [ReleaseType.AndroidPlayStore] = ".aab",
         [ReleaseType.iOS] = ".ipa",
-        [ReleaseType.MacOS] = ".dmg"  // eller .pkg - velg primær
+        [ReleaseType.MacOS] = ".pkg",
+        [ReleaseType.MacOSDmg] = ".dmg"
     };
     
     /// <summary>

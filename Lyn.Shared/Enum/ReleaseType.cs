@@ -11,8 +11,10 @@ public enum ReleaseType
     AndroidPlayStore,    // .aab
     
     // Apple
-    MacOS,               // .pkg/.dmg
-    iOS,                  // .ipa
+    iOS,                 // .ipa
+    MacOS,               // .pkg for Mac App Store
+    MacOSDmg,            // .dmg for website download
+    
     
     // Linux
     Linux
