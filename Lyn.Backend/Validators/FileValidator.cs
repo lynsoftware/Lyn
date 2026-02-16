@@ -203,6 +203,4 @@ public class FileValidator(ILogger<FileValidator> logger) : IFileValidator
             $"File content does not match expected format for '{extension}'. " +
             "The file may be corrupted or incorrectly named.");
     }
-    
-    
 }

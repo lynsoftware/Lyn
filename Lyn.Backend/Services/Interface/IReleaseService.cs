@@ -1,6 +1,5 @@
 ﻿using Lyn.Backend.DTOs;
 using Lyn.Backend.DTOs.Request;
-using Lyn.Shared.Models;
 using Lyn.Shared.Models.Response;
 using Lyn.Shared.Result;
 
