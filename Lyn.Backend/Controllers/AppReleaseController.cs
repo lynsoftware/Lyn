@@ -53,7 +53,8 @@ public class AppReleaseController(IReleaseService releaseService) : BaseControll
         
         if (result.IsFailure)
             return HandleFailure(result);
-
+        
+        
         return Ok(result.Value);
     }
     
