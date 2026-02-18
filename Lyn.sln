@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyn.Shared", "Lyn.Shared\Ly
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PasswordGenerator", "PasswordGenerator\PasswordGenerator.csproj", "{D0739627-B87C-DFC0-57C8-2AD2079432B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyn.Tests", "Lyn.Tests\Lyn.Tests.csproj", "{7DB1A1D7-25B8-4FA8-BD82-DB451EB5AA78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{D0739627-B87C-DFC0-57C8-2AD2079432B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0739627-B87C-DFC0-57C8-2AD2079432B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D0739627-B87C-DFC0-57C8-2AD2079432B2}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7DB1A1D7-25B8-4FA8-BD82-DB451EB5AA78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DB1A1D7-25B8-4FA8-BD82-DB451EB5AA78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DB1A1D7-25B8-4FA8-BD82-DB451EB5AA78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DB1A1D7-25B8-4FA8-BD82-DB451EB5AA78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -81,10 +81,16 @@ public static class ServiceExtensions
       var connectionString = configuration.GetConnectionString("DefaultConnection")
                              ?? throw new InvalidOperationException("No DefaultConnection in appsettings.json");
 
-      services.AddDbContext<AppDbContext>(options =>
+      if (connectionString == "InMemory")
       {
-          options.UseNpgsql(connectionString);
-      });
+          services.AddDbContext<AppDbContext>(options =>
+              options.UseInMemoryDatabase($"TestDb-{Guid.NewGuid()}"));
+      }
+      else
+      {
+          services.AddDbContext<AppDbContext>(options =>
+              options.UseNpgsql(connectionString));
+      }
     
       return services;
   }
@@ -289,7 +295,7 @@ public static class ServiceExtensions
       
       
       // Services
-      services.AddScoped<IPasswordService, PasswordService>();
+      services.AddScoped<IPasswordGeneratorService, PasswordGeneratorService>();
       services.AddScoped<IAuthService, AuthService>();
       services.AddScoped<ISupportTicketService, SupportTicketService>();
       services.AddScoped<IReleaseService, ReleaseService>();

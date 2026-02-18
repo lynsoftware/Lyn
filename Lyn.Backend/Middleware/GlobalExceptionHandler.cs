@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lyn.Backend.Middleware;
 
@@ -18,7 +20,11 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
         var (status, title, detail) = exception switch
         {
             ArgumentException argEx => (StatusCodes.Status400BadRequest, "Bad Request", argEx.Message),
-            KeyNotFoundException => (StatusCodes.Status404NotFound, "Not Found", "The requested resource was not found."),
+            KeyNotFoundException => (StatusCodes.Status404NotFound, "Not Found", exception.Message),
+            UnauthorizedAccessException ex => (StatusCodes.Status403Forbidden, "Forbidden", ex.Message),
+            ValidationException ex => (StatusCodes.Status400BadRequest, "Validation Error", ex.Message),
+            DbUpdateException => (StatusCodes.Status409Conflict, "Database Conflict", 
+                "A conflict occurred while saving data. The resource may have been modified or deleted."),
             _ => (StatusCodes.Status500InternalServerError, "Server Error", "An unexpected error occurred.")
         };
 
