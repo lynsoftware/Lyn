@@ -28,6 +28,7 @@
       <ProjectReference Include="..\Lyn.Backend\Lyn.Backend.csproj" />
       <ProjectReference Include="..\Lyn.Shared\Lyn.Shared.csproj" />
       <ProjectReference Include="..\Lyn.Web\Lyn.Web.csproj" />
+      <ProjectReference Include="..\PasswordGenerator.Core\PasswordGenerator.Core.csproj" />
     </ItemGroup>
 
 </Project>
