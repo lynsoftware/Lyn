@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using PasswordGenerator.Core.Services;
 using PasswordGenerator.Pages;
-using PasswordGenerator.Services;
+
 
 namespace PasswordGenerator;
 
@@ -8,6 +9,11 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
+        AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+        {
+            Console.WriteLine($"UNHANDLED: {args.ExceptionObject}");
+        };
+        
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()

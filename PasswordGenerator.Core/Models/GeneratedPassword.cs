@@ -1,4 +1,4 @@
-﻿namespace PasswordGenerator.Models;
+﻿namespace PasswordGenerator.Core.Models;
 
 /// <summary>
 /// Represents the result of a password generation operation.

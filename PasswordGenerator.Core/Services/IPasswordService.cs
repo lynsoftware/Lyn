@@ -1,6 +1,6 @@
-﻿using PasswordGenerator.Models;
+﻿using PasswordGenerator.Core.Models;
 
-namespace PasswordGenerator.Services;
+namespace PasswordGenerator.Core.Services;
 
 public interface IPasswordService
 {

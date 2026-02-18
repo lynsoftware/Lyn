@@ -1,4 +1,4 @@
-﻿namespace PasswordGenerator.Configuration;
+﻿namespace PasswordGenerator.Core.Configuration;
 
 /// <summary>
 /// Constants that are reused in several components
