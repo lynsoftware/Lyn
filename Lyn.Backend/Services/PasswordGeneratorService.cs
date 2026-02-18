@@ -10,9 +10,9 @@ using Lyn.Shared.Result;
 
 namespace Lyn.Backend.Services;
 
-public class PasswordService(
-    ILogger<PasswordService> logger,
-    IServiceScopeFactory serviceScopeFactory) : IPasswordService
+public class PasswordGeneratorGeneratorService(
+    ILogger<PasswordGeneratorGeneratorService> logger,
+    IServiceScopeFactory serviceScopeFactory) : IPasswordGeneratorService
 {
     // Check interface for summary
     public async Task<Result<PasswordGenerationResponse>> GeneratePasswordAsync(PasswordGenerationRequest request)

@@ -4,7 +4,7 @@ using Lyn.Shared.Result;
 
 namespace Lyn.Backend.Services.Interface;
 
-public interface IPasswordService
+public interface IPasswordGeneratorService
 {
     /// <summary>
     /// Generates a deterministic password using Argon2id hashing algorithm.
