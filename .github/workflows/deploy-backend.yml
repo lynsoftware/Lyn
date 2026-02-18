@@ -38,11 +38,12 @@ jobs:
             --instance-ids ${{ steps.get-instance.outputs.instance_id }} \
             --document-name "AWS-RunShellScript" \
             --parameters 'commands=[
+              "sudo -u ubuntu git -C /home/ubuntu/Lyn fetch origin",
+              "sudo -u ubuntu git -C /home/ubuntu/Lyn reset --hard origin/main",
               "cd /home/ubuntu/Lyn",
-              "git fetch origin",
-              "git reset --hard origin/main",
               "docker compose -f docker-compose.ec2.yml down",
-              "docker compose -f docker-compose.ec2.yml up -d --build",
+              "docker compose -f docker-compose.ec2.yml build --no-cache",
+              "docker compose -f docker-compose.ec2.yml up -d",
               "echo Deployment completed"
             ]' \
             --region eu-north-1 \
