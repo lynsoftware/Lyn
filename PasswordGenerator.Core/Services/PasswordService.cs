@@ -4,6 +4,7 @@ using PasswordGenerator.Configuration;
 using PasswordGenerator.Models;
 using PasswordGenerator.Resources.Strings;
 
+
 namespace PasswordGenerator.Services;
 
 public class PasswordService : IPasswordService
@@ -23,6 +24,7 @@ public class PasswordService : IPasswordService
                     AppConstants.PasswordMinLength, 
                     AppConstants.PasswordMaxLength),
                 nameof(request.Length));
+        
         
         return await Task.Run(() =>
         {
