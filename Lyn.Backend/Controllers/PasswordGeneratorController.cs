@@ -1,6 +1,5 @@
-﻿using Lyn.Backend.Services;
+﻿
 using Lyn.Backend.Services.Interface;
-using Lyn.Shared.Models;
 using Lyn.Shared.Models.Request;
 using Lyn.Shared.Models.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +8,7 @@ namespace Lyn.Backend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class PasswordGeneratorController(IPasswordService passwordService) : BaseController
+public class PasswordGeneratorController(IPasswordGeneratorService passwordGeneratorService) : BaseController
 {   
     /// <summary>
     /// Endepunkt som genererer et passord for brukeren
@@ -22,7 +21,7 @@ public class PasswordGeneratorController(IPasswordService passwordService) : Bas
     public async Task<IActionResult> GeneratePassword(
         [FromBody] PasswordGenerationRequest request)
     {
-        var result = await passwordService.GeneratePasswordAsync(request);
+        var result = await passwordGeneratorService.GeneratePasswordAsync(request);
         
         if (result.IsFailure)
             return HandleFailure(result);

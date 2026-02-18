@@ -3,15 +3,14 @@ using Konscious.Security.Cryptography;
 using Lyn.Backend.Repository;
 using Lyn.Backend.Services.Interface;
 using Lyn.Shared.Configuration;
-using Lyn.Shared.Models;
 using Lyn.Shared.Models.Request;
 using Lyn.Shared.Models.Response;
 using Lyn.Shared.Result;
 
 namespace Lyn.Backend.Services;
 
-public class PasswordGeneratorGeneratorService(
-    ILogger<PasswordGeneratorGeneratorService> logger,
+public class PasswordGeneratorService(
+    ILogger<PasswordGeneratorService> logger,
     IServiceScopeFactory serviceScopeFactory) : IPasswordGeneratorService
 {
     // Check interface for summary

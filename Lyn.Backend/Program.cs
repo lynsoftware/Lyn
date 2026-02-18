@@ -36,9 +36,17 @@ using (var scope = app.Services.CreateScope())
     
     try
     {
-        Log.Information("Applying database migrations...");
-        await dbContext.Database.MigrateAsync();
-        Log.Information("Database migrations applied successfully");
+        if (dbContext.Database.IsRelational())
+        {
+            Log.Information("Applying database migrations...");
+            await dbContext.Database.MigrateAsync();
+            Log.Information("Database migrations applied successfully");
+        }
+        else
+        {
+            // In-memory database for testing
+            await dbContext.Database.EnsureCreatedAsync();
+        }
     }
     catch (Exception ex)
     {
@@ -55,3 +63,5 @@ app.ConfigureMiddleware();
 
 // ============================================== 5. RUN ==============================================
 app.Run();
+
+public partial class Program;
