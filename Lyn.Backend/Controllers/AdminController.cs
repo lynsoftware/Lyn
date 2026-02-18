@@ -23,7 +23,6 @@ public class AdminController(IAuthService authService) : BaseController
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var result = await authService.LoginAsync(request);
-        
         if (result.IsFailure)
             return HandleFailure(result);
       
