@@ -1,7 +1,4 @@
-﻿using Microsoft.Maui.ApplicationModel;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Storage;
-using PasswordGenerator.Configuration;
+﻿using PasswordGenerator.Configuration;
 
 
 
@@ -23,7 +20,7 @@ public partial class SettingsPage : ContentPage
         var culture = new System.Globalization.CultureInfo("en");
         System.Globalization.CultureInfo.CurrentUICulture = culture;
         System.Globalization.CultureInfo.CurrentCulture = culture;
-        Preferences.Set(AppConstants.PreferenceKeyAppLanguage, "en");
+        Preferences.Set(PreferenceKeys.AppLanguage, "en");
         
         RestartApp();
     }
@@ -37,7 +34,7 @@ public partial class SettingsPage : ContentPage
         var culture = new System.Globalization.CultureInfo("nb");
         System.Globalization.CultureInfo.CurrentUICulture = culture;
         System.Globalization.CultureInfo.CurrentCulture = culture;
-        Preferences.Set(AppConstants.PreferenceKeyAppLanguage, "nb"); 
+        Preferences.Set(PreferenceKeys.AppLanguage, "nb"); 
         
         RestartApp();
     }
@@ -51,7 +48,7 @@ public partial class SettingsPage : ContentPage
         if (Application.Current != null)
         {
             Application.Current.UserAppTheme = AppTheme.Light;
-            Preferences.Set(AppConstants.PreferenceKeyAppTheme, "Light");
+            Preferences.Set(PreferenceKeys.AppTheme, "Light");
         }
     }
     
@@ -64,7 +61,7 @@ public partial class SettingsPage : ContentPage
         if (Application.Current != null)
         {
             Application.Current.UserAppTheme = AppTheme.Dark;
-            Preferences.Set(AppConstants.PreferenceKeyAppTheme, "Dark");
+            Preferences.Set(PreferenceKeys.AppTheme, "Dark");
         }
     }
     

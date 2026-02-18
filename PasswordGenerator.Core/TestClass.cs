@@ -1,6 +1,9 @@
 ﻿namespace PasswordGenerator.Core;
 
-public class TestClass
+public static class TestClass
 {
-    
+    public static void Test1()
+    {
+        Console.WriteLine("Test!");
+    }
 }

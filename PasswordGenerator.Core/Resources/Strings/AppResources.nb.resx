@@ -113,4 +113,7 @@ Sikkerhetstips:
     <data name="LengthValidationError" xml:space="preserve">
         <value>Lengden må være mellom {0} og {1}</value>
     </data>
+    <data name="Dsadsadsa" xml:space="preserve">
+        <value>dsadad</value>
+    </data>
 </root>

@@ -110,4 +110,7 @@ Keep a list of your seeds and length (this is safe as they are worthless without
     <data name="LengthValidationError" xml:space="preserve">
         <value>Length must be between {0} and {1}</value>
     </data>
+    <data name="Dsadsadsa" xml:space="preserve">
+        <value>dsada</value>
+    </data>
 </root>

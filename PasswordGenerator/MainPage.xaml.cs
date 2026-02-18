@@ -1,7 +1,8 @@
 ﻿using PasswordGenerator.Configuration;
-using PasswordGenerator.Models;
+using PasswordGenerator.Core.Configuration;
+using PasswordGenerator.Core.Models;
+using PasswordGenerator.Core.Services;
 using PasswordGenerator.Pages;
-using PasswordGenerator.Services;
 namespace PasswordGenerator;
 
 public partial class MainPage : ContentPage
@@ -37,7 +38,7 @@ public partial class MainPage : ContentPage
         TogglePasswordButton.Text =
             MasterPasswordEntry.IsPassword ? "\uf06e" : "\uf070";
 
-        Preferences.Set(AppConstants.PreferenceKeyPasswordVisible, !MasterPasswordEntry.IsPassword);
+        Preferences.Set(PreferenceKeys.PasswordVisible, !MasterPasswordEntry.IsPassword);
     }
     
     /// <summary>
@@ -138,8 +139,8 @@ public partial class MainPage : ContentPage
                 CopyButtonBorder.IsVisible = true;
                 PasswordDisplayBox.IsVisible = true;
 
-                Preferences.Set(AppConstants.PreferenceKeyPasswordLength, request.Length);
-                Preferences.Set(AppConstants.PreferenceKeyIncludeSpecialChars, request.IncludeSpecialChars);
+                Preferences.Set(PreferenceKeys.PasswordLength, request.Length);
+                Preferences.Set(PreferenceKeys.IncludeSpecialChars, request.IncludeSpecialChars);
             }
             finally
             {
@@ -259,16 +260,16 @@ public partial class MainPage : ContentPage
     /// </summary>
     private void LoadPreferences()
     {
-        bool passwordVisible = Preferences.Get(AppConstants.PreferenceKeyPasswordVisible, false);
+        bool passwordVisible = Preferences.Get(PreferenceKeys.PasswordVisible, false);
         MasterPasswordEntry.IsPassword = !passwordVisible;
         TogglePasswordButton.Text = MasterPasswordEntry.IsPassword ? "\uf06e" : "\uf070";
 
-        int savedLength = Preferences.Get(AppConstants.PreferenceKeyPasswordLength, 
+        int savedLength = Preferences.Get(PreferenceKeys.PasswordLength, 
             AppConstants.PasswordDefaultLength);
         LengthSlider.Value = savedLength;
         LengthEntry.Text = savedLength.ToString();
 
-        bool includeSpecialChars = Preferences.Get(AppConstants.PreferenceKeyIncludeSpecialChars, 
+        bool includeSpecialChars = Preferences.Get(PreferenceKeys.IncludeSpecialChars, 
             AppConstants.PasswordDefaultIncludeSpecialChars);
         SpecialCharsCheckBox.IsChecked = includeSpecialChars;
     }

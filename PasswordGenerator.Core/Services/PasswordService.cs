@@ -1,11 +1,12 @@
 ﻿using System.Text;
 using Konscious.Security.Cryptography;
-using PasswordGenerator.Configuration;
-using PasswordGenerator.Models;
-using PasswordGenerator.Resources.Strings;
+using PasswordGenerator.Core.Configuration;
+using PasswordGenerator.Core.Models;
+using PasswordGenerator.Core.Resources.Strings;
 
 
-namespace PasswordGenerator.Services;
+
+namespace PasswordGenerator.Core.Services;
 
 public class PasswordService : IPasswordService
 {

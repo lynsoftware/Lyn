@@ -1,4 +1,4 @@
-﻿namespace PasswordGenerator.Models;
+﻿namespace PasswordGenerator.Core.Models;
 
 /// <summary>
 /// Represents the input parameters required for deterministic password generation using Argon2id.
