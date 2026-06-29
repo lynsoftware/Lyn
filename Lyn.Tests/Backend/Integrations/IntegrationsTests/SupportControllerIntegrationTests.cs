@@ -4,14 +4,21 @@ using Lyn.Shared.Configuration;
 
 namespace Lyn.Tests.Backend.Integrations.IntegrationsTests;
 
-public class SupportControllerIntegrationTests : IClassFixture<LynBackendApplicationFactory>
+[Collection(nameof(IntegrationTestsCollection))]
+public class SupportControllerIntegrationTests : IAsyncLifetime
 {
     private readonly HttpClient _client;
+    private readonly LynBackendApplicationFactory _factory;
 
     public SupportControllerIntegrationTests(LynBackendApplicationFactory factory)
     {
+        _factory = factory;
         _client = factory.CreateClient();
     }
+
+    public Task InitializeAsync() => Task.CompletedTask;
+
+    public async Task DisposeAsync() => await _factory.ResetDatabaseAsync();
 
     private static MultipartFormDataContent CreateValidTicketContent()
     {

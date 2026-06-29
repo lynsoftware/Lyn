@@ -3,11 +3,16 @@ using System.Net.Http.Headers;
 
 namespace Lyn.Tests.Backend.Integrations.IntegrationsTests;
 
+[Collection(nameof(IntegrationTestsCollection))]
 public class AppReleaseControllerIntegrationTests(LynBackendApplicationFactory factory)
-    : IClassFixture<LynBackendApplicationFactory>
+    : IAsyncLifetime
 {
     private readonly HttpClient _client = factory.CreateClient();
     private const string ApiKey = "test-release-key"; // Matcher factory-konfigurasjonen
+
+    public Task InitializeAsync() => Task.CompletedTask;
+
+    public async Task DisposeAsync() => await factory.ResetDatabaseAsync();
 
     private static MultipartFormDataContent CreateValidUploadContent()
     {

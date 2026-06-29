@@ -6,10 +6,15 @@ using Lyn.Shared.Models.Response;
 
 namespace Lyn.Tests.Backend.Integrations.IntegrationsTests;
 
+[Collection(nameof(IntegrationTestsCollection))]
 public class PasswordGeneratorControllerIntegrationTests(LynBackendApplicationFactory factory)
-    : IClassFixture<LynBackendApplicationFactory>
+    : IAsyncLifetime
 {
     private readonly HttpClient _client = factory.CreateClient();
+
+    public Task InitializeAsync() => Task.CompletedTask;
+
+    public async Task DisposeAsync() => await factory.ResetDatabaseAsync();
 
     private static StringContent CreateJsonContent(object obj) =>
         new(JsonSerializer.Serialize(obj), Encoding.UTF8, "application/json");

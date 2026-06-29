@@ -1,5 +1,5 @@
-﻿using Lyn.Backend.Controllers;
-using Lyn.Backend.Services.Interface;
+﻿using Lyn.Backend.Apps.PasswordGenerator.Controllers;
+using Lyn.Backend.Apps.PasswordGenerator.Services;
 using Lyn.Shared.Models.Request;
 using Lyn.Shared.Models.Response;
 using Lyn.Shared.Result;

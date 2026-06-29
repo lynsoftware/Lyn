@@ -1,0 +1,36 @@
+# Dev-database for "dotnet run"-arbeidsflyten (Fase 1).
+# Kjorer KUN Postgres 18-alpine slik at backend kjores pa host (ikke i container).
+# Speiler prod-motoren i docker-compose.ec2.yml (postgres:18-alpine).
+#
+#   docker compose -f docker-compose.dev.yml up -d      # start
+#   docker compose -f docker-compose.dev.yml down        # stopp (behold data)
+#   docker compose -f docker-compose.dev.yml down -v     # stopp + slett data
+#
+# Variabler leses fra .env (POSTGRES_DB/USER/PASSWORD). Defaults gjor at fila
+# fungerer selv uten .env.
+#
+# Eget prosjektnavn (lyn-dev) holder dette isolert fra full-stack
+# docker-compose.yml (prosjekt "lyn"), sa de to ikke rorer hverandre.
+name: lyn-dev
+
+services:
+  database:
+    container_name: lyn-database-dev
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-lyndb}
+      POSTGRES_USER: ${POSTGRES_USER:-lynuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-SuperSecurePassword123!}
+    ports:
+      - "5432:5432"
+    volumes:
+      - lyn_postgres_data_dev:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-lynuser} -d ${POSTGRES_DB:-lyndb}"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  lyn_postgres_data_dev:

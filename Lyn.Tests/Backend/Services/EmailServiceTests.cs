@@ -1,4 +1,4 @@
-﻿using Lyn.Backend.Services;
+﻿using Lyn.Backend.Infrastructure.Email;
 using Lyn.Shared.Models;
 using Moq;
 using Resend;

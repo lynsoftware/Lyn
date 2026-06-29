@@ -1,0 +1,53 @@
+﻿using Lyn.Backend.Apps.PasswordGenerator.Models;
+using Lyn.Backend.Platform.AppReleases.Models;
+using Lyn.Backend.Platform.Auth.Models;
+using Lyn.Shared.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace Lyn.Backend.Infrastructure.Persistence;
+
+public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<AppUser>(options)
+{
+    // ============================================== DBSETS ==============================================
+    // Identity tabeller vi får fra IdentityDbContext
+    // - Users (ApplicationUser)
+    // - Roles
+    // - UserRoles
+    // - UserClaims
+    // - UserLogins
+    // - UserTokens
+    // - RoleClaims
+
+    public DbSet<PasswordGeneratorUsageStatistic> PasswordGeneratorUsageStatistics { get; set; }
+    public DbSet<AppRelease> AppReleases { get; set; }
+    
+    public DbSet<SupportTicket> SupportTickets { get; set; }
+    
+    public DbSet<SupportAttachment> SupportAttachments { get; set; }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    
+    {
+        base.OnModelCreating(modelBuilder);
+        
+        
+        // ==================== SupportTicket ====================
+        modelBuilder.Entity<SupportTicket>()
+            .HasMany(e => e.Attachments)
+            .WithOne(e => e.SupportTicket)
+            .HasForeignKey(e => e.SupportTicketId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        // Seed initial statistic
+        modelBuilder.Entity<PasswordGeneratorUsageStatistic>().HasData(
+            new PasswordGeneratorUsageStatistic 
+            { 
+                Id = 1, 
+                PasswordsGenerated = 0, 
+                WindowsDownloads = 0, 
+                ApkDownloads = 0 
+            }
+        );
+    }
+}

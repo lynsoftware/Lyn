@@ -1,7 +1,8 @@
-﻿using Lyn.Backend.Repository;
-using Lyn.Backend.Services;
-using Lyn.Backend.Services.Interface;
-using Lyn.Backend.Validators;
+﻿using Lyn.Backend.Infrastructure.Email;
+using Lyn.Backend.Infrastructure.Files.Validators;
+using Lyn.Backend.Infrastructure.Storage.Services;
+using Lyn.Backend.Platform.Support.Repositories;
+using Lyn.Backend.Platform.Support.Services;
 using Lyn.Shared.Configuration;
 using Lyn.Shared.Models;
 using Lyn.Shared.Models.Request;

@@ -1,4 +1,4 @@
-﻿using Lyn.Backend.Validators;
+﻿using Lyn.Backend.Infrastructure.Files.Validators;
 using Lyn.Shared.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

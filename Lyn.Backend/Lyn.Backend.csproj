@@ -1,11 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    </PropertyGroup>
+      <UserSecretsId>5970146b-b568-4d10-8b09-2bf4bacc096d</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="4.0.3.22" />
@@ -33,7 +34,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DTOs\Response\" />
+      <Folder Include="Infrastructure\Files\" />
+      <Folder Include="Platform\AppReleases\DTOs\" />
+      <Folder Include="Platform\AppReleases\Security\" />
+      <Folder Include="Platform\Auth\" />
+      <Folder Include="Platform\Support\Models\" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,7 +1,4 @@
 ﻿using PasswordGenerator.Configuration;
-
-
-
 namespace PasswordGenerator.Pages;
 
 public partial class SettingsPage : ContentPage

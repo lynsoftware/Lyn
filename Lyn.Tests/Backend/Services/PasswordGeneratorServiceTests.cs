@@ -1,4 +1,4 @@
-using Lyn.Backend.Services;
+using Lyn.Backend.Apps.PasswordGenerator.Services;
 using Lyn.Shared.Configuration;
 using Lyn.Shared.Models.Request;
 using Microsoft.Extensions.DependencyInjection;

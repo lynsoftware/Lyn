@@ -1,5 +1,6 @@
-using Lyn.Backend.Configuration;
-using Lyn.Backend.Data;
+using Lyn.Backend.Apps.Calorie.Persistence;
+using Lyn.Backend.Infrastructure.Persistence;
+using Lyn.Backend.Startup;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -32,21 +33,15 @@ var app = builder.Build();
 // Automatiserer databasemigrasjoner
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    
+    var appDb = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var calorieDb = scope.ServiceProvider.GetRequiredService<CalorieDbContext>();
+
     try
     {
-        if (dbContext.Database.IsRelational())
-        {
-            Log.Information("Applying database migrations...");
-            await dbContext.Database.MigrateAsync();
-            Log.Information("Database migrations applied successfully");
-        }
-        else
-        {
-            // In-memory database for testing
-            await dbContext.Database.EnsureCreatedAsync();
-        }
+        Log.Information("Applying database migrations...");
+        await appDb.Database.MigrateAsync();
+        await calorieDb.Database.MigrateAsync();
+        Log.Information("Database migrations applied successfully");
     }
     catch (Exception ex)
     {
@@ -64,4 +59,4 @@ app.ConfigureMiddleware();
 // ============================================== 5. RUN ==============================================
 app.Run();
 
-public partial class Program;
+public partial class Program { }
