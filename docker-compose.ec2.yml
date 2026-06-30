@@ -1,9 +1,9 @@
 services:
   backend:
     container_name: lyn-backend
-    build:
-      context: .
-      dockerfile: Lyn.Backend/Dockerfile
+    # Trekker ferdig image fra GHCR (bygges i GitHub Actions, ikke pa EC2).
+    # EC2 ma vaere logget inn: docker login ghcr.io (privat image).
+    image: ghcr.io/lynsoftware/lyn-backend:latest
     ports:
       - "8000:8080"
     environment:
