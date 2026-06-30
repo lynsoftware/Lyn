@@ -1,18 +1,36 @@
 name: Tests
 
 on:
+  # Gate for merge til main: kjorer testene pa hver PR inn mot main
+  pull_request:
+    branches: [ main ]
+  # Tidlig feedback nar du pusher til development
   push:
-    paths:
-      - 'Lyn.Tests/**'
+    branches: [ development ]
   workflow_dispatch:
 
+# Avbryt tidligere kjoringer pa samme branch/PR nar en ny push kommer
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  test:
+  build-and-test:
+    name: build-and-test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
-          dotnet-quality: 'preview'
-      - run: dotnet test Lyn.Tests --configuration Release
+
+      - name: Restore
+        run: dotnet restore Lyn.Tests/Lyn.Tests.csproj
+
+      # Testene starter en ekte Postgres-container via Testcontainers.
+      # ubuntu-latest har Docker forhandsinstallert, sa det fungerer uten ekstra oppsett.
+      - name: Test (xUnit + Testcontainers)
+        run: dotnet test Lyn.Tests/Lyn.Tests.csproj --no-restore --configuration Release --verbosity normal
