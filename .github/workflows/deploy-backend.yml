@@ -44,6 +44,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Buildx med docker-container-driver trengs for gha-cache (cache-to type=gha).
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       # Bygger backend-imaget i Actions (ikke pa EC2) og pusher privat til GHCR.
       # Build-context er repo-rota; Dockerfile ligger i Lyn.Backend/.
       - name: Build and push image
