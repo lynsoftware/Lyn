@@ -1,7 +1,9 @@
 ﻿using System.Net.Http.Headers;
 using Lyn.Shared.Configuration;
+using Lyn.Shared.Enum;
 using Lyn.Shared.Models.Request;
 using Lyn.Shared.Result;
+using Lyn.Web.Common.Extensions;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Lyn.Web.Services.Api;
@@ -56,24 +58,18 @@ public class SupportTicketService(
             
             var response = await httpClient.PostAsync("api/support", content, cancellationToken);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
-                logger.LogWarning("Upload failed: {Error}", errorContent);
-                return Result.Failure(errorContent);
-            }
-            
-            return Result.Success();
+            // Void-endepunkt: tom 204 => Success, ellers Failure med code + detail fra backend
+            return await HttpClientExtensions.ParseEmptyResponseAsync(response, cancellationToken);
         }
         catch (HttpRequestException ex)
         {
             logger.LogError(ex, "Network error during file upload");
-            return Result.Failure("Connection failed. Please check your internet.");
+            return Result.Failure("Connection failed. Please check your internet.", AppErrorCode.Unknown);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Unexpected error during file upload");
-            return Result.Failure("Unexpected error occurred. Try again later.");
+            return Result.Failure("Unexpected error occurred. Try again later.", AppErrorCode.Unknown);
         }
     }
 }

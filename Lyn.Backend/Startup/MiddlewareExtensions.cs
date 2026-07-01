@@ -64,8 +64,9 @@ public static class MiddlewareExtensions
         // app.UseHttpsRedirection();
         
         
-        // Authentication & Authorization
+        // Authentication, Request Localization (Culture) & Authorization
         app.UseAuthentication();
+        app.UseRequestLocalization();
         app.UseAuthorization();
 
         

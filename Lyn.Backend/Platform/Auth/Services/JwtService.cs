@@ -7,18 +7,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Lyn.Backend.Platform.Auth.Services;
 
+/// <inheritdoc />
 public class JwtService(IOptions<JwtSettings> jwtSettings) : IJwtService
 {
     private readonly JwtSettings _jwtSettings = jwtSettings.Value;
-  
-    /// <summary>
-    /// Lager en JwtToken til en bruker som logger inn.
-    /// </summary>
-    /// <param name="userId">BrukerId er svært ofte med i claims</param>
-    /// <param name="email">Hvis vi trenger å ha epost i claims</param>
-    /// <param name="roles">Hvis vi har opprettet roller</param>
-    /// <returns>Ferdig token som en string</returns>
-    public string GenerateJwtToken(string userId, string email, IEnumerable<string>? roles)
+    
+    public string GenerateJwtToken(string userId, string email, string language, IEnumerable<string>? roles)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -27,7 +21,8 @@ public class JwtService(IOptions<JwtSettings> jwtSettings) : IJwtService
         {
             new (JwtRegisteredClaimNames.Sub, userId),
             new (JwtRegisteredClaimNames.Email, email),
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new("lang", language) 
         };
       
         if (roles != null)

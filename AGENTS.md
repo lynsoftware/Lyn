@@ -63,6 +63,21 @@ dotnet test Lyn.Tests/Lyn.Tests.csproj --filter "FullyQualifiedName~Integrations
 
 Integrasjonstester krever at **Docker kjører** (Testcontainers starter en ekte Postgres-container).
 
+## Branching og CI/CD
+
+**Branch-strategi:**
+- `development` — daglig arbeid, fri push.
+- `main` — staging/prod. **Beskyttet** (ruleset `ProtectMainRules`): PR påkrevd, status check `build-and-test` må være grønn, ingen force-push, ingen sletting.
+
+Arbeidsflyt: jobb på `development` → push → PR mot `main` → `build-and-test` grønn → merge.
+
+**Workflows** (`.github/workflows/`):
+- `test.yml` — `build-and-test` (Testcontainers) på PR mot `main` + push til `development`. Den påkrevde gaten.
+- `deploy-backend.yml` — på push til `main`: `test` → `build-and-push` (bygg + push backend-image til GHCR, privat) → `deploy` (EC2 via SSM trekker imaget). Også `workflow_dispatch`.
+- `deploy.yml` — Blazor WASM → S3 + CloudFront.
+
+**Deploy-arkitektur:** backend = container på EC2 (image fra GHCR), frontend = statisk S3/CloudFront (ikke container), DB = Postgres i Docker på EC2. Se `Lyn.Backend/CLAUDE.md` for detaljer (GHCR-login, deploy-mekanikk, gotchas).
+
 ## Kritiske regler
 
 **Modeller:** ALDRI opprett nye domenemodeller eller legg til egenskaper uten eksplisitt bekreftelse fra Magee.

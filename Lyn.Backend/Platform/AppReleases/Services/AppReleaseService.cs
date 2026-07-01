@@ -4,10 +4,12 @@ using Lyn.Backend.Infrastructure.Storage.Services;
 using Lyn.Backend.Platform.AppReleases.DTOs.Requests;
 using Lyn.Backend.Platform.AppReleases.Models;
 using Lyn.Backend.Platform.AppReleases.Repositories;
+using Lyn.Backend.Platform.AppReleases.Resources;
 using Lyn.Backend.Platform.AppReleases.Services;
 using Lyn.Shared.Enum;
 using Lyn.Shared.Models.Response;
 using Lyn.Shared.Result;
+using Microsoft.Extensions.Localization;
 
 namespace Lyn.Backend.Platform.AppReleases.Services;
 
@@ -15,7 +17,8 @@ public class AppReleaseService(
     ILogger<AppReleaseService> logger, 
     IFileValidator fileValidator, 
     IStorageService s3StorageService,
-    IAppReleaseRepository appReleaseRepository) : IAppReleaseService
+    IAppReleaseRepository appReleaseRepository,
+    IStringLocalizer<AppReleaseResources> localizer) : IAppReleaseService
 {
     /// <inheritdoc />
     public async Task<Result> UploadReleaseAsync(UploadReleaseRequest request, CancellationToken ct)
@@ -25,13 +28,14 @@ public class AppReleaseService(
         if (exists)
         {
             logger.LogWarning("Release already exists: {Version} {Type}", request.Version, request.Type);
-            return Result.Failure($"Release {request.Version} for {request.Type} already exists");
+            return Result.Failure(localizer["ReleaseAlreadyExists", request.Version, request.Type],
+                AppErrorCode.Conflict);
         }
         
         // Validerer filstørrelse, extension, content og magic type
         var validateFileResult = fileValidator.ValidateReleaseFile(request.File, request.Type);
         if (validateFileResult.IsFailure)
-            return Result.Failure(validateFileResult.Error);
+            return Result.Failure(validateFileResult.Error, validateFileResult.ErrorCode);
         
         // Hent data og oppretter storageKey for lagring av filen
         var file = request.File;
@@ -44,7 +48,7 @@ public class AppReleaseService(
         var uploadResult = await s3StorageService.UploadAsync(stream, storageKey, file.ContentType, ct);
         
         if (uploadResult.IsFailure)
-            return Result.Failure(uploadResult.Error);
+            return Result.Failure(uploadResult.Error, uploadResult.ErrorCode);
         
         // Prøver å lagrer i databasen og hvis det feiler så slettes filen fra bøtta
         try
@@ -78,7 +82,7 @@ public class AppReleaseService(
                 logger.LogError(
                     "Failed to delete orphaned file from S3: {StorageKey}. Manual cleanup required.", storageKey);
             
-            return Result.Failure("Failed to save release. Please try again.");
+            return Result.Failure(localizer["SaveReleaseFailed"], AppErrorCode.InternalError);
         }
     }
     
@@ -90,8 +94,8 @@ public class AppReleaseService(
         if (latestDownloads.Count == 0)
         {
             logger.LogWarning("No active files to download");
-            return Result<List<AppReleaseResponse>>.Failure("No active files to download", 
-                ErrorTypeEnum.InternalServerError);
+            return Result<List<AppReleaseResponse>>.Failure(localizer["NoActiveFilesToDownload"],
+                AppErrorCode.InternalError);
         }
 
         var response = latestDownloads.Select(d => new AppReleaseResponse
@@ -116,7 +120,7 @@ public class AppReleaseService(
         if (appRelease is null)
         {
             logger.LogWarning("Release not found for id {AppReleaseId}", id);
-            return Result<FileDownloadDto>.Failure($"Release not found", ErrorTypeEnum.NotFound);
+            return Result<FileDownloadDto>.Failure(localizer["ReleaseNotFound"], AppErrorCode.NotFound);
         }
         
         // Last ned fra S3
@@ -125,7 +129,7 @@ public class AppReleaseService(
         if (downloadResult.IsFailure)
         {
             logger.LogError("Failed to download file from S3: {StorageKey}", appRelease.StorageKey);
-            return Result<FileDownloadDto>.Failure(downloadResult.Error);
+            return Result<FileDownloadDto>.Failure(downloadResult.Error, downloadResult.ErrorCode);
         }
         
         // Oppdater download count (fire and forget)

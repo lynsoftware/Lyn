@@ -26,7 +26,7 @@ public class FileValidator(ILogger<FileValidator> logger) : IFileValidator
         // Validerer at extension er med og at den er korrekt til filtypen
         var extensionResult = ValidateExtension(file, [expectedExtension!]);
         if (extensionResult.IsFailure) 
-            return Result.Failure(extensionResult.Error);
+            return Result.Failure(extensionResult.Error, extensionResult.ErrorCode);
         
         // Validerer content type med allowed ContentTypes
         var contentTypeResult = ValidateContentType(file, AppReleaseFileConfig.AppReleaseContentTypes);
@@ -61,7 +61,7 @@ public class FileValidator(ILogger<FileValidator> logger) : IFileValidator
         // Validerer at extension er med og at den er korrekt til filtypen
         var extensionResult = ValidateExtension(file, SupportTicketFileConfig.SupportTicketExtensions);
         if (extensionResult.IsFailure) 
-            return Result.Failure(extensionResult.Error);
+            return Result.Failure(extensionResult.Error, extensionResult.ErrorCode);
         
         // Validerer content type med allowed ContentTypes
         var contentTypeResult = ValidateContentType(file, SupportTicketFileConfig.SupportTicketContentTypes);
@@ -91,7 +91,7 @@ public class FileValidator(ILogger<FileValidator> logger) : IFileValidator
         if (file.Length == 0)
         {
             logger.LogError("File is empty: {FileName}", file.FileName);
-            return Result.Failure("No file provided or file is empty");
+            return Result.Failure("No file provided or file is empty", AppErrorCode.Validation);
         }
         return Result.Success();
     }
@@ -111,7 +111,8 @@ public class FileValidator(ILogger<FileValidator> logger) : IFileValidator
             logger.LogError("File size {Size} exceeds max {Max}: {FileName}", 
                 fileFormatted, maxFormatted, file.FileName);
             return Result.Failure(
-                $"File size ({fileFormatted}) exceeds maximum allowed size ({maxFormatted})");
+                $"File size ({fileFormatted}) exceeds maximum allowed size ({maxFormatted})", 
+                AppErrorCode.Validation);
         }
         return Result.Success();
     }
@@ -129,14 +130,15 @@ public class FileValidator(ILogger<FileValidator> logger) : IFileValidator
         if (string.IsNullOrEmpty(extension))
         {
             logger.LogError("File has no extension: {FileName}", file.FileName);
-            return Result<string>.Failure("File has no extension");
+            return Result<string>.Failure("File has no extension", AppErrorCode.Validation);
         }
         if (!allowedExtensions.Contains(extension))
         {
             logger.LogError("Invalid extension {Extension}. Allowed: {Allowed}. File: {FileName}", 
                 extension, string.Join(", ", allowedExtensions), file.FileName);
             return Result<string>.Failure(
-                $"File extension '{extension}' is not allowed. Allowed: {string.Join(", ", allowedExtensions)}");
+                $"File extension '{extension}' is not allowed. Allowed: {string.Join(", ", allowedExtensions)}", 
+                AppErrorCode.Validation);
         }
         
         return Result<string>.Success(extension);
@@ -156,13 +158,13 @@ public class FileValidator(ILogger<FileValidator> logger) : IFileValidator
         if (string.IsNullOrEmpty(contentType))
         {
             logger.LogError("File has no content type: {FileName}", file.FileName);
-            return Result.Failure("File has no content type");
+            return Result.Failure("File has no content type", AppErrorCode.Validation);
         }
         
         if (!allowedContentTypes.Contains(contentType))
         {
             logger.LogError("Invalid content type {ContentType}: {FileName}", contentType, file.FileName);
-            return Result.Failure($"Content type '{contentType}' is not allowed");
+            return Result.Failure($"Content type '{contentType}' is not allowed", AppErrorCode.Validation);
         }
         return Result.Success();
     }
@@ -180,7 +182,7 @@ public class FileValidator(ILogger<FileValidator> logger) : IFileValidator
         var signatures = FileConstants.GetSignatures(extension);
         if (signatures is null)
             return Result.Failure(
-                $"File validation not supported for '{extension}'. Configuration error.");
+                $"File validation not supported for '{extension}'. Configuration error.", AppErrorCode.Validation);
         
         // Åpner og leser filen
         using var stream = file.OpenReadStream();
@@ -189,7 +191,7 @@ public class FileValidator(ILogger<FileValidator> logger) : IFileValidator
         var bytesRead = stream.Read(buffer, 0, buffer.Length);
         
         if (bytesRead == 0)
-            return Result.Failure("Could not read file content");
+            return Result.Failure("Could not read file content", AppErrorCode.Validation);
         
         // Vi iterer igjennom alle signaturene og sjekker om signaturen stemmer med filen
         foreach (var signature in signatures)
@@ -201,6 +203,6 @@ public class FileValidator(ILogger<FileValidator> logger) : IFileValidator
         
         return Result.Failure(
             $"File content does not match expected format for '{extension}'. " +
-            "The file may be corrupted or incorrectly named.");
+            "The file may be corrupted or incorrectly named.", AppErrorCode.Validation);
     }
 }

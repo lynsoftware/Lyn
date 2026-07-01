@@ -34,10 +34,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Common\Enum\" />
       <Folder Include="Infrastructure\Files\" />
       <Folder Include="Platform\AppReleases\DTOs\" />
       <Folder Include="Platform\AppReleases\Security\" />
-      <Folder Include="Platform\Auth\" />
       <Folder Include="Platform\Support\Models\" />
     </ItemGroup>
 
