@@ -2,12 +2,14 @@
 using Lyn.Backend.Infrastructure.Files.Validators;
 using Lyn.Backend.Infrastructure.Storage.Services;
 using Lyn.Backend.Platform.Support.Repositories;
+using Lyn.Backend.Platform.Support.Resources;
 using Lyn.Shared.Configuration;
 using Lyn.Shared.Enum;
 using Lyn.Shared.Models;
 using Lyn.Shared.Models.Request;
 using Lyn.Shared.Models.Response;
 using Lyn.Shared.Result;
+using Microsoft.Extensions.Localization;
 
 namespace Lyn.Backend.Platform.Support.Services;
 
@@ -16,7 +18,8 @@ public class SupportTicketService(
     ISupportRepository supportRepository,
     IEmailService emailService, 
     IFileValidator fileValidator,
-    IStorageService storageService) : ISupportTicketService
+    IStorageService storageService,
+    IStringLocalizer<SupportResources> localizer) : ISupportTicketService
 {
     
     
@@ -38,12 +41,12 @@ public class SupportTicketService(
             // Sjekk maks antall filer
             if (attachments.Count > SupportTicketFileConfig.TicketMaxFileCount)
                 return Result<SupportTicketResponse>.Failure(
-                    $"Maximum {SupportTicketFileConfig.TicketMaxFileCount} files allowed");
+                    localizer["MaxFilesAllowed", SupportTicketFileConfig.TicketMaxFileCount], AppErrorCode.Validation);
             
             // Validerer og laster opp filer
             var attachmentResult = await ValidateAndUploadAttachmentsAsync(attachments, ct);
             if (attachmentResult.IsFailure)
-                return Result<SupportTicketResponse>.Failure(attachmentResult.Error);
+                return Result<SupportTicketResponse>.Failure(attachmentResult.Error, attachmentResult.ErrorCode);
             
             ticket.Attachments = attachmentResult.Value!;
         }
@@ -63,7 +66,7 @@ public class SupportTicketService(
             logger.LogError(ex, "Failed to save support ticket. Cleaning up uploaded files.");
             await CleanupUploadedFilesAsync(ticket.Attachments, ct);
             
-            return Result<SupportTicketResponse>.Failure("Failed to create support ticket. Please try again.");
+            return Result<SupportTicketResponse>.Failure(localizer["CreateTicketFailed"], AppErrorCode.InternalError);
         }
         
         // Send e-poster (ikke kritisk - feiler stille)
@@ -100,7 +103,7 @@ public class SupportTicketService(
             if (result.IsFailure)
             {   
                 await CleanupUploadedFilesAsync(uploadedAttachments, ct);
-                return Result<List<SupportAttachment>>.Failure(result.Error);
+                return Result<List<SupportAttachment>>.Failure(result.Error, result.ErrorCode);
             }
         
             uploadedAttachments.Add(result.Value!);
@@ -120,12 +123,12 @@ public class SupportTicketService(
         // Validerer filen
         var validationResult = fileValidator.ValidateSupportAttachment(file);
         if (validationResult.IsFailure)
-            return Result<SupportAttachment>.Failure(validationResult.Error, ErrorTypeEnum.Validation);
+            return Result<SupportAttachment>.Failure(validationResult.Error, validationResult.ErrorCode);
     
         // Lastrer filen opp til S3
         var uploadResult = await UploadAttachmentAsync(file, ct);
         if (uploadResult.IsFailure)
-            return Result<SupportAttachment>.Failure(uploadResult.Error);
+            return Result<SupportAttachment>.Failure(uploadResult.Error, uploadResult.ErrorCode);
 
         return Result<SupportAttachment>.Success(uploadResult.Value!);
     }
@@ -149,7 +152,7 @@ public class SupportTicketService(
         if (uploadResult.IsFailure)
         {
             logger.LogError("Failed to upload attachment to S3: {FileName}", file.FileName);
-            return Result<SupportAttachment>.Failure("Failed to upload attachment");
+            return Result<SupportAttachment>.Failure(localizer["UploadAttachmentFailed"], AppErrorCode.InternalError);
         }
         
         // Returnerer det som en SupportAttachment

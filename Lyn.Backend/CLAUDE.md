@@ -79,10 +79,75 @@ services.AddOptions<DatabaseSettings>()
 
 Gjelder `JwtSettings`, `DatabaseSettings` osv. Connection string leses via `IOptions<DatabaseSettings>` i `AddDbContext`-lambdaene — aldri inline `GetConnectionString() ?? throw`.
 
+## Feilhåndtering — Result + AppErrorCode
+
+Services returnerer `Result` / `Result<T>` (`Lyn.Shared/Result/`), aldri exceptions for domenefeil. `Failure(string error, AppErrorCode code)` — koden er **påkrevd**.
+
+```csharp
+// Ny feil: velg kode
+return Result<FileDownloadDto>.Failure(localizer["ReleaseNotFound"], AppErrorCode.NotFound);
+
+// Videresend nested feil: behold den indre koden
+if (validateFileResult.IsFailure)
+    return Result.Failure(validateFileResult.Error, validateFileResult.ErrorCode);
+
+// Controller:
+if (result.IsFailure)
+    return HandleFailure(result);
+```
+
+- **`AppErrorCode`** (`Lyn.Shared/Enum/AppErrorCode.cs`) — domenekontrakt delt med frontend. Ranges: `1xxx` generelle, `2xxx` auth, `3xxx` registrering, `4xxx` verifisering, `5xxx` passord-reset, `6xxx` kryptografi.
+- **`HandleFailure`** (`Common/Controllers/BaseController.cs`) — `BuildProblemResult` mapper `AppErrorCode` → HTTP-status + tittel og returnerer `AppProblemDetails` (`Common/ProblemDetail/`, = `ProblemDetails` + `int Code`). Begge overloadene bruker `result.ErrorCode`.
+- **Aldri sett HTTP-status manuelt** — utledes alltid av `BuildProblemResult`. `GlobalExceptionHandler` fanger uventede exceptions.
+
+## Localization — felles plumbing, egne ressurser
+
+Oversettes **ved kilden**: tjenesten injiserer `IStringLocalizer<XxxResources>` og gir localiserte meldinger inn i `Result.Failure`. `Result`, `HandleFailure` og controllere er uberørt. Samme mekanisme brukes for e-poster.
+
+```csharp
+public class AuthService(..., IStringLocalizer<AuthResources> localizer) : IAuthService
+{
+    // ...
+    return Result<string>.Failure(localizer["InvalidCredentials"], AppErrorCode.InvalidCredentials);
+    return Result.Failure(localizer["ReleaseAlreadyExists", version, type], AppErrorCode.Conflict); // med args
+}
+```
+
+- **Ressurser per feature:** `public sealed class XxxResources;` (markør) + `XxxResources.resx` / `XxxResources.nb.resx` i featurens `Resources/`-mappe. Namespace matcher mappen. **Ikke** la Rider generere `.Designer.cs` (intern klasse lekker ut i public signatur) — fjern `<Generator>` fra csproj og bruk markørklassen.
+- **Oppsett:** `AddAppLocalization()` (`Startup/LocalizationExtensions.cs`, tom `ResourcesPath`) + `app.UseRequestLocalization()` **etter** `UseAuthentication`.
+- **Culture-resolving:** `JwtClaimRequestCultureProvider` leser `lang`-claim (autentiserte) → `AcceptLanguageHeaderRequestCultureProvider` (anonyme) → default `en`. Kanonisk liste i `SupportedCultures` (`Platform/Localization/`) — valider brukervalgt språk mot `SupportedCultures.IsSupported(...)`.
+- **Brukerspråk:** `AppUser.PreferredCulture` (BCP-47-streng, ikke egen tabell) stemples som `lang`-claim i `JwtService`.
+
+## CI/CD og deploy
+
+### Prod-arkitektur
+- **Backend:** container på EC2. Imaget bygges i GitHub Actions og hentes som **ferdig image fra GHCR** (`ghcr.io/lynsoftware/lyn-backend`, privat) — bygges ikke lenger på instansen.
+- **Frontend:** statisk Blazor WASM på **S3 + CloudFront** (ikke en container i prod). `Lyn.Web.Development/Dockerfile` brukes kun til lokal full-stack.
+- **Database:** Postgres i Docker på EC2 (ikke RDS i dag — RDS er planlagt).
+
+### Workflows (`.github/workflows/`)
+| Fil | Trigger | Gjør |
+|-----|---------|------|
+| `test.yml` (Tests) | PR mot `main` + push til `development` | Job `build-and-test` — kjører alle testene (Testcontainers). **Påkrevd status check** for merge til `main`. |
+| `deploy-backend.yml` | push til `main` (paths: `Lyn.Backend/**`, `Lyn.Shared/**`, `docker-compose.ec2.yml`) + `workflow_dispatch` | `test` → `build-and-push` (bygg + push image til GHCR) → `deploy` (EC2 via SSM) |
+| `deploy.yml` | push til `main` (paths: `Lyn.Web/**`, `Lyn.Shared/**`) | Publiser Blazor WASM → S3 + CloudFront-invalidering |
+
+### Deploy-mekanikk (backend)
+GitHub Actions bygger imaget med Buildx (`setup-buildx-action` kreves for gha-cache), pusher til GHCR, og kjører en SSM-kommando på EC2:
+```
+git reset --hard origin/main  →  docker compose -f docker-compose.ec2.yml pull  →  up -d
+```
+EC2 må være logget inn på GHCR (engangs: `docker login ghcr.io` som `ubuntu` med en classic PAT med `read:packages`).
+
+### Branching
+`development` (fri) → PR → `main` (beskyttet: PR påkrevd, `build-and-test` grønn, ingen force-push). Se rot-`AGENTS.md`.
+
 ## Gotchas
 
 - **To kontekster:** `--context` er obligatorisk i alle `dotnet ef`-kommandoer.
 - **Migrasjons-ERR ved første oppstart:** EF logger en `[ERR]` når den prober en ikke-eksisterende historikk-tabell på fersk DB. Ufarlig — migrasjonene kjøres rett etterpå. Calorie-proben gjentas til første Calorie-migrasjon finnes.
 - **Tester:** Kjør `dotnet test Lyn.Tests/Lyn.Tests.csproj`, aldri `dotnet test` på solution (Android-bygg feiler uten SDK 36).
 - **Statuskoder:** Sett aldri HTTP-status manuelt i controllere — returner `Result`/`Result<T>` og kall `HandleFailure`.
-- **Hemmeligheter:** `.env` skal være gitignorert. Ekte AWS-/Resend-nøkler hører ikke hjemme i innsjekket kode.
+- **Hemmeligheter:** `.env` skal være gitignorert. Lokal dev bruker `dotnet user-secrets` (ikke `.env`/`appsettings`). Ekte nøkler hører ikke hjemme i innsjekket kode.
+- **Deploy trigges ikke av workflow-fil-endringer:** `deploy-backend.yml` trigger kun på `Lyn.Backend/**`, `Lyn.Shared/**`, `docker-compose.ec2.yml`. Endrer du *selve* workflowen, kjør den manuelt via `workflow_dispatch` ("Run workflow").
+- **SSM-deploy maskerer feil:** kommandoen avslutter med `echo Deployment completed` (exit 0), så `deploy`-jobben kan vise grønt selv om `pull`/`up` feilet. Verifiser alltid på EC2 med `docker ps` at `lyn-backend` faktisk kjører `ghcr.io/...`-imaget. (Bør herdes med exit-kode-sjekk.)

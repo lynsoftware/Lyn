@@ -7,6 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lyn.Backend.Infrastructure.Persistence;
 
+/// <summary>
+/// DbContext for the Website and password generator app
+/// </summary>
+/// <param name="options"></param>
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<AppUser>(options)
 {
     // ============================================== DBSETS ==============================================
@@ -31,14 +35,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     {
         base.OnModelCreating(modelBuilder);
         
-        
-        // ==================== SupportTicket ====================
-        modelBuilder.Entity<SupportTicket>()
-            .HasMany(e => e.Attachments)
-            .WithOne(e => e.SupportTicket)
-            .HasForeignKey(e => e.SupportTicketId)
-            .OnDelete(DeleteBehavior.Cascade);
-        
+        // Register all the Entity Configuration files that does not belong for the Calorie app.
+        // Predikatet kjøres på ALLE konstruerbare typer i assemblyet (bl.a. Program i global
+        // namespace der Namespace er null), så vi må null-sjekke — ellers NRE ved oppstart.
+        modelBuilder.ApplyConfigurationsFromAssembly(
+            typeof(AppDbContext).Assembly,
+            t => t.Namespace?.Contains(".Apps.Calorie.") != true);
+
         // Seed initial statistic
         modelBuilder.Entity<PasswordGeneratorUsageStatistic>().HasData(
             new PasswordGeneratorUsageStatistic 

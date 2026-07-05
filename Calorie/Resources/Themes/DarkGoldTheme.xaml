@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- Mørkt standardtema — kull-svart + gull. Alle temaer definerer NØYAKTIG
+     samme token-nøkler; komponentene refererer kun tokens (DynamicResource). -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="Calorie.Resources.Themes.DarkGoldTheme">
+
+    <!-- Flater -->
+    <Color x:Key="Background">#141414</Color>
+    <Color x:Key="Surface">#1F1F1F</Color>
+
+    <!-- Identitet -->
+    <Color x:Key="Primary">#FEE447</Color>
+    <Color x:Key="OnPrimary">#1F1F1F</Color>
+
+    <!-- Tekst -->
+    <Color x:Key="TextPrimary">#FFFFFF</Color>
+    <Color x:Key="TextSecondary">#B0B0B0</Color>
+    <Color x:Key="TextMuted">#8A8A8A</Color>
+
+    <!-- Detaljer -->
+    <Color x:Key="Separator">#333333</Color>
+    <Color x:Key="NavInactive">#8A8A8A</Color>
+
+    <!-- Status -->
+    <Color x:Key="OverLimit">#E5533C</Color>
+    <Color x:Key="Success">#4CC366</Color>
+    <Color x:Key="OnSuccess">#1F1F1F</Color>
+</ResourceDictionary>

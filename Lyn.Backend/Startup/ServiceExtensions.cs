@@ -40,7 +40,8 @@ public static class ServiceExtensions
           .AddStorage(builder.Configuration, builder.Environment);
       
       // Adds platform specific features, common and modules for the apps
-      builder.Services.AddPlatform()
+      builder.Services.AddAppLocalization()
+          .AddPlatform()
           .AddFileValidation()
           .AddPasswordGenerator()
           .AddCalorieModule();

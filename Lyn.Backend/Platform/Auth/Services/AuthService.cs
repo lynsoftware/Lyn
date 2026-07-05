@@ -1,13 +1,17 @@
 ﻿using Lyn.Backend.Platform.Auth.Models;
+using Lyn.Backend.Platform.Auth.Resources;
+using Lyn.Shared.Enum;
 using Lyn.Shared.Models.Request;
 using Lyn.Shared.Result;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 
 namespace Lyn.Backend.Platform.Auth.Services;
 
 public class AuthService(UserManager<AppUser> userManager,
     ILogger<AuthService> logger,
-    IJwtService jwtService) : IAuthService
+    IJwtService jwtService,
+    IStringLocalizer<AuthResources> localizer) : IAuthService
 {
     public async Task<Result<string>> LoginAsync(LoginRequest request)
     {
@@ -26,9 +30,7 @@ public class AuthService(UserManager<AppUser> userManager,
             var lockoutEnd = await userManager.GetLockoutEndDateAsync(user);
             logger.LogWarning("Login failed. Account locked for {Email} until {LockoutEnd}",
                 request.Email, lockoutEnd);
-            return Result<string>.Failure(
-                "Your account has been locked due to multiple failed login attempts. " +
-                "Please try again later.");
+            return Result<string>.Failure(localizer["AccountLocked"], AppErrorCode.AccountLocked);
         }
 
         // Bruk dummy user for timing attack protection
@@ -42,7 +44,7 @@ public class AuthService(UserManager<AppUser> userManager,
                 await userManager.AccessFailedAsync(user);
 
             logger.LogWarning("Login failed. Invalid credentials for {Email}", request.Email);
-            return Result<string>.Failure("Wrong email or password");
+            return Result<string>.Failure(localizer["InvalidCredentials"], AppErrorCode.InvalidCredentials);
         }
 
         // Reset failed access count ved vellykket login
@@ -52,7 +54,7 @@ public class AuthService(UserManager<AppUser> userManager,
         var roles = await userManager.GetRolesAsync(user);
 
         // Generer JWT token
-        var token = jwtService.GenerateJwtToken(user.Id, user.Email!, roles);
+        var token = jwtService.GenerateJwtToken(user.Id, user.Email!, user.PreferredCulture, roles);
 
         logger.LogInformation("User {Email} logged in successfully", request.Email);
 

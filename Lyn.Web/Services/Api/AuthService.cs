@@ -1,7 +1,9 @@
 ﻿using System.Net.Http.Json;
 using Blazored.SessionStorage;
+using Lyn.Shared.Enum;
 using Lyn.Shared.Models.Request;
 using Lyn.Shared.Result;
+using Lyn.Web.Common.Extensions;
 
 namespace Lyn.Web.Services.Api;
 
@@ -16,51 +18,35 @@ public class AuthService(ILogger<AuthService> logger, HttpClient httpClient,
     {
         try
         {
-            logger.LogInformation("Login attempt from Email: {@Payload}", new { email = request.Email});
+            logger.LogInformation("Login attempt from Email: {@Payload}", new { email = request.Email });
 
-            var response = await httpClient.PostAsJsonAsync("api/admin/login", 
-                request, cancellationToken);
+            var response = await httpClient.PostAsJsonAsync("api/admin/login", request, cancellationToken);
 
-            if (!response.IsSuccessStatusCode)
+            // Token kommer som en JSON-streng; ParseResponseAsync henter ut code+detail ved feil
+            var tokenResult = await HttpClientExtensions.ParseResponseAsync<string>(response, cancellationToken);
+            if (tokenResult.IsFailure)
             {
-                var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
-                logger.LogWarning("Login failed: {Error}", errorContent);
-                return Result.Failure(errorContent);
+                logger.LogWarning("Login failed: {Error} ({Code})", tokenResult.Error, tokenResult.ErrorCode);
+                return Result.Failure(tokenResult.Error, tokenResult.ErrorCode);
             }
 
-            var token = await response.Content.ReadAsStringAsync(cancellationToken);
-            
-            token = token.Trim('"');
-            
+            var token = tokenResult.Value!;
             if (string.IsNullOrEmpty(token))
-            {
-                logger.LogWarning("Login failed: Empty token received");
-                return Result.Failure("Login failed");
-            }
+                return Result.Failure("Login failed", AppErrorCode.Unknown);
 
-            // Lagre token i session storage
             await sessionStorage.SetItemAsStringAsync(TokenKey, token, cancellationToken);
-            
             logger.LogInformation("Login successful for email: {Email}", request.Email);
-        
             return Result.Success();
         }
         catch (HttpRequestException ex)
         {
             logger.LogError(ex, "Network error during login attempt");
-            return Result.Failure("Connection failed. Please check your internet.");
+            return Result.Failure("Connection failed. Please check your internet.", AppErrorCode.Unknown);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Unexpected error occurred");
-            return Result.Failure("Unexpected error occurred. Try again later.");
+            return Result.Failure("Unexpected error occurred. Try again later.", AppErrorCode.Unknown);
         }
     }
-
-    private async Task<string?> GetTokenAsync(CancellationToken cancellationToken = default)
-    {
-        var token = await sessionStorage.GetItemAsStringAsync(TokenKey, cancellationToken);
-        return token?.Trim('"');
-    }
-    
 }

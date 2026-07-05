@@ -17,12 +17,43 @@ namespace Lyn.Backend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.1")
+                .HasAnnotation("ProductVersion", "10.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Lyn.Backend.Models.AppRelease", b =>
+            modelBuilder.Entity("Lyn.Backend.Apps.PasswordGenerator.Models.PasswordGeneratorUsageStatistic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ApkDownloads")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PasswordsGenerated")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WindowsDownloads")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PasswordGeneratorUsageStatistics");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ApkDownloads = 0,
+                            PasswordsGenerated = 0,
+                            WindowsDownloads = 0
+                        });
+                });
+
+            modelBuilder.Entity("Lyn.Backend.Platform.AppReleases.Models.AppRelease", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,7 +115,7 @@ namespace Lyn.Backend.Migrations
                     b.ToTable("AppReleases");
                 });
 
-            modelBuilder.Entity("Lyn.Backend.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Lyn.Backend.Platform.Auth.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -95,6 +126,9 @@ namespace Lyn.Backend.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -126,6 +160,13 @@ namespace Lyn.Backend.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("PreferredCulture")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasDefaultValue("en");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
@@ -146,37 +187,6 @@ namespace Lyn.Backend.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Lyn.Backend.Models.PasswordGeneratorUsageStatistic", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ApkDownloads")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PasswordsGenerated")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("WindowsDownloads")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PasswordGeneratorUsageStatistics");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ApkDownloads = 0,
-                            PasswordsGenerated = 0,
-                            WindowsDownloads = 0
-                        });
                 });
 
             modelBuilder.Entity("Lyn.Shared.Models.SupportAttachment", b =>
@@ -444,7 +454,7 @@ namespace Lyn.Backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Lyn.Backend.Models.ApplicationUser", null)
+                    b.HasOne("Lyn.Backend.Platform.Auth.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -453,7 +463,7 @@ namespace Lyn.Backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Lyn.Backend.Models.ApplicationUser", null)
+                    b.HasOne("Lyn.Backend.Platform.Auth.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -468,7 +478,7 @@ namespace Lyn.Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Lyn.Backend.Models.ApplicationUser", null)
+                    b.HasOne("Lyn.Backend.Platform.Auth.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -477,7 +487,7 @@ namespace Lyn.Backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Lyn.Backend.Models.ApplicationUser", null)
+                    b.HasOne("Lyn.Backend.Platform.Auth.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

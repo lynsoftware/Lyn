@@ -2,12 +2,15 @@
 using Lyn.Backend.Infrastructure.Files.Validators;
 using Lyn.Backend.Infrastructure.Storage.Services;
 using Lyn.Backend.Platform.Support.Repositories;
+using Lyn.Backend.Platform.Support.Resources;
 using Lyn.Backend.Platform.Support.Services;
 using Lyn.Shared.Configuration;
+using Lyn.Shared.Enum;
 using Lyn.Shared.Models;
 using Lyn.Shared.Models.Request;
 using Lyn.Shared.Result;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Moq;
 
@@ -29,12 +32,20 @@ public class SupportTicketServiceTests
         _mockFileValidator = new Mock<IFileValidator>();
         _mockStorageService = new Mock<IStorageService>();
 
+        // Localizer returnerer nøkkelen som melding — testene bryr seg kun om IsSuccess/IsFailure
+        var mockLocalizer = new Mock<IStringLocalizer<SupportResources>>();
+        mockLocalizer.Setup(l => l[It.IsAny<string>()])
+            .Returns((string key) => new LocalizedString(key, key));
+        mockLocalizer.Setup(l => l[It.IsAny<string>(), It.IsAny<object[]>()])
+            .Returns((string key, object[] args) => new LocalizedString(key, key));
+
         _sut = new SupportTicketService(
             mockLogger.Object,
             _mockSupportRepository.Object,
             _mockEmailService.Object,
             _mockFileValidator.Object,
-            _mockStorageService.Object);
+            _mockStorageService.Object,
+            mockLocalizer.Object);
     }
     
     // ==================== Hjelpemetoder ====================
@@ -223,7 +234,7 @@ public class SupportTicketServiceTests
 
         _mockFileValidator
             .Setup(v => v.ValidateSupportAttachment(It.IsAny<IFormFile>()))
-            .Returns(Result.Failure("Invalid file type"));
+            .Returns(Result.Failure("Invalid file type", AppErrorCode.Validation));
 
         // Act
         var result = await _sut.CreateSupportTicketAsync(request, attachments);
@@ -249,7 +260,7 @@ public class SupportTicketServiceTests
         _mockStorageService
             .Setup(s => s.UploadAsync(It.IsAny<Stream>(), It.IsAny<string>(),
                 It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result.Failure("Upload failed"));
+            .ReturnsAsync(Result.Failure("Upload failed", AppErrorCode.InternalError));
 
         // Act
         var result = await _sut.CreateSupportTicketAsync(request, attachments);
@@ -314,7 +325,7 @@ public class SupportTicketServiceTests
             .Returns(() =>
             {
                 callCount++;
-                return callCount == 1 ? Result.Success() : Result.Failure("Invalid file");
+                return callCount == 1 ? Result.Success() : Result.Failure("Invalid file", AppErrorCode.Validation);
             });
         _mockStorageService
             .Setup(s => s.UploadAsync(It.IsAny<Stream>(), It.IsAny<string>(),
