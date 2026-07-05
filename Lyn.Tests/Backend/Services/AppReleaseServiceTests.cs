@@ -3,10 +3,12 @@ using Lyn.Backend.Infrastructure.Storage.Services;
 using Lyn.Backend.Platform.AppReleases.DTOs.Requests;
 using Lyn.Backend.Platform.AppReleases.Models;
 using Lyn.Backend.Platform.AppReleases.Repositories;
+using Lyn.Backend.Platform.AppReleases.Resources;
 using Lyn.Backend.Platform.AppReleases.Services;
 using Lyn.Shared.Enum;
 using Lyn.Shared.Result;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Moq;
 
@@ -26,11 +28,19 @@ public class AppReleaseServiceTests
         _mockStorageService = new Mock<IStorageService>();
         _mockReleaseRepository = new Mock<IAppReleaseRepository>();
 
+        // Localizer returnerer nøkkelen som melding — testene bryr seg kun om IsSuccess/IsFailure
+        var mockLocalizer = new Mock<IStringLocalizer<AppReleaseResources>>();
+        mockLocalizer.Setup(l => l[It.IsAny<string>()])
+            .Returns((string key) => new LocalizedString(key, key));
+        mockLocalizer.Setup(l => l[It.IsAny<string>(), It.IsAny<object[]>()])
+            .Returns((string key, object[] args) => new LocalizedString(key, key));
+
         _sut = new AppReleaseService(
             mockLogger.Object,
             _mockFileValidator.Object,
             _mockStorageService.Object,
-            _mockReleaseRepository.Object);
+            _mockReleaseRepository.Object,
+            mockLocalizer.Object);
     }
 
     // ==================== Hjelpemetoder ====================
@@ -121,7 +131,7 @@ public class AppReleaseServiceTests
             .ReturnsAsync(false);
         _mockFileValidator
             .Setup(v => v.ValidateReleaseFile(It.IsAny<IFormFile>(), It.IsAny<ReleaseType>()))
-            .Returns(Result.Failure("Invalid file"));
+            .Returns(Result.Failure("Invalid file", AppErrorCode.Validation));
         var request = CreateValidUploadRequest();
 
         // Act
@@ -147,7 +157,7 @@ public class AppReleaseServiceTests
         _mockStorageService
             .Setup(s => s.UploadAsync(It.IsAny<Stream>(), It.IsAny<string>(),
                 It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result.Failure("Upload failed"));
+            .ReturnsAsync(Result.Failure("Upload failed", AppErrorCode.InternalError));
         var request = CreateValidUploadRequest();
 
         // Act
@@ -311,7 +321,7 @@ public class AppReleaseServiceTests
             .ReturnsAsync(release);
         _mockStorageService
             .Setup(s => s.DownloadAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<Stream>.Failure("Download failed"));
+            .ReturnsAsync(Result<Stream>.Failure("Download failed", AppErrorCode.InternalError));
 
         // Act
         var result = await _sut.DownloadAsync(1);

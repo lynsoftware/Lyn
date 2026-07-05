@@ -4,7 +4,7 @@
 /// Kanonisk liste over kulturene appen støtter. Én kilde til sannhet som både
 /// RequestLocalization-oppsettet og validering av brukerens språkvalg bruker.
 /// </summary>
-public class SupportedCultures
+public static class SupportedCultures
 {
     /// <summary>Fallback-kultur når verken JWT-claim eller Accept-Language gir treff.</summary>
     public const string Default = "en";

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Lyn.Backend.Apps.Calorie.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lyn.Backend.Apps.Calorie.Persistence;
 
@@ -9,8 +10,14 @@ namespace Lyn.Backend.Apps.Calorie.Persistence;
 /// </summary>
 public class CalorieDbContext(DbContextOptions<CalorieDbContext> options) : DbContext(options)
 {
-    // DbSets legges til her etter hvert som domenemodellene godkjennes
-    // (Ingredient, Meal, LogEntry ...). Tom forelopig.
+    public DbSet<FoodProduct> FoodProducts { get; set; }
+    public DbSet<Ingredient> Ingredients { get; set; }
+    public DbSet<Meal> Meals { get; set; }
+    public DbSet<MealIngredient> MealIngredients { get; set; }
+    public DbSet<LogEntry> LogEntries { get; set; }
+    public DbSet<LogEntryIngredient> LogEntryIngredients { get; set; }
+    public DbSet<UserGoal> UserGoals { get; set; }
+    public DbSet<MealBudget> MealBudgets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

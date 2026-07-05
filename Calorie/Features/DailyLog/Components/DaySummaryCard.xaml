@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- Dagens totaler: dato-navigasjon, spist/igjen mot dagsmålet og makro-rad.
+     Fylles via Update(DayLog). Farger via tema-tokens. -->
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Calorie.Features.DailyLog.Components.DaySummaryCard">
+
+    <Border BackgroundColor="{DynamicResource Surface}"
+            Padding="20,16"
+            StrokeThickness="0">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="16" />
+        </Border.StrokeShape>
+        <Border.Shadow>
+            <Shadow Brush="Black"
+                    Opacity="0.15"
+                    Radius="20"
+                    Offset="0,5" />
+        </Border.Shadow>
+
+        <VerticalStackLayout Spacing="10">
+
+            <!-- Dato-navigasjon -->
+            <Grid ColumnDefinitions="50,*,50">
+                <Button x:Name="PreviousDayButton"
+                        Grid.Column="0"
+                        Text="&#xf053;"
+                        FontFamily="FontAwesome"
+                        FontSize="18"
+                        TextColor="{DynamicResource NavInactive}"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Clicked="OnPreviousDayClicked"/>
+
+                <Label x:Name="DateLabel"
+                       Grid.Column="1"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="{DynamicResource TextPrimary}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+
+                <Button x:Name="NextDayButton"
+                        Grid.Column="2"
+                        Text="&#xf054;"
+                        FontFamily="FontAwesome"
+                        FontSize="18"
+                        TextColor="{DynamicResource NavInactive}"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Clicked="OnNextDayClicked"/>
+            </Grid>
+
+            <!-- Totalt spist / mål -->
+            <Label x:Name="TotalsLabel"
+                   FontSize="34"
+                   FontAttributes="Bold"
+                   TextColor="{DynamicResource Primary}"
+                   HorizontalOptions="Center"/>
+
+            <ProgressBar x:Name="GoalProgress"
+                         ProgressColor="{DynamicResource Primary}"
+                         BackgroundColor="{DynamicResource Separator}"/>
+
+            <Label x:Name="RemainingLabel"
+                   FontSize="15"
+                   TextColor="{DynamicResource TextSecondary}"
+                   HorizontalOptions="Center"/>
+
+            <!-- Makro-rad -->
+            <HorizontalStackLayout Spacing="28" HorizontalOptions="Center">
+                <Label x:Name="ProteinLabel" FontSize="14" TextColor="{DynamicResource TextSecondary}"/>
+                <Label x:Name="CarbsLabel" FontSize="14" TextColor="{DynamicResource TextSecondary}"/>
+                <Label x:Name="FatLabel" FontSize="14" TextColor="{DynamicResource TextSecondary}"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

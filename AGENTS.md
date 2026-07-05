@@ -96,23 +96,37 @@ Arbeidsflyt: jobb på `development` → push → PR mot `main` → `build-and-te
 - **`Apps/[Produkt]/`** — ett produkt per mappe (PasswordGenerator, Calorie), eier egne controllere/services/repositories/DTOs. Hvert produkt registreres via en egen modul i `Startup/Modules/` (`AddPasswordGenerator()`, `AddCalorieModule()`) slik at det kan løftes ut til egen backend senere.
 - **Vertical slice** innen hver feature: Controller + Service + Repository + DTOs.
 
-## Feilhåndtering — Result-pattern + ErrorTypeEnum
+## Feilhåndtering — Result-pattern + AppErrorCode
 
-Services kaster ikke exceptions for domenefeil — de returnerer `Result` / `Result<T>` (i `Lyn.Shared/Result/`) med en `ErrorTypeEnum`:
+Services kaster ikke exceptions for domenefeil — de returnerer `Result` / `Result<T>` (i `Lyn.Shared/Result/`) med en `AppErrorCode`. Koden er en **påkrevd** parameter på `Failure`:
 
 ```csharp
-// Service:
+// Service — ny feil: velg riktig kode
 if (release == null)
-    return Result<ReleaseResponse>.Failure("Release not found", ErrorTypeEnum.NotFound);
+    return Result<ReleaseResponse>.Failure("Release not found", AppErrorCode.NotFound);
+
+// Service — videresend en nested feil: ta med den indre koden
+if (uploadResult.IsFailure)
+    return Result.Failure(uploadResult.Error, uploadResult.ErrorCode);
 
 // Controller (arver BaseController):
 if (result.IsFailure)
-    return HandleFailure(result);   // mapper ErrorTypeEnum → HTTP-status + ProblemDetails
+    return HandleFailure(result);   // mapper AppErrorCode → HTTP-status + AppProblemDetails
 ```
 
-`ErrorTypeEnum` (i `Lyn.Shared.Enum`) bruker HTTP-statuskoder som verdier: `BadRequest=400`, `Unauthorized=401`, `Forbidden=403`, `NotFound=404`, `Conflict=409`, `Gone=410`, `Validation=422`, `InternalServerError=500`.
+`AppErrorCode` (i `Lyn.Shared/Enum/AppErrorCode.cs`) er domenekontrakten delt mellom backend og frontend, sendt som `code`-felt (int) i responsen. Kode-ranges: `1xxx` generelle, `2xxx` auth, `3xxx` registrering, `4xxx` verifisering, `5xxx` passord-reset, `6xxx` kryptografi.
 
-`HandleFailure` i `Common/Controllers/BaseController.cs` gjør mappingen. `GlobalExceptionHandler` (Infrastructure/Middleware) fanger uventede exceptions. **Sett aldri HTTP-statuskode manuelt i controllere** — bruk Result + HandleFailure.
+`HandleFailure` i `Common/Controllers/BaseController.cs` mapper koden til HTTP-statuskode + tittel og returnerer `AppProblemDetails` (`ProblemDetails` + `int Code`). `GlobalExceptionHandler` fanger uventede exceptions. **Sett aldri HTTP-statuskode manuelt i controllere** — bruk Result + HandleFailure.
+
+**Frontend (Lyn.Web)** speiler kontrakten: `HttpClientExtensions.ParseResponseAsync<T>` / `ParseEmptyResponseAsync` (i `Lyn.Web/Common/Extensions/`) leser `detail` + `code` fra svaret og bygger `Result<T>` / `Result` med riktig `AppErrorCode`. ASP.NET model-validation (`errors`-dict) → `AppErrorCode.Validation`. Lokale-/nettverksfeil → `AppErrorCode.Unknown`.
+
+## Localization
+
+Felles plumbing, egne ressurser per feature. `IStringLocalizer<XxxResources>` injiseres i tjenesten som produserer feilmeldingen; `XxxResources` er en `public` markørklasse med `XxxResources.resx` (+ `.nb.resx`) i samme mappe/namespace. Backend oversetter ved kilden, så `Result`/`HandleFailure` er uendret.
+
+- **Oppsett:** `AddAppLocalization()` (i `Startup/LocalizationExtensions.cs`) + `app.UseRequestLocalization()` (etter `UseAuthentication`).
+- **Culture-resolving:** JWT `lang`-claim (autentiserte) → `Accept-Language` (anonyme) → default `en`. Støttede kulturer i `SupportedCultures` (`Platform/Localization/`).
+- **Brukerspråk:** `AppUser.PreferredCulture` (BCP-47) stemples inn som `lang`-claim ved login.
 
 ## Konfigurasjon — validerte options
 

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- Biblioteket (Måltider-fanen i navbaren): brukerens måltider og
+     ingredienser, med søk og opprett/rediger. -->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:Calorie.Core.Resources.Strings;assembly=Calorie.Core"
+             xmlns:library="clr-namespace:Calorie.Core.Features.Library;assembly=Calorie.Core"
+             xmlns:components="clr-namespace:Calorie.Features.Navbar.Components"
+             xmlns:navbar="clr-namespace:Calorie.Features.Navbar"
+             xmlns:components1="clr-namespace:Calorie.Features.Navbar.Components"
+             x:Class="Calorie.Features.Library.Pages.LibraryPage"
+             BackgroundColor="{DynamicResource Background}">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+
+        <!-- Header -->
+        <Border Grid.Row="0"
+                BackgroundColor="{DynamicResource Surface}"
+                Padding="10,10"
+                StrokeThickness="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0" />
+            </Border.StrokeShape>
+
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <Image Source="logo.png"
+                       Grid.Column="0"
+                       WidthRequest="70"
+                       HeightRequest="70"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+
+                <Label Grid.Column="1"
+                       Text="{x:Static strings:AppResources.LibraryTitle}"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="{DynamicResource Primary}"/>
+            </Grid>
+        </Border>
+
+        <!-- Faner + ny-knapp -->
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,*,Auto" Padding="18,10,14,2" ColumnSpacing="18">
+            <Button x:Name="MealsTabButton"
+                    Text="{x:Static strings:AppResources.TabMeals}"
+                    FontSize="15"
+                    FontAttributes="Bold"
+                    BackgroundColor="Transparent"
+                    Padding="0"
+                    Clicked="OnMealsTabClicked"/>
+            <Button x:Name="IngredientsTabButton"
+                    Grid.Column="1"
+                    Text="{x:Static strings:AppResources.TabIngredients}"
+                    FontSize="15"
+                    FontAttributes="Bold"
+                    BackgroundColor="Transparent"
+                    Padding="0"
+                    Clicked="OnIngredientsTabClicked"/>
+
+            <Button x:Name="NewItemButton"
+                    Grid.Column="3"
+                    FontSize="13"
+                    FontAttributes="Bold"
+                    TextColor="{DynamicResource OnPrimary}"
+                    BackgroundColor="{DynamicResource Primary}"
+                    CornerRadius="14"
+                    Padding="14,6"
+                    Clicked="OnNewItemClicked"/>
+        </Grid>
+
+        <!-- Søk -->
+        <Border Grid.Row="2"
+                BackgroundColor="{DynamicResource Surface}"
+                StrokeThickness="0"
+                Margin="14,8,14,0"
+                Padding="12,0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12" />
+            </Border.StrokeShape>
+            <Entry x:Name="SearchEntry"
+                   Placeholder="{x:Static strings:AppResources.SearchPlaceholder}"
+                   BackgroundColor="Transparent"
+                   TextColor="{DynamicResource TextPrimary}"
+                   PlaceholderColor="{DynamicResource TextMuted}"
+                   TextChanged="OnSearchChanged"/>
+        </Border>
+
+        <!-- Listen -->
+        <CollectionView x:Name="ItemsList"
+                        Grid.Row="3"
+                        Margin="14,6"
+                        SelectionMode="Single"
+                        SelectionChanged="OnItemSelected">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="library:LibraryItem">
+                    <Grid Padding="4,10" ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="1">
+                            <Label Text="{Binding Name}"
+                                   FontSize="15"
+                                   TextColor="{DynamicResource TextPrimary}"/>
+                            <Label Text="{Binding Details}"
+                                   FontSize="12"
+                                   TextColor="{DynamicResource TextMuted}"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="1"
+                               Text="{Binding Brand}"
+                               FontSize="12"
+                               TextColor="{DynamicResource TextMuted}"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Bunn-navigasjon -->
+        <components1:BottomNavBar
+            Grid.Row="4"
+            ActiveTab="Meals"
+            HomeClicked="OnHomeClicked"
+            AddClicked="OnLogClicked"
+            StatsClicked="OnStatsClicked"
+            SettingsClicked="OnSettingsClicked"/>
+    </Grid>
+</ContentPage>

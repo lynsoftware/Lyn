@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="AppTitle" xml:space="preserve">
+        <value>Lyn Calorie</value>
+    </data>
+    <data name="AppSubtitle" xml:space="preserve">
+        <value>Track your meals and calories</value>
+    </data>
+    <data name="MasterPassword" xml:space="preserve">
+        <value>Master Password</value>
+    </data>
+    <data name="MasterPasswordPlaceholder" xml:space="preserve">
+        <value>Enter your master password</value>
+    </data>
+    <data name="MasterPasswordRequired" xml:space="preserve">
+        <value>Master password is required</value>
+    </data>
+    <data name="Seed" xml:space="preserve">
+        <value>Seed</value>
+    </data>
+    <data name="SeedPlaceholder" xml:space="preserve">
+        <value>Enter a seed</value>
+    </data>
+    <data name="PasswordLength" xml:space="preserve">
+        <value>Password Length (8-256)</value>
+    </data>
+    <data name="GeneratePassword" xml:space="preserve">
+        <value>Generate Password</value>
+    </data>
+    <data name="GeneratedPassword" xml:space="preserve">
+        <value>Generated Password</value>
+    </data>
+    <data name="CopyToClipboard" xml:space="preserve">
+        <value>Copy to Clipboard</value>
+    </data>
+    <data name="Language" xml:space="preserve">
+        <value>Language</value>
+    </data>
+    <data name="Theme" xml:space="preserve">
+        <value>Theme</value>
+    </data>
+    <data name="Light" xml:space="preserve">
+        <value>Light </value>
+    </data>
+    <data name="Dark" xml:space="preserve">
+        <value>Dark</value>
+    </data>
+    <data name="SeedRequired" xml:space="preserve">
+        <value>Seed is required</value>
+    </data>
+    <data name="IncludeSpecialChars" xml:space="preserve">
+        <value>Include special characters (!@#$%&amp;*-_+=)</value>
+    </data>
+    <data name="Settings" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="SelectLanguage" xml:space="preserve">
+        <value>Select Language</value>
+    </data>
+    <data name="SelectTheme" xml:space="preserve">
+        <value>Select Theme</value>
+    </data>
+    <data name="Help" xml:space="preserve">
+        <value>Help/About</value>
+    </data>
+    <data name="HelpText" xml:space="preserve">
+        <value>Lyn Calorie lets you create strong, unique passwords that you can always regenerate when you need them.
+By entering a master password and providing it with a seed (a word used when generating the password), you can retrieve the same generated password every time.
+You don't need to remember hundreds of passwords or rely on cloud services - just remember one master password and use simple seeds for each account.
+Neither the master password, the seed, nor the generated password is stored, so malicious attackers cannot access this information.
+The application is available on Android, iOS, Windows, macOS, and Linux.
+How to use the app:
+
+Master Password: Your secret key (never share it)
+Seed: Identifier for each account (e.g., "gmail", "reddit", or words you can remember)
+Length: 16 characters is standard. Some services have minimum and maximum limits, so adjust the length accordingly. For secure keys, longer passwords can be wise
+Check or uncheck based on whether the service allows special characters
+Same master password + seed = Same password every time
+
+Security Tips:
+
+Use a strong, unique master password. Don't forget it! Without the master password, you cannot retrieve your passwords again
+It is recommended not to reuse the master password elsewhere
+Use different seeds for different accounts
+It is recommended not to write down the master password on your devices
+A password manager with multiple layers provides even more security, but it's better to use this application than to write simple passwords like "password123"
+Keep a list of your seeds and length (this is safe as they are worthless without the master password)</value>
+    </data>
+    <data name="MasterPasswordEmpty" xml:space="preserve">
+        <value>Master password cannot be empty</value>
+    </data>
+    <data name="LengthValidationError" xml:space="preserve">
+        <value>Length must be between {0} and {1}</value>
+    </data>
+    <data name="SettingsComingSoon" xml:space="preserve">
+        <value>Settings are coming soon.</value>
+    </data>
+    <data name="DailyLogComingSoon" xml:space="preserve">
+        <value>The daily log is coming soon.</value>
+    </data>
+    <data name="NewLogEntryComingSoon" xml:space="preserve">
+        <value>Logging is coming soon.</value>
+    </data>
+    <data name="MealTypeBreakfast" xml:space="preserve">
+        <value>Breakfast</value>
+    </data>
+    <data name="MealTypeLunch" xml:space="preserve">
+        <value>Lunch</value>
+    </data>
+    <data name="MealTypeDinner" xml:space="preserve">
+        <value>Dinner</value>
+    </data>
+    <data name="MealTypeSnack" xml:space="preserve">
+        <value>Snack</value>
+    </data>
+    <data name="MealTypeBrunch" xml:space="preserve">
+        <value>Brunch</value>
+    </data>
+    <data name="MealTypeSupper" xml:space="preserve">
+        <value>Supper</value>
+    </data>
+    <data name="MealTypeTreat" xml:space="preserve">
+        <value>Treats</value>
+    </data>
+    <data name="Today" xml:space="preserve">
+        <value>Today</value>
+    </data>
+    <data name="Remaining" xml:space="preserve">
+        <value>left</value>
+    </data>
+    <data name="AddFood" xml:space="preserve">
+        <value>Add</value>
+    </data>
+    <data name="ProteinShort" xml:space="preserve">
+        <value>P</value>
+    </data>
+    <data name="CarbsShort" xml:space="preserve">
+        <value>C</value>
+    </data>
+    <data name="FatShort" xml:space="preserve">
+        <value>F</value>
+    </data>
+    <data name="LogFoodTitle" xml:space="preserve">
+        <value>Log food</value>
+    </data>
+    <data name="SearchPlaceholder" xml:space="preserve">
+        <value>Search...</value>
+    </data>
+    <data name="TabMeals" xml:space="preserve">
+        <value>Meals</value>
+    </data>
+    <data name="TabIngredients" xml:space="preserve">
+        <value>Ingredients</value>
+    </data>
+    <data name="TabScan" xml:space="preserve">
+        <value>Scan</value>
+    </data>
+    <data name="ScanComingSoon" xml:space="preserve">
+        <value>Scanning requires sign-in and is coming later.</value>
+    </data>
+    <data name="AmountGramsLabel" xml:space="preserve">
+        <value>Amount (grams)</value>
+    </data>
+    <data name="ItemLogged" xml:space="preserve">
+        <value>Added to log</value>
+    </data>
+    <data name="LibraryTitle" xml:space="preserve">
+        <value>Library</value>
+    </data>
+    <data name="NewMeal" xml:space="preserve">
+        <value>New meal</value>
+    </data>
+    <data name="NewIngredient" xml:space="preserve">
+        <value>New ingredient</value>
+    </data>
+    <data name="NameLabel" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="BrandLabel" xml:space="preserve">
+        <value>Brand (optional)</value>
+    </data>
+    <data name="NutritionPer100gHeader" xml:space="preserve">
+        <value>Nutrition per 100 g</value>
+    </data>
+    <data name="CaloriesLabel" xml:space="preserve">
+        <value>Calories (kcal)</value>
+    </data>
+    <data name="ProteinLabel" xml:space="preserve">
+        <value>Protein (g)</value>
+    </data>
+    <data name="CarbsLabel" xml:space="preserve">
+        <value>Carbohydrates (g)</value>
+    </data>
+    <data name="FatLabel" xml:space="preserve">
+        <value>Fat (g)</value>
+    </data>
+    <data name="UnitSectionHeader" xml:space="preserve">
+        <value>Piece support (optional)</value>
+    </data>
+    <data name="UnitNameLabel" xml:space="preserve">
+        <value>Unit name (e.g. pcs, slice)</value>
+    </data>
+    <data name="UnitWeightLabel" xml:space="preserve">
+        <value>Weight per unit (g)</value>
+    </data>
+    <data name="Save" xml:space="preserve">
+        <value>Save</value>
+    </data>
+    <data name="AddIngredientToMeal" xml:space="preserve">
+        <value>Add ingredient</value>
+    </data>
+    <data name="TotalLabel" xml:space="preserve">
+        <value>Total</value>
+    </data>
+    <data name="Saved" xml:space="preserve">
+        <value>Saved</value>
+    </data>
+    <data name="GoalsTitle" xml:space="preserve">
+        <value>Goals</value>
+    </data>
+    <data name="DailyGoalLabel" xml:space="preserve">
+        <value>Daily goal (kcal)</value>
+    </data>
+    <data name="ModeLimit" xml:space="preserve">
+        <value>Upper limit</value>
+    </data>
+    <data name="ModeTarget" xml:space="preserve">
+        <value>Target to reach</value>
+    </data>
+    <data name="MacroGoalsHeader" xml:space="preserve">
+        <value>Macro goals (optional)</value>
+    </data>
+    <data name="MealBudgetsHeader" xml:space="preserve">
+        <value>Budget per meal (optional, kcal)</value>
+    </data>
+    <data name="StatsTitle" xml:space="preserve">
+        <value>Statistics</value>
+    </data>
+    <data name="StatsComingSoon" xml:space="preserve">
+        <value>Statistics arrive once local storage is in place.</value>
+    </data>
+    <data name="WeekAverage" xml:space="preserve">
+        <value>Avg/day</value>
+    </data>
+    <data name="DaysOnTrack" xml:space="preserve">
+        <value>On track</value>
+    </data>
+    <data name="LoggedDays" xml:space="preserve">
+        <value>Logged</value>
+    </data>
+    <data name="MealDistribution" xml:space="preserve">
+        <value>Per meal type</value>
+    </data>
+    <data name="NoDataThisWeek" xml:space="preserve">
+        <value>Nothing logged this week.</value>
+    </data>
+    <data name="NoLibraryMatches" xml:space="preserve">
+        <value>No matches in your library.</value>
+    </data>
+    <data name="IngredientSaved" xml:space="preserve">
+        <value>Ingredient saved</value>
+    </data>
+    <data name="MealSaved" xml:space="preserve">
+        <value>Meal saved</value>
+    </data>
+    <data name="Customize" xml:space="preserve">
+        <value>Customize</value>
+    </data>
+    <data name="CustomizeMeal" xml:space="preserve">
+        <value>Customize meal</value>
+    </data>
+    <data name="UseInLog" xml:space="preserve">
+        <value>Use in log</value>
+    </data>
+    <data name="UpdateTemplateToo" xml:space="preserve">
+        <value>Update template too</value>
+    </data>
+    <data name="CustomizedLabel" xml:space="preserve">
+        <value>customized</value>
+    </data>
+    <data name="CreateItemHint" xml:space="preserve">
+        <value>Tap "{0}" to create it.</value>
+    </data>
+</root>

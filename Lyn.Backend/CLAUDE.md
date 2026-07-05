@@ -79,6 +79,45 @@ services.AddOptions<DatabaseSettings>()
 
 Gjelder `JwtSettings`, `DatabaseSettings` osv. Connection string leses via `IOptions<DatabaseSettings>` i `AddDbContext`-lambdaene — aldri inline `GetConnectionString() ?? throw`.
 
+## Feilhåndtering — Result + AppErrorCode
+
+Services returnerer `Result` / `Result<T>` (`Lyn.Shared/Result/`), aldri exceptions for domenefeil. `Failure(string error, AppErrorCode code)` — koden er **påkrevd**.
+
+```csharp
+// Ny feil: velg kode
+return Result<FileDownloadDto>.Failure(localizer["ReleaseNotFound"], AppErrorCode.NotFound);
+
+// Videresend nested feil: behold den indre koden
+if (validateFileResult.IsFailure)
+    return Result.Failure(validateFileResult.Error, validateFileResult.ErrorCode);
+
+// Controller:
+if (result.IsFailure)
+    return HandleFailure(result);
+```
+
+- **`AppErrorCode`** (`Lyn.Shared/Enum/AppErrorCode.cs`) — domenekontrakt delt med frontend. Ranges: `1xxx` generelle, `2xxx` auth, `3xxx` registrering, `4xxx` verifisering, `5xxx` passord-reset, `6xxx` kryptografi.
+- **`HandleFailure`** (`Common/Controllers/BaseController.cs`) — `BuildProblemResult` mapper `AppErrorCode` → HTTP-status + tittel og returnerer `AppProblemDetails` (`Common/ProblemDetail/`, = `ProblemDetails` + `int Code`). Begge overloadene bruker `result.ErrorCode`.
+- **Aldri sett HTTP-status manuelt** — utledes alltid av `BuildProblemResult`. `GlobalExceptionHandler` fanger uventede exceptions.
+
+## Localization — felles plumbing, egne ressurser
+
+Oversettes **ved kilden**: tjenesten injiserer `IStringLocalizer<XxxResources>` og gir localiserte meldinger inn i `Result.Failure`. `Result`, `HandleFailure` og controllere er uberørt. Samme mekanisme brukes for e-poster.
+
+```csharp
+public class AuthService(..., IStringLocalizer<AuthResources> localizer) : IAuthService
+{
+    // ...
+    return Result<string>.Failure(localizer["InvalidCredentials"], AppErrorCode.InvalidCredentials);
+    return Result.Failure(localizer["ReleaseAlreadyExists", version, type], AppErrorCode.Conflict); // med args
+}
+```
+
+- **Ressurser per feature:** `public sealed class XxxResources;` (markør) + `XxxResources.resx` / `XxxResources.nb.resx` i featurens `Resources/`-mappe. Namespace matcher mappen. **Ikke** la Rider generere `.Designer.cs` (intern klasse lekker ut i public signatur) — fjern `<Generator>` fra csproj og bruk markørklassen.
+- **Oppsett:** `AddAppLocalization()` (`Startup/LocalizationExtensions.cs`, tom `ResourcesPath`) + `app.UseRequestLocalization()` **etter** `UseAuthentication`.
+- **Culture-resolving:** `JwtClaimRequestCultureProvider` leser `lang`-claim (autentiserte) → `AcceptLanguageHeaderRequestCultureProvider` (anonyme) → default `en`. Kanonisk liste i `SupportedCultures` (`Platform/Localization/`) — valider brukervalgt språk mot `SupportedCultures.IsSupported(...)`.
+- **Brukerspråk:** `AppUser.PreferredCulture` (BCP-47-streng, ikke egen tabell) stemples som `lang`-claim i `JwtService`.
+
 ## CI/CD og deploy
 
 ### Prod-arkitektur

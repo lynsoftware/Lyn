@@ -1,0 +1,163 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<!-- Alle plattformer -->
+		<TargetFrameworks>net10.0-android;net10.0-windows10.0.19041.0;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+
+		<OutputType>Exe</OutputType>
+		<RootNamespace>Calorie</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<ApplicationTitle>Lyn Calorie</ApplicationTitle>
+		<ApplicationId>com.lynsoftware.lyncalorie</ApplicationId>
+		<ApplicationPublisher>CN=9E5DC225-43C2-468B-B14C-600764D696C2</ApplicationPublisher>
+
+		<ApplicationDisplayVersion>1.1</ApplicationDisplayVersion>
+		<ApplicationVersion>5</ApplicationVersion>
+
+		<WindowsPackageType>MSIX</WindowsPackageType>
+
+		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+		<AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+
+		<!-- Platform-spesifikke OS-versjoner -->
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
+
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+
+		<!-- Android-spesifikke innstillinger (link/pakke-valg ligger i Debug/Release-gruppene under) -->
+		<AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
+	</PropertyGroup>
+
+	<!-- Android Debug — uten signing, med Fast Deployment og symboler så debuggeren virker -->
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-android|AnyCPU'">
+		<AndroidKeyStore>False</AndroidKeyStore>
+		<DebugSymbols>true</DebugSymbols>
+		<AndroidIncludeDebugSymbols>true</AndroidIncludeDebugSymbols>
+		<EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
+		<AndroidLinkMode>None</AndroidLinkMode>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+	</PropertyGroup>
+
+	<!-- Android Release — NB: Calorie trenger EGEN keystore før store-slipp (Fase 6).
+	     Signering settes opp da (AndroidKeyStore/AndroidSigningKeyStore/Alias + passord). -->
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0-android|AnyCPU'">
+		<!-- For Release: støtte for flere arkitekturer -->
+		<RuntimeIdentifiers>android-arm64;android-x64</RuntimeIdentifiers>
+		<AndroidLinkTool>r8</AndroidLinkTool>
+		<AndroidLinkMode>SdkOnly</AndroidLinkMode>
+		<EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+		<AndroidPackageFormat>aab</AndroidPackageFormat>
+	</PropertyGroup>
+
+	<!-- iOS Debug -->
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-ios|AnyCPU'">
+		<CodesignKey>-</CodesignKey>
+		<CodesignProvision></CodesignProvision>
+		<CodesignEntitlements>Platforms/iOS/Entitlements.plist</CodesignEntitlements>
+		<RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">iossimulator-arm64</RuntimeIdentifier>
+		<ArchiveOnBuild>false</ArchiveOnBuild>
+		<MtouchLink>None</MtouchLink>
+		<EnableCodeSigning>true</EnableCodeSigning>
+	</PropertyGroup>
+
+	<!-- iOS Release -->
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0-ios|AnyCPU'">
+		<CodesignKey>BF8736576B37AEE256D641BF0EC39C127DFAD42A</CodesignKey>
+		<CodesignProvision>Automatic</CodesignProvision>
+		<CodesignEntitlements>Platforms/iOS/Entitlements.plist</CodesignEntitlements>
+		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+		<BuildIpa>true</BuildIpa>
+		<ArchiveOnBuild>true</ArchiveOnBuild>
+		<MtouchLink>SdkOnly</MtouchLink>
+		<EnableCodeSigning>true</EnableCodeSigning>
+	</PropertyGroup>
+
+	<!-- macOS Debug -->
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-maccatalyst|AnyCPU'">
+		<CodesignKey>-</CodesignKey>
+		<CodesignProvision></CodesignProvision>
+		<RuntimeIdentifier>maccatalyst-arm64</RuntimeIdentifier>
+		<UseHardenedRuntime>true</UseHardenedRuntime>
+		<ArchiveOnBuild>false</ArchiveOnBuild>
+		<EnableCodeSigning>true</EnableCodeSigning>
+	</PropertyGroup>
+
+	<!-- macOS Release -->
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0-maccatalyst|AnyCPU'">
+		<CodesignKey>Apple Distribution: Fredrik Magee (KS469QG38M)</CodesignKey>
+		<CodesignProvision>f615baa6-d3bf-4116-8407-2f365a5abcee</CodesignProvision>
+		<RuntimeIdentifier>maccatalyst-arm64</RuntimeIdentifier>
+		<UseHardenedRuntime>true</UseHardenedRuntime>
+		<ArchiveOnBuild>true</ArchiveOnBuild>
+		<EnableCodeSigning>true</EnableCodeSigning>
+		<CreatePackage>true</CreatePackage>
+		<EnablePackageSigning>true</EnablePackageSigning>
+		<PackageSigningKey>3rd Party Mac Developer Installer: Fredrik Magee (KS469QG38M)</PackageSigningKey>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<!-- iOS og macOS: uten alpha -->
+		<!-- Erstatt alle de conditional MauiIcon-blokkene med dette: -->
+		<MauiIcon Include="Resources\AppIcon\appicon_alpha.png" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' OR $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" />
+
+		<MauiIcon Include="Resources\AppIcon\appicon.png" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'android' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'windows'" />
+
+		<BundleResource Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'" Include="Resources\AppIcon\AppIcon.icns" Link="Resources\AppIcon.icns" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#17191A" BaseSize="456,456" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="14.2.0" />
+		<PackageReference Include="Konscious.Security.Cryptography.Argon2" Version="1.3.1" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.80" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Features\Navbar\Components\BottomNavBar.xaml.cs">
+		  <DependentUpon>BottomNavBar.xaml</DependentUpon>
+		  <SubType>Code</SubType>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Lyn.Shared\Lyn.Shared.csproj" />
+	  <ProjectReference Include="..\Calorie.Core\Calorie.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Features\Navbar\Components\BottomNavBar.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Features\DailyLog\Components\" />
+	  <Folder Include="Features\DailyLog\Pages\" />
+	</ItemGroup>
+
+	<Target Name="SetMacIcon" AfterTargets="Build" Condition="$(TargetFramework.Contains('maccatalyst')) AND $([MSBuild]::IsOSPlatform('osx'))">
+		<Exec Command="/usr/libexec/PlistBuddy -c 'Add :CFBundleIconFile string AppIcon' '$(OutputPath)/Lyn Calorie.app/Contents/Info.plist' || /usr/libexec/PlistBuddy -c 'Set :CFBundleIconFile AppIcon' '$(OutputPath)/Lyn Calorie.app/Contents/Info.plist'" />
+		<Exec Command="/usr/libexec/PlistBuddy -c 'Add :CFBundleIconName string AppIcon' '$(OutputPath)/Lyn Calorie.app/Contents/Info.plist' || /usr/libexec/PlistBuddy -c 'Set :CFBundleIconName AppIcon' '$(OutputPath)/Lyn Calorie.app/Contents/Info.plist'" />
+	</Target>
+</Project>

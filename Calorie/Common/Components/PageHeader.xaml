@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Calorie.Common.Components"
+             x:Class="Calorie.Common.Components.PageHeader"
+             x:Name="Root">
+    
+    <Border BackgroundColor="{DynamicResource Surface}"
+            Padding="10, 10"
+            StrokeThickness="0">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="0" />
+        </Border.StrokeShape>
+        
+        <Grid ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="60" />
+            </Grid.ColumnDefinitions>
+            
+            <Image Grid.Column="0"
+                   Source="logo.png"
+                   WidthRequest="70"
+                   HeightRequest="70"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   IsVisible="{Binding ShowLogo, Source={x:Reference Root},
+                    x:DataType=local:PageHeader}"/>
+            
+            <Label Grid.Column="1"
+                   Text="{Binding Title, Source={x:Reference Root}, 
+                   x:DataType=local:PageHeader}"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   TextColor="{DynamicResource Primary}"/>
+            
+            <Button Grid.Column="2"
+                    Text="&#xf00d;"
+                    FontFamily="FontAwesome"
+                    FontSize="24"
+                    TextColor="{DynamicResource Primary}"
+                    BackgroundColor="Transparent"
+                    WidthRequest="50"
+                    HeightRequest="50"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding ShowCloseButton, Source={x:Reference Root}, x:DataType=local:PageHeader}"
+                    Clicked="OnCloseClicked"/>
+        </Grid>
+    </Border>
+</ContentView>
