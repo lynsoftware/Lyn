@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace Calorie.Common.Components;
 
 /// <summary>
 /// Delt sideheader: valgfri logo (venstre), tittel (midt), valgfri
-/// tilbake-knapp (høyre). Logo navigerer oss tilbake til forrige skjerm.
-/// Klikk på Logo tar oss til hovedskjermen.
+/// lukk-knapp (høyre) som kjører CloseCommand.
 /// Plassering eies av siden; utseendet eies her.
 /// </summary>
 public partial class PageHeader : ContentView
@@ -19,15 +13,13 @@ public partial class PageHeader : ContentView
         BindableProperty.Create(nameof(Title), typeof(string), typeof(PageHeader), string.Empty);
     
     public static readonly BindableProperty ShowLogoProperty =
-        BindableProperty.Create(nameof(Title), typeof(string), typeof(PageHeader), string.Empty);
+        BindableProperty.Create(nameof(ShowLogo), typeof(bool), typeof(PageHeader), false);
     
     public static readonly BindableProperty ShowCloseButtonProperty =
-        BindableProperty.Create(nameof(Title), typeof(string), typeof(PageHeader), string.Empty);
+        BindableProperty.Create(nameof(ShowCloseButton), typeof(bool), typeof(PageHeader), false);
     
     public static readonly BindableProperty CloseCommandProperty =
-        BindableProperty.Create(nameof(Title), typeof(string), typeof(PageHeader), string.Empty);
-    
-    public event EventHandler? CloseClicked;
+        BindableProperty.Create(nameof(CloseCommand), typeof(ICommand), typeof(PageHeader));
     
     public PageHeader()
     {
@@ -40,29 +32,21 @@ public partial class PageHeader : ContentView
         set => SetValue(TitleProperty, value);
     }
     
-    public string ShowLogo
+    public bool ShowLogo
     {
-        get => (string)GetValue(ShowLogoProperty);
+        get => (bool)GetValue(ShowLogoProperty);
         set => SetValue(ShowLogoProperty, value);
     }
     
-    public string ShowCloseButton
+    public bool ShowCloseButton
     {
-        get => (string)GetValue(ShowCloseButtonProperty);
+        get => (bool)GetValue(ShowCloseButtonProperty);
         set => SetValue(ShowCloseButtonProperty, value);
     }
     
     public ICommand? CloseCommand
     {
-        get => (ICommand)GetValue(CloseCommandProperty);
+        get => (ICommand?)GetValue(CloseCommandProperty);
         set => SetValue(CloseCommandProperty, value);
-    }
-
-    private void OnCloseClicked(object? sender, EventArgs e)
-    {
-        CloseClicked?.Invoke(this, EventArgs.Empty);
-
-        if (CloseCommand?.CanExecute(null) == true)
-            CloseCommand.Execute(null);
     }
 }

@@ -22,7 +22,7 @@
             
             <Image Grid.Column="0"
                    Source="logo.png"
-                   WidthRequest="70"
+                   WidthRequest="60"
                    HeightRequest="70"
                    VerticalOptions="Center"
                    HorizontalOptions="Center"
@@ -48,8 +48,10 @@
                     HeightRequest="50"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
-                    IsVisible="{Binding ShowCloseButton, Source={x:Reference Root}, x:DataType=local:PageHeader}"
-                    Clicked="OnCloseClicked"/>
+                    IsVisible="{Binding ShowCloseButton, Source={x:Reference Root}, 
+                        x:DataType=local:PageHeader}"
+                    Command="{Binding CloseCommand, Source={x:Reference Root}, 
+                        x:DataType=local:PageHeader}"/>
         </Grid>
     </Border>
 </ContentView>
