@@ -1,87 +1,33 @@
-using System.Globalization;
+using Calorie.Core.Common;
+using Calorie.Core.Common.Constants;
 using Calorie.Core.Features.Library;
-using Calorie.Core.Resources.Strings;
-using Calorie.Infrastructure.Services;
+using Calorie.Core.Features.Library.Models;
+using Calorie.Core.Features.Library.ViewModels;
 
 namespace Calorie.Features.Library.Pages;
 
 /// <summary>
-/// Editor for ny eller eksisterende ingrediens. Redigering muterer
-/// bibliotek-objektet direkte (in-memory i Fase 4A).
+/// Ingrediens-editoren. Ren View: all tilstand og logikk bor i
+/// IngredientEditorViewModel — siden oversetter kun Shell-parametere
+/// til typede VM-kall.
 /// </summary>
-public partial class IngredientEditorPage : ContentPage
+public partial class IngredientEditorPage : ContentPage, IQueryAttributable
 {
-    private readonly LibraryIngredient? _existing;
-    private readonly Action<LibraryIngredient>? _onSaved;
+    private readonly IngredientEditorViewModel _vm;
 
-    /// <param name="initialName">Forhåndsutfylt navn ved ny ingrediens
-    /// (f.eks. søketeksten fra logge-flyten).</param>
-    /// <param name="onSaved">Kalles med den lagrede ingrediensen — lar
-    /// logge-flyten forhåndsvelge den nye varen ved retur.</param>
-    public IngredientEditorPage(LibraryIngredient? existing = null,
-        string? initialName = null,
-        Action<LibraryIngredient>? onSaved = null)
+    public IngredientEditorPage(IngredientEditorViewModel vm)
     {
         InitializeComponent();
-        _existing = existing;
-        _onSaved = onSaved;
-
-        TitleLabel.Text = existing == null ? AppResources.NewIngredient : AppResources.TabIngredients;
-
-        if (existing == null)
-        {
-            NameEntry.Text = initialName;
-        }
-        else
-        {
-            NameEntry.Text = existing.Name;
-            BrandEntry.Text = existing.Brand;
-            CaloriesEntry.Text = FormatDecimal(existing.CaloriesPer100g);
-            ProteinEntry.Text = FormatDecimal(existing.ProteinPer100g);
-            CarbsEntry.Text = FormatDecimal(existing.CarbsPer100g);
-            FatEntry.Text = FormatDecimal(existing.FatPer100g);
-            UnitNameEntry.Text = existing.UnitName;
-            UnitWeightEntry.Text = existing.UnitWeightGrams is { } weight ? FormatDecimal(weight) : null;
-        }
+        _vm = vm;
+        BindingContext = vm;
     }
 
-    private async void OnSaveClicked(object sender, EventArgs e)
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        var name = NameEntry.Text?.Trim();
-        if (string.IsNullOrEmpty(name))
-            return;
+        if (query.TryGetValue(NavKeys.InitialName, out var name) && name is string initialName)
+            _vm.SetInitialName(initialName);
 
-        var target = _existing ?? new LibraryIngredient();
-
-        target.Name = name;
-        target.Brand = string.IsNullOrWhiteSpace(BrandEntry.Text) ? null : BrandEntry.Text.Trim();
-        target.CaloriesPer100g = ParseDecimal(CaloriesEntry.Text);
-        target.ProteinPer100g = ParseDecimal(ProteinEntry.Text);
-        target.CarbsPer100g = ParseDecimal(CarbsEntry.Text);
-        target.FatPer100g = ParseDecimal(FatEntry.Text);
-
-        // Stykk-støtte er valgfri — krever både navn og vekt for å gjelde
-        var unitName = UnitNameEntry.Text?.Trim();
-        var unitWeight = ParseDecimal(UnitWeightEntry.Text);
-        target.UnitName = string.IsNullOrEmpty(unitName) || unitWeight <= 0 ? null : unitName;
-        target.UnitWeightGrams = target.UnitName == null ? null : unitWeight;
-
-        await LibraryStore.SaveIngredientAsync(target);
-        _onSaved?.Invoke(target);
-
-        await AppToast.SuccessAsync(AppResources.IngredientSaved);
-        await Navigation.PopAsync();
-    }
-
-    private async void OnCloseClicked(object sender, EventArgs e) => await Navigation.PopAsync();
-
-    private static string FormatDecimal(decimal value) => value.ToString("0.##", CultureInfo.CurrentCulture);
-
-    private static decimal ParseDecimal(string? text)
-    {
-        var normalized = text?.Replace(',', '.') ?? string.Empty;
-        return decimal.TryParse(normalized, NumberStyles.Number, CultureInfo.InvariantCulture, out var value) && value >= 0
-            ? value
-            : 0;
+        if (query.TryGetValue(NavKeys.IngredientToEdit, out var existing) && existing is LibraryIngredient ingredient)
+            _vm.LoadExisting(ingredient);
     }
 }

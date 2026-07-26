@@ -20,7 +20,7 @@ namespace Calorie.Core.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.3");
 
-            modelBuilder.Entity("Calorie.Core.Features.DailyLog.LogEntryRecord", b =>
+            modelBuilder.Entity("Calorie.Core.Features.DailyLog.Models.LogEntryRecord", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -64,7 +64,7 @@ namespace Calorie.Core.Data.Migrations
                     b.ToTable("LogEntries");
                 });
 
-            modelBuilder.Entity("Calorie.Core.Features.Goals.MealBudgetRecord", b =>
+            modelBuilder.Entity("Calorie.Core.Features.Goals.Models.MealBudgetRecord", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,7 +87,7 @@ namespace Calorie.Core.Data.Migrations
                     b.ToTable("MealBudgets");
                 });
 
-            modelBuilder.Entity("Calorie.Core.Features.Goals.UserGoalRecord", b =>
+            modelBuilder.Entity("Calorie.Core.Features.Goals.Models.UserGoalRecord", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -124,7 +124,7 @@ namespace Calorie.Core.Data.Migrations
                     b.ToTable("Goals");
                 });
 
-            modelBuilder.Entity("Calorie.Core.Features.Library.LibraryIngredient", b =>
+            modelBuilder.Entity("Calorie.Core.Features.Library.Models.LibraryIngredient", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -166,7 +166,7 @@ namespace Calorie.Core.Data.Migrations
                     b.ToTable("Ingredients");
                 });
 
-            modelBuilder.Entity("Calorie.Core.Features.Library.LibraryMeal", b =>
+            modelBuilder.Entity("Calorie.Core.Features.Library.Models.LibraryMeal", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -190,7 +190,7 @@ namespace Calorie.Core.Data.Migrations
                     b.ToTable("Meals");
                 });
 
-            modelBuilder.Entity("Calorie.Core.Features.Library.MealComponent", b =>
+            modelBuilder.Entity("Calorie.Core.Features.Library.Models.MealComponent", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -214,24 +214,24 @@ namespace Calorie.Core.Data.Migrations
                     b.ToTable("MealComponents");
                 });
 
-            modelBuilder.Entity("Calorie.Core.Features.Goals.MealBudgetRecord", b =>
+            modelBuilder.Entity("Calorie.Core.Features.Goals.Models.MealBudgetRecord", b =>
                 {
-                    b.HasOne("Calorie.Core.Features.Goals.UserGoalRecord", null)
+                    b.HasOne("Calorie.Core.Features.Goals.Models.UserGoalRecord", null)
                         .WithMany("MealBudgets")
                         .HasForeignKey("UserGoalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Calorie.Core.Features.Library.MealComponent", b =>
+            modelBuilder.Entity("Calorie.Core.Features.Library.Models.MealComponent", b =>
                 {
-                    b.HasOne("Calorie.Core.Features.Library.LibraryIngredient", "Ingredient")
+                    b.HasOne("Calorie.Core.Features.Library.Models.LibraryIngredient", "Ingredient")
                         .WithMany()
                         .HasForeignKey("IngredientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Calorie.Core.Features.Library.LibraryMeal", null)
+                    b.HasOne("Calorie.Core.Features.Library.Models.LibraryMeal", null)
                         .WithMany("Components")
                         .HasForeignKey("MealId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -240,12 +240,12 @@ namespace Calorie.Core.Data.Migrations
                     b.Navigation("Ingredient");
                 });
 
-            modelBuilder.Entity("Calorie.Core.Features.Goals.UserGoalRecord", b =>
+            modelBuilder.Entity("Calorie.Core.Features.Goals.Models.UserGoalRecord", b =>
                 {
                     b.Navigation("MealBudgets");
                 });
 
-            modelBuilder.Entity("Calorie.Core.Features.Library.LibraryMeal", b =>
+            modelBuilder.Entity("Calorie.Core.Features.Library.Models.LibraryMeal", b =>
                 {
                     b.Navigation("Components");
                 });

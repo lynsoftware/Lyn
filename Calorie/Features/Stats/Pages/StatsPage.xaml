@@ -5,46 +5,19 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:strings="clr-namespace:Calorie.Core.Resources.Strings;assembly=Calorie.Core"
-             xmlns:components="clr-namespace:Calorie.Features.Navbar.Components"
-             xmlns:navbar="clr-namespace:Calorie.Features.Navbar"
-             xmlns:components1="clr-namespace:Calorie.Features.Navbar.Components"
+             xmlns:vm="clr-namespace:Calorie.Core.Features.Stats.ViewModels;assembly=Calorie.Core"
+             xmlns:common="clr-namespace:Calorie.Common.Components"
+             xmlns:navbar="clr-namespace:Calorie.Features.Navbar.Components"
              x:Class="Calorie.Features.Stats.Pages.StatsPage"
+             x:DataType="vm:StatsViewModel"
              BackgroundColor="{DynamicResource Background}">
 
     <Grid RowDefinitions="Auto,*,Auto">
 
         <!-- Header -->
-        <Border Grid.Row="0"
-                BackgroundColor="{DynamicResource Surface}"
-                Padding="10,10"
-                StrokeThickness="0">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="0" />
-            </Border.StrokeShape>
-
-            <Grid ColumnSpacing="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="60" />
-                </Grid.ColumnDefinitions>
-
-                <Image Source="logo.png"
-                       Grid.Column="0"
-                       WidthRequest="70"
-                       HeightRequest="70"
-                       VerticalOptions="Center"
-                       HorizontalOptions="Center"/>
-
-                <Label Grid.Column="1"
-                       Text="{x:Static strings:AppResources.StatsTitle}"
-                       FontSize="28"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{DynamicResource Primary}"/>
-            </Grid>
-        </Border>
+        <common:PageHeader Grid.Row="0"
+                           Title="{x:Static strings:AppResources.StatsTitle}"
+                           ShowLogo="True"/>
 
         <!-- Innhold -->
         <ScrollView Grid.Row="1">
@@ -59,23 +32,22 @@
                             TextColor="{DynamicResource NavInactive}"
                             BackgroundColor="Transparent"
                             HorizontalOptions="Center"
-                            Clicked="OnPreviousWeekClicked"/>
-                    <Label x:Name="WeekLabel"
-                           Grid.Column="1"
+                            Command="{Binding PreviousWeekCommand}"/>
+                    <Label Grid.Column="1"
+                           Text="{Binding WeekLabel}"
                            FontSize="17"
                            FontAttributes="Bold"
                            TextColor="{DynamicResource TextPrimary}"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"/>
-                    <Button x:Name="NextWeekButton"
-                            Grid.Column="2"
+                    <Button Grid.Column="2"
                             Text="&#xf054;"
                             FontFamily="FontAwesome"
                             FontSize="18"
                             TextColor="{DynamicResource NavInactive}"
                             BackgroundColor="Transparent"
                             HorizontalOptions="Center"
-                            Clicked="OnNextWeekClicked"/>
+                            Command="{Binding NextWeekCommand}"/>
                 </Grid>
 
                 <!-- Ukessøyler -->
@@ -84,17 +56,69 @@
                         Padding="14,14,14,10">
                     <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
                     <VerticalStackLayout Spacing="8">
-                        <Label x:Name="GoalCaptionLabel"
+                        <Label Text="{Binding GoalCaption}"
                                FontSize="12"
                                TextColor="{DynamicResource TextMuted}"
                                HorizontalOptions="Center"/>
-                        <Grid x:Name="BarsGrid" ColumnSpacing="8"/>
-                        <Label x:Name="EmptyLabel"
-                               Text="{x:Static strings:AppResources.NoDataThisWeek}"
+
+                        <!-- Én kolonne per dag: søyle (bunnjustert), kcal og ukedagsbokstav.
+                             Søylefeltets høyde (130) må matche BarZoneHeight i VM-en. -->
+                        <FlexLayout Direction="Row"
+                                    BindableLayout.ItemsSource="{Binding DayBars}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:DayBar">
+                                    <Grid FlexLayout.Grow="1"
+                                          FlexLayout.Basis="0"
+                                          RowSpacing="3"
+                                          RowDefinitions="130,Auto,Auto"
+                                          Margin="4,0">
+                                        <!-- Stablet søyle: kos øverst (Treat), sunt nederst -->
+                                        <VerticalStackLayout Spacing="0"
+                                                             VerticalOptions="End"
+                                                             HorizontalOptions="Fill">
+                                            <BoxView CornerRadius="3,3,0,0"
+                                                     HeightRequest="{Binding TreatBarHeight}"
+                                                     HorizontalOptions="Fill"
+                                                     Color="{DynamicResource Treat}"/>
+                                            <BoxView CornerRadius="3"
+                                                     HeightRequest="{Binding HealthyBarHeight}"
+                                                     HorizontalOptions="Fill"
+                                                     Color="{DynamicResource Separator}">
+                                                <BoxView.Triggers>
+                                                    <DataTrigger TargetType="BoxView"
+                                                                 Binding="{Binding IsOnTrack}"
+                                                                 Value="True">
+                                                        <Setter Property="Color" Value="{DynamicResource Primary}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="BoxView"
+                                                                 Binding="{Binding IsOverLimit}"
+                                                                 Value="True">
+                                                        <Setter Property="Color" Value="{DynamicResource OverLimit}"/>
+                                                    </DataTrigger>
+                                                </BoxView.Triggers>
+                                            </BoxView>
+                                        </VerticalStackLayout>
+                                        <Label Grid.Row="1"
+                                               Text="{Binding CaloriesText}"
+                                               FontSize="10"
+                                               TextColor="{DynamicResource TextMuted}"
+                                               HorizontalOptions="Center"/>
+                                        <Label Grid.Row="2"
+                                               Text="{Binding DayLetter}"
+                                               FontSize="11"
+                                               FontAttributes="Bold"
+                                               TextColor="{DynamicResource TextSecondary}"
+                                               HorizontalOptions="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+
+                        <Label Text="{x:Static strings:AppResources.NoDataThisWeek}"
+                               IsVisible="{Binding IsEmpty}"
                                FontSize="14"
                                TextColor="{DynamicResource TextMuted}"
                                HorizontalOptions="Center"
-                               IsVisible="False"
                                Margin="0,8"/>
                     </VerticalStackLayout>
                 </Border>
@@ -104,7 +128,7 @@
                     <Border BackgroundColor="{DynamicResource Surface}" StrokeThickness="0" Padding="10,12">
                         <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                         <VerticalStackLayout Spacing="2">
-                            <Label x:Name="AverageValueLabel" FontSize="20" FontAttributes="Bold"
+                            <Label Text="{Binding AverageText}" FontSize="20" FontAttributes="Bold"
                                    TextColor="{DynamicResource Primary}" HorizontalOptions="Center"/>
                             <Label Text="{x:Static strings:AppResources.WeekAverage}" FontSize="11"
                                    TextColor="{DynamicResource TextMuted}" HorizontalOptions="Center"/>
@@ -113,7 +137,7 @@
                     <Border Grid.Column="1" BackgroundColor="{DynamicResource Surface}" StrokeThickness="0" Padding="10,12">
                         <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                         <VerticalStackLayout Spacing="2">
-                            <Label x:Name="OnTrackValueLabel" FontSize="20" FontAttributes="Bold"
+                            <Label Text="{Binding OnTrackText}" FontSize="20" FontAttributes="Bold"
                                    TextColor="{DynamicResource Primary}" HorizontalOptions="Center"/>
                             <Label Text="{x:Static strings:AppResources.DaysOnTrack}" FontSize="11"
                                    TextColor="{DynamicResource TextMuted}" HorizontalOptions="Center"/>
@@ -122,7 +146,7 @@
                     <Border Grid.Column="2" BackgroundColor="{DynamicResource Surface}" StrokeThickness="0" Padding="10,12">
                         <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                         <VerticalStackLayout Spacing="2">
-                            <Label x:Name="LoggedDaysValueLabel" FontSize="20" FontAttributes="Bold"
+                            <Label Text="{Binding LoggedDaysText}" FontSize="20" FontAttributes="Bold"
                                    TextColor="{DynamicResource Primary}" HorizontalOptions="Center"/>
                             <Label Text="{x:Static strings:AppResources.LoggedDays}" FontSize="11"
                                    TextColor="{DynamicResource TextMuted}" HorizontalOptions="Center"/>
@@ -131,7 +155,7 @@
                 </Grid>
 
                 <!-- Fordeling per måltidstype -->
-                <Border x:Name="DistributionCard"
+                <Border IsVisible="{Binding HasData}"
                         BackgroundColor="{DynamicResource Surface}"
                         StrokeThickness="0"
                         Padding="16,12">
@@ -141,14 +165,45 @@
                                FontSize="15"
                                FontAttributes="Bold"
                                TextColor="{DynamicResource TextPrimary}"/>
-                        <VerticalStackLayout x:Name="DistributionContainer" Spacing="8"/>
+
+                        <VerticalStackLayout Spacing="8"
+                                             BindableLayout.ItemsSource="{Binding DistributionRows}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:DistributionRow">
+                                    <Grid ColumnSpacing="10" ColumnDefinitions="110,*,Auto">
+                                        <Label Text="{Binding Label}"
+                                               FontSize="13"
+                                               TextColor="{DynamicResource TextPrimary}"
+                                               VerticalOptions="Center"/>
+                                        <ProgressBar Grid.Column="1"
+                                                     Progress="{Binding Fraction}"
+                                                     ProgressColor="{DynamicResource Primary}"
+                                                     BackgroundColor="{DynamicResource Separator}"
+                                                     VerticalOptions="Center">
+                                            <ProgressBar.Triggers>
+                                                <DataTrigger TargetType="ProgressBar"
+                                                             Binding="{Binding IsTreat}"
+                                                             Value="True">
+                                                    <Setter Property="ProgressColor" Value="{DynamicResource Treat}"/>
+                                                </DataTrigger>
+                                            </ProgressBar.Triggers>
+                                        </ProgressBar>
+                                        <Label Grid.Column="2"
+                                               Text="{Binding DetailText}"
+                                               FontSize="12"
+                                               TextColor="{DynamicResource TextSecondary}"
+                                               VerticalOptions="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
                     </VerticalStackLayout>
                 </Border>
             </VerticalStackLayout>
         </ScrollView>
 
         <!-- Bunn-navigasjon -->
-        <components1:BottomNavBar
+        <navbar:BottomNavBar
             Grid.Row="2"
             ActiveTab="Stats"
             HomeClicked="OnHomeClicked"

@@ -27,4 +27,8 @@
     <Color x:Key="OverLimit">#C93A24</Color>
     <Color x:Key="Success">#1E8E3E</Color>
     <Color x:Key="OnSuccess">#FFFFFF</Color>
+
+    <!-- Kos-andelen i dagsbaren: innenfor og over grensen -->
+    <Color x:Key="Treat">#8E44AD</Color>
+    <Color x:Key="TreatOver">#C2185B</Color>
 </ResourceDictionary>

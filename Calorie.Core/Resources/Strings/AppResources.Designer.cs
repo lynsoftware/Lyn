@@ -835,6 +835,132 @@ namespace Calorie.Core.Resources.Strings {
                 return ResourceManager.GetString("CustomizedLabel", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Manual nutrition.
+        /// </summary>
+        public static string ManualNutrition {
+            get {
+                return ResourceManager.GetString("ManualNutrition", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Package weight (g).
+        /// </summary>
+        public static string PackageWeightLabel {
+            get {
+                return ResourceManager.GetString("PackageWeightLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Per 100 g.
+        /// </summary>
+        public static string Per100gLabel {
+            get {
+                return ResourceManager.GetString("Per100gLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Per package.
+        /// </summary>
+        public static string PerPackageLabel {
+            get {
+                return ResourceManager.GetString("PerPackageLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to package.
+        /// </summary>
+        public static string PackageUnitName {
+            get {
+                return ResourceManager.GetString("PackageUnitName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Entry deleted.
+        /// </summary>
+        public static string EntryDeleted {
+            get {
+                return ResourceManager.GetString("EntryDeleted", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Treat share of daily goal (%, optional).
+        /// </summary>
+        public static string TreatShareLabel {
+            get {
+                return ResourceManager.GetString("TreatShareLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to = {0} kcal.
+        /// </summary>
+        public static string TreatShareCalculated {
+            get {
+                return ResourceManager.GetString("TreatShareCalculated", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} kcal treats left.
+        /// </summary>
+        public static string TreatRemainingFormat {
+            get {
+                return ResourceManager.GetString("TreatRemainingFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} kcal treats over.
+        /// </summary>
+        public static string TreatOverFormat {
+            get {
+                return ResourceManager.GetString("TreatOverFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Ingredient deleted.
+        /// </summary>
+        public static string IngredientDeleted {
+            get {
+                return ResourceManager.GetString("IngredientDeleted", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Meal deleted.
+        /// </summary>
+        public static string MealDeleted {
+            get {
+                return ResourceManager.GetString("MealDeleted", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The ingredient is used in a meal and can't be deleted.
+        /// </summary>
+        public static string IngredientInUse {
+            get {
+                return ResourceManager.GetString("IngredientInUse", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Theme.

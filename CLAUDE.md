@@ -6,6 +6,7 @@
 
 Se @Lyn.Backend/CLAUDE.md for backend-arkitektur og patterns (modulær monolitt, Platform/ + Apps/)
 Se @Lyn.Web/CLAUDE.md for Blazor WASM-frontend
+Se @Calorie/CLAUDE.md for Calorie MAUI-appen (MVVM, Shell-navigasjon, DI, Calorie.Core)
 
 ## Status
 
@@ -17,7 +18,8 @@ Se @Lyn.Web/CLAUDE.md for Blazor WASM-frontend
 
 ## Pågående / neste
 
-- **Calorie (Fase 3):** nytt produkt under `Lyn.Backend/Apps/Calorie/` med egen `CalorieDbContext` (samme database, egen migrasjonshistorikk). DbContext + modul på plass; domenemodeller gjenstår (krever OK fra Magee).
+- **Calorie backend (Fase 3) — modeller ferdige:** domenemodeller + samlet `Init`-migrasjon på plass under `Lyn.Backend/Apps/Calorie/`. Gjenstår: slices (kun Products/EAN + Sync + bilder — lokal-først, ingen CRUD-slices) + `AppRelease.Product`-diskriminator.
+- **Calorie MAUI-app (Fase 4A/4B + MVVM) — ferdig:** komplett offline kaloriapp i `Calorie` + `Calorie.Core` (SQLite), migrert til MVVM/DI/Shell-ruter juli 2026. Se `Calorie/CLAUDE.md`. Neste: resten av UI-finpuss (4B-2) inkl. store-DI og VM-enhetstester.
 - **Localization-rest:** lokaliserte e-poster (verifisering, support).
 - **Managed prod-DB (RDS):** utsatt til rett før publisering.
 - Følger `ROADMAP-Calorie-og-DB.md`.

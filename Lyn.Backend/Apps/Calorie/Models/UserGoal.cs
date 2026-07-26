@@ -30,6 +30,10 @@ public class UserGoal
     public int? CarbsGrams { get; set; }
     public int? FatGrams { get; set; }
 
+    // Valgfri kos-andel av dagsmålet i prosent (null = av) — "20 % av dagen
+    // kan være kos". Prosent, ikke kcal: skalerer med dagsmålet.
+    public int? TreatPercent { get; set; }
+
     // Første dag målet gjelder for (lokal dato, samme akse som LogEntry.LoggedDate)
     public DateOnly EffectiveFromDate { get; set; }
 

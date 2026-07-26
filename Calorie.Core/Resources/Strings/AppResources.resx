@@ -296,6 +296,48 @@ Keep a list of your seeds and length (this is safe as they are worthless without
     <data name="CustomizedLabel" xml:space="preserve">
         <value>customized</value>
     </data>
+    <data name="ManualNutrition" xml:space="preserve">
+        <value>Manual nutrition</value>
+    </data>
+    <data name="PackageWeightLabel" xml:space="preserve">
+        <value>Package weight (g)</value>
+    </data>
+    <data name="Per100gLabel" xml:space="preserve">
+        <value>Per 100 g</value>
+    </data>
+    <data name="PerPackageLabel" xml:space="preserve">
+        <value>Per package</value>
+    </data>
+    <data name="PackageUnitName" xml:space="preserve">
+        <value>package</value>
+    </data>
+    <data name="Delete" xml:space="preserve">
+        <value>Delete</value>
+    </data>
+    <data name="EntryDeleted" xml:space="preserve">
+        <value>Entry deleted</value>
+    </data>
+    <data name="TreatShareLabel" xml:space="preserve">
+        <value>Treat share of daily goal (%, optional)</value>
+    </data>
+    <data name="TreatShareCalculated" xml:space="preserve">
+        <value>= {0} kcal</value>
+    </data>
+    <data name="TreatRemainingFormat" xml:space="preserve">
+        <value>{0} kcal treats left</value>
+    </data>
+    <data name="TreatOverFormat" xml:space="preserve">
+        <value>{0} kcal treats over</value>
+    </data>
+    <data name="IngredientDeleted" xml:space="preserve">
+        <value>Ingredient deleted</value>
+    </data>
+    <data name="MealDeleted" xml:space="preserve">
+        <value>Meal deleted</value>
+    </data>
+    <data name="IngredientInUse" xml:space="preserve">
+        <value>The ingredient is used in a meal and can't be deleted</value>
+    </data>
     <data name="CreateItemHint" xml:space="preserve">
         <value>Tap "{0}" to create it.</value>
     </data>

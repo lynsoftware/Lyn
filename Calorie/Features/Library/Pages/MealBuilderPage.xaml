@@ -1,53 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<!-- Måltidsbygger: navn + ingredienser med gram, live kcal-total.
-     Brukes for både nytt og eksisterende måltid. -->
+<!-- Måltidsbygger: navn + ingredienser med gram/stykk, live kcal-total.
+     Brukes for nytt måltid, redigering og Tilpass (engangs-kopi). -->
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:strings="clr-namespace:Calorie.Core.Resources.Strings;assembly=Calorie.Core"
              xmlns:library="clr-namespace:Calorie.Core.Features.Library;assembly=Calorie.Core"
+             xmlns:vm="clr-namespace:Calorie.Core.Features.Library.ViewModels;assembly=Calorie.Core"
+             xmlns:common="clr-namespace:Calorie.Common.Components"
              x:Class="Calorie.Features.Library.Pages.MealBuilderPage"
+             x:DataType="vm:MealBuilderViewModel"
              BackgroundColor="{DynamicResource Background}">
 
     <Grid RowDefinitions="Auto,*,Auto">
 
         <!-- Header -->
-        <Border Grid.Row="0"
-                BackgroundColor="{DynamicResource Surface}"
-                Padding="10,10"
-                StrokeThickness="0">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="0" />
-            </Border.StrokeShape>
-
-            <Grid ColumnSpacing="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="60" />
-                </Grid.ColumnDefinitions>
-
-                <Label x:Name="TitleLabel"
-                       Grid.Column="1"
-                       FontSize="24"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{DynamicResource Primary}"/>
-
-                <Button Grid.Column="2"
-                        Text="&#xf00d;"
-                        FontFamily="FontAwesome"
-                        FontSize="24"
-                        TextColor="{DynamicResource Primary}"
-                        BackgroundColor="Transparent"
-                        WidthRequest="50"
-                        HeightRequest="50"
-                        VerticalOptions="Center"
-                        HorizontalOptions="Center"
-                        Clicked="OnCloseClicked"/>
-            </Grid>
-        </Border>
+        <common:PageHeader Grid.Row="0"
+                           Title="{Binding Title}"
+                           ShowCloseButton="True"
+                           CloseCommand="{Binding CloseCommand}"/>
 
         <!-- Innhold -->
         <ScrollView Grid.Row="1">
@@ -57,44 +28,256 @@
                        FontSize="12" TextColor="{DynamicResource TextMuted}"/>
                 <Border BackgroundColor="{DynamicResource Surface}" StrokeThickness="0" Padding="12,0">
                     <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
-                    <Entry x:Name="NameEntry"
+                    <Entry Text="{Binding Name}"
                            TextColor="{DynamicResource TextPrimary}"
                            BackgroundColor="Transparent"/>
                 </Border>
 
+                <!-- Modus (kun nye måltider): komponer av ingredienser, eller
+                     tast næringsinnholdet manuelt (ferdigrett) -->
+                <HorizontalStackLayout Spacing="8" IsVisible="{Binding CanChooseMode}">
+                    <Button Text="{x:Static strings:AppResources.TabIngredients}"
+                            Command="{Binding SelectComponentModeCommand}"
+                            FontSize="13"
+                            Padding="14,6"
+                            CornerRadius="16"
+                            BackgroundColor="{DynamicResource Surface}"
+                            TextColor="{DynamicResource TextSecondary}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsComponentMode}"
+                                         Value="True">
+                                <Setter Property="BackgroundColor" Value="{DynamicResource Primary}"/>
+                                <Setter Property="TextColor" Value="{DynamicResource OnPrimary}"/>
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button Text="{x:Static strings:AppResources.ManualNutrition}"
+                            Command="{Binding SelectManualModeCommand}"
+                            FontSize="13"
+                            Padding="14,6"
+                            CornerRadius="16"
+                            BackgroundColor="{DynamicResource Surface}"
+                            TextColor="{DynamicResource TextSecondary}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsManualMode}"
+                                         Value="True">
+                                <Setter Property="BackgroundColor" Value="{DynamicResource Primary}"/>
+                                <Setter Property="TextColor" Value="{DynamicResource OnPrimary}"/>
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </HorizontalStackLayout>
+
+                <!-- Manuelt næringsinnhold (ferdigrett) -->
+                <VerticalStackLayout Spacing="10" IsVisible="{Binding IsManualMode}">
+
+                    <Label Text="{x:Static strings:AppResources.PackageWeightLabel}"
+                           FontSize="12" TextColor="{DynamicResource TextMuted}"/>
+                    <Border BackgroundColor="{DynamicResource Surface}" StrokeThickness="0" Padding="12,0">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <Entry Text="{Binding PackageWeightText}" Keyboard="Numeric"
+                               TextColor="{DynamicResource TextPrimary}" BackgroundColor="Transparent"/>
+                    </Border>
+
+                    <!-- Tolkningen av tallene: etikettens per 100 g-kolonne eller hele pakken -->
+                    <HorizontalStackLayout Spacing="8">
+                        <Button Text="{x:Static strings:AppResources.Per100gLabel}"
+                                Command="{Binding SelectPer100gCommand}"
+                                FontSize="13"
+                                Padding="14,6"
+                                CornerRadius="16"
+                                BackgroundColor="{DynamicResource Surface}"
+                                TextColor="{DynamicResource TextSecondary}">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button"
+                                             Binding="{Binding IsPer100g}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource Primary}"/>
+                                    <Setter Property="TextColor" Value="{DynamicResource OnPrimary}"/>
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                        <Button Text="{x:Static strings:AppResources.PerPackageLabel}"
+                                Command="{Binding SelectPerPackageCommand}"
+                                FontSize="13"
+                                Padding="14,6"
+                                CornerRadius="16"
+                                BackgroundColor="{DynamicResource Surface}"
+                                TextColor="{DynamicResource TextSecondary}">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button"
+                                             Binding="{Binding IsPerPackage}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource Primary}"/>
+                                    <Setter Property="TextColor" Value="{DynamicResource OnPrimary}"/>
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </HorizontalStackLayout>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="4">
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="{x:Static strings:AppResources.CaloriesLabel}"
+                               FontSize="12" TextColor="{DynamicResource TextMuted}"/>
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="{x:Static strings:AppResources.ProteinLabel}"
+                               FontSize="12" TextColor="{DynamicResource TextMuted}"/>
+
+                        <Border Grid.Row="1" Grid.Column="0" BackgroundColor="{DynamicResource Surface}" StrokeThickness="0" Padding="12,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                            <Entry Text="{Binding ManualCaloriesText}" Keyboard="Numeric"
+                                   TextColor="{DynamicResource TextPrimary}" BackgroundColor="Transparent"/>
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="1" BackgroundColor="{DynamicResource Surface}" StrokeThickness="0" Padding="12,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                            <Entry Text="{Binding ManualProteinText}" Keyboard="Numeric"
+                                   TextColor="{DynamicResource TextPrimary}" BackgroundColor="Transparent"/>
+                        </Border>
+
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="{x:Static strings:AppResources.CarbsLabel}"
+                               FontSize="12" TextColor="{DynamicResource TextMuted}" Margin="0,6,0,0"/>
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="{x:Static strings:AppResources.FatLabel}"
+                               FontSize="12" TextColor="{DynamicResource TextMuted}" Margin="0,6,0,0"/>
+
+                        <Border Grid.Row="3" Grid.Column="0" BackgroundColor="{DynamicResource Surface}" StrokeThickness="0" Padding="12,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                            <Entry Text="{Binding ManualCarbsText}" Keyboard="Numeric"
+                                   TextColor="{DynamicResource TextPrimary}" BackgroundColor="Transparent"/>
+                        </Border>
+                        <Border Grid.Row="3" Grid.Column="1" BackgroundColor="{DynamicResource Surface}" StrokeThickness="0" Padding="12,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                            <Entry Text="{Binding ManualFatText}" Keyboard="Numeric"
+                                   TextColor="{DynamicResource TextPrimary}" BackgroundColor="Transparent"/>
+                        </Border>
+                    </Grid>
+
+                    <Label Text="{Binding ManualTotalPreview}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource Primary}"
+                           HorizontalOptions="Center"
+                           Margin="0,6,0,0"/>
+                </VerticalStackLayout>
+
                 <!-- Ingrediensene i måltidet -->
-                <Border BackgroundColor="{DynamicResource Surface}" StrokeThickness="0" Padding="16,12" Margin="0,6,0,0">
+                <Border IsVisible="{Binding IsComponentMode}"
+                        BackgroundColor="{DynamicResource Surface}" StrokeThickness="0" Padding="16,12" Margin="0,6,0,0">
                     <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
                     <VerticalStackLayout Spacing="8">
 
-                        <VerticalStackLayout x:Name="ComponentsContainer" Spacing="8"/>
+                        <!-- Komponentradene — fra ComponentRows i VM-en -->
+                        <VerticalStackLayout Spacing="8"
+                                             BindableLayout.ItemsSource="{Binding ComponentRows}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:MealComponentRow">
+                                    <Grid ColumnSpacing="8" ColumnDefinitions="*,Auto,Auto">
+                                        <VerticalStackLayout Spacing="0">
+                                            <Label Text="{Binding Name}"
+                                                   FontSize="15"
+                                                   TextColor="{DynamicResource TextPrimary}"/>
+                                            <Label Text="{Binding AmountText}"
+                                                   FontSize="12"
+                                                   TextColor="{DynamicResource TextMuted}"/>
+                                        </VerticalStackLayout>
+
+                                        <Label Grid.Column="1"
+                                               Text="{Binding CaloriesText}"
+                                               FontSize="14"
+                                               TextColor="{DynamicResource TextSecondary}"
+                                               VerticalOptions="Center"/>
+
+                                        <Button Grid.Column="2"
+                                                Text="&#xf00d;"
+                                                FontFamily="FontAwesome"
+                                                FontSize="14"
+                                                TextColor="{DynamicResource TextMuted}"
+                                                BackgroundColor="Transparent"
+                                                Padding="6,0"
+                                                Command="{Binding RemoveComponentCommand,
+                                                          Source={RelativeSource AncestorType={x:Type vm:MealBuilderViewModel}},
+                                                          x:DataType=vm:MealBuilderViewModel}"
+                                                CommandParameter="{Binding .}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
 
                         <BoxView HeightRequest="1" Color="{DynamicResource Separator}"/>
 
-                        <!-- Legg til ingrediens: velger + gram -->
+                        <!-- Legg til: enkelt-ingrediens eller et annet måltid (flates ut) -->
                         <Label Text="{x:Static strings:AppResources.AddIngredientToMeal}"
                                FontSize="12" TextColor="{DynamicResource TextMuted}"/>
+
+                        <HorizontalStackLayout Spacing="8">
+                            <Button Text="{x:Static strings:AppResources.TabIngredients}"
+                                    Command="{Binding SelectIngredientSourceCommand}"
+                                    FontSize="12"
+                                    Padding="12,4"
+                                    CornerRadius="14"
+                                    BackgroundColor="{DynamicResource Background}"
+                                    TextColor="{DynamicResource TextSecondary}">
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding IsIngredientSource}"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource Primary}"/>
+                                        <Setter Property="TextColor" Value="{DynamicResource OnPrimary}"/>
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+                            <Button Text="{x:Static strings:AppResources.TabMeals}"
+                                    Command="{Binding SelectMealSourceCommand}"
+                                    FontSize="12"
+                                    Padding="12,4"
+                                    CornerRadius="14"
+                                    BackgroundColor="{DynamicResource Background}"
+                                    TextColor="{DynamicResource TextSecondary}">
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding IsMealSource}"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource Primary}"/>
+                                        <Setter Property="TextColor" Value="{DynamicResource OnPrimary}"/>
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </HorizontalStackLayout>
+
                         <Grid ColumnDefinitions="*,70,Auto,Auto" ColumnSpacing="8">
-                            <Picker x:Name="IngredientPicker"
+                            <Picker ItemsSource="{Binding Ingredients}"
+                                    SelectedItem="{Binding SelectedIngredient}"
                                     ItemDisplayBinding="{Binding Name, x:DataType=library:LibraryIngredient}"
+                                    IsVisible="{Binding IsIngredientSource}"
                                     TextColor="{DynamicResource TextPrimary}"
                                     BackgroundColor="Transparent"
-                                    VerticalOptions="Center"
-                                    SelectedIndexChanged="OnIngredientPicked"/>
-                            <Entry x:Name="AmountEntry"
-                                   Grid.Column="1"
+                                    VerticalOptions="Center"/>
+                            <Picker ItemsSource="{Binding Meals}"
+                                    SelectedItem="{Binding SelectedMeal}"
+                                    ItemDisplayBinding="{Binding Name, x:DataType=library:LibraryMeal}"
+                                    IsVisible="{Binding IsMealSource}"
+                                    TextColor="{DynamicResource TextPrimary}"
+                                    BackgroundColor="Transparent"
+                                    VerticalOptions="Center"/>
+                            <Entry Grid.Column="1"
                                    Keyboard="Numeric"
-                                   Placeholder="100"
+                                   Text="{Binding AmountText}"
+                                   Placeholder="{Binding AmountPlaceholder}"
                                    TextColor="{DynamicResource TextPrimary}"
                                    PlaceholderColor="{DynamicResource TextMuted}"
                                    BackgroundColor="Transparent"
                                    VerticalOptions="Center"/>
 
                             <!-- Enhets-toggle: bytter mellom gram og stykk når ingrediensen
-                                 har stykkvekt ("1 stk = 60 g"). Lagres alltid i gram. -->
-                            <Button x:Name="UnitToggleButton"
-                                    Grid.Column="2"
-                                    Text="g"
+                                 har stykkvekt ("1 stk = 60 g"). Kun for ingrediens-kilden. -->
+                            <Button Grid.Column="2"
+                                    Text="{Binding UnitToggleText}"
+                                    IsVisible="{Binding IsIngredientSource}"
+                                    IsEnabled="{Binding IsUnitToggleEnabled}"
+                                    Command="{Binding ToggleUnitCommand}"
                                     FontSize="13"
                                     FontAttributes="Bold"
                                     Padding="10,0"
@@ -104,8 +287,7 @@
                                     HeightRequest="30"
                                     MinimumHeightRequest="30"
                                     MinimumWidthRequest="44"
-                                    VerticalOptions="Center"
-                                    Clicked="OnUnitToggleClicked"/>
+                                    VerticalOptions="Center"/>
 
                             <!-- Pluss = opprett ny ingrediens; hake = legg valgt ingrediens i måltidet.
                                  Padding 0 — Buttons standard-padding klemmer glyfen i små knapper. -->
@@ -114,33 +296,42 @@
                                         FontFamily="FontAwesome"
                                         FontSize="18"
                                         Padding="0"
+                                        Command="{Binding NewIngredientCommand}"
                                         TextColor="{DynamicResource OnPrimary}"
                                         BackgroundColor="{DynamicResource Primary}"
                                         WidthRequest="38"
                                         HeightRequest="38"
                                         MinimumHeightRequest="38"
                                         MinimumWidthRequest="38"
-                                        CornerRadius="8"
-                                        Clicked="OnNewIngredientClicked"/>
+                                        CornerRadius="8">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsMealSource}"
+                                                     Value="True">
+                                            <Setter Property="Opacity" Value="0.4"/>
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
                                 <Button Text="&#xf00c;"
                                         FontFamily="FontAwesome"
                                         FontSize="18"
                                         Padding="0"
+                                        Command="{Binding AddComponentCommand}"
                                         TextColor="{DynamicResource OnSuccess}"
                                         BackgroundColor="{DynamicResource Success}"
                                         WidthRequest="38"
                                         HeightRequest="38"
                                         MinimumHeightRequest="38"
                                         MinimumWidthRequest="38"
-                                        CornerRadius="8"
-                                        Clicked="OnAddComponentClicked"/>
+                                        CornerRadius="8"/>
                             </VerticalStackLayout>
                         </Grid>
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Total -->
-                <Label x:Name="TotalLabel"
+                <!-- Total (komponent-modus — manuell modus har egen preview) -->
+                <Label Text="{Binding TotalText}"
+                       IsVisible="{Binding IsComponentMode}"
                        FontSize="18"
                        FontAttributes="Bold"
                        TextColor="{DynamicResource Primary}"
@@ -152,8 +343,9 @@
         <!-- Lagre. I Tilpass-modus: primær = bruk engangs-kopien i loggen (malen
              røres ikke), sekundær = skriv endringene tilbake til malen også. -->
         <VerticalStackLayout Grid.Row="2" Spacing="8" Margin="16,8,16,16">
-            <Button x:Name="UpdateTemplateButton"
-                    IsVisible="False"
+            <Button Text="{x:Static strings:AppResources.UpdateTemplateToo}"
+                    IsVisible="{Binding IsUpdateTemplateVisible}"
+                    Command="{Binding UpdateTemplateCommand}"
                     FontSize="14"
                     FontAttributes="Bold"
                     TextColor="{DynamicResource Primary}"
@@ -161,17 +353,31 @@
                     BorderColor="{DynamicResource Primary}"
                     BorderWidth="1"
                     CornerRadius="14"
-                    HeightRequest="46"
-                    Clicked="OnUpdateTemplateClicked"/>
-            <Button x:Name="SaveButton"
-                    Text="{x:Static strings:AppResources.Save}"
-                    FontSize="16"
-                    FontAttributes="Bold"
-                    TextColor="{DynamicResource OnPrimary}"
-                    BackgroundColor="{DynamicResource Primary}"
-                    CornerRadius="14"
-                    HeightRequest="52"
-                    Clicked="OnSaveClicked"/>
+                    HeightRequest="46"/>
+            <!-- Slett (kun mal-redigering) + lagre/bruk -->
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <Button Text="{x:Static strings:AppResources.Delete}"
+                        IsVisible="{Binding IsDeleteVisible}"
+                        Command="{Binding DeleteCommand}"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="{DynamicResource OverLimit}"
+                        BackgroundColor="Transparent"
+                        BorderColor="{DynamicResource OverLimit}"
+                        BorderWidth="1"
+                        CornerRadius="14"
+                        Padding="24,0"
+                        HeightRequest="52"/>
+                <Button Grid.Column="1"
+                        Text="{Binding SaveButtonText}"
+                        Command="{Binding SaveCommand}"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="{DynamicResource OnPrimary}"
+                        BackgroundColor="{DynamicResource Primary}"
+                        CornerRadius="14"
+                        HeightRequest="52"/>
+            </Grid>
         </VerticalStackLayout>
     </Grid>
 </ContentPage>
