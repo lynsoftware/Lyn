@@ -1,5 +1,8 @@
+using System.Windows.Input;
 using Calorie.Core.Features.DailyLog;
 using Calorie.Core.Common;
+using Calorie.Core.Common.Extensions;
+using Calorie.Core.Features.DailyLog.Models;
 using Calorie.Core.Resources.Strings;
 using Calorie.Infrastructure.Services;
 
@@ -7,6 +10,23 @@ namespace Calorie.Features.DailyLog.Components;
 
 public partial class MealSectionCard : ContentView
 {
+    /// <summary>Seksjonen kortet viser — bindes fra sidens ViewModel.</summary>
+    public static readonly BindableProperty SectionProperty = BindableProperty.Create(
+        nameof(Section), typeof(MealSection), typeof(MealSectionCard),
+        propertyChanged: (bindable, _, newValue) =>
+        {
+            if (newValue is MealSection section)
+                ((MealSectionCard)bindable).SetSection(section);
+        });
+
+    /// <summary>Kjøres ved legg-til — får seksjonens måltidstype som parameter.</summary>
+    public static readonly BindableProperty AddCommandProperty = BindableProperty.Create(
+        nameof(AddCommand), typeof(ICommand), typeof(MealSectionCard));
+
+    /// <summary>Kjøres ved trykk på en loggrad — får LoggedItem som parameter.</summary>
+    public static readonly BindableProperty ItemTappedCommandProperty = BindableProperty.Create(
+        nameof(ItemTappedCommand), typeof(ICommand), typeof(MealSectionCard));
+
     public event EventHandler? AddClicked;
 
     public MealSectionCard()
@@ -15,10 +35,28 @@ public partial class MealSectionCard : ContentView
         AddButton.Text = $"+ {AppResources.AddFood}";
     }
 
+    public MealSection? Section
+    {
+        get => (MealSection?)GetValue(SectionProperty);
+        set => SetValue(SectionProperty, value);
+    }
+
+    public ICommand? AddCommand
+    {
+        get => (ICommand?)GetValue(AddCommandProperty);
+        set => SetValue(AddCommandProperty, value);
+    }
+
+    public ICommand? ItemTappedCommand
+    {
+        get => (ICommand?)GetValue(ItemTappedCommandProperty);
+        set => SetValue(ItemTappedCommandProperty, value);
+    }
+
     /// <summary>
     /// Fyller kortet med en måltidsseksjon: header, loggrader og rest mot budsjett.
     /// </summary>
-    public void SetSection(MealSection section)
+    private void SetSection(MealSection section)
     {
         TitleLabel.Text = section.MealType.ToDisplayName();
 
@@ -48,8 +86,9 @@ public partial class MealSectionCard : ContentView
 
     /// <summary>
     /// Én loggrad: navn + gram til venstre, kcal til høyre.
+    /// Trykk på raden kjører ItemTappedCommand (rediger/slett).
     /// </summary>
-    private static Grid CreateItemRow(LoggedItem item)
+    private Grid CreateItemRow(LoggedItem item)
     {
         var row = new Grid
         {
@@ -59,6 +98,14 @@ public partial class MealSectionCard : ContentView
                 new ColumnDefinition { Width = GridLength.Auto }
             ]
         };
+
+        var tap = new TapGestureRecognizer();
+        tap.Tapped += (_, _) =>
+        {
+            if (ItemTappedCommand?.CanExecute(item) == true)
+                ItemTappedCommand.Execute(item);
+        };
+        row.GestureRecognizers.Add(tap);
 
         var nameStack = new VerticalStackLayout { Spacing = 0 };
         nameStack.Children.Add(new Label
@@ -86,5 +133,11 @@ public partial class MealSectionCard : ContentView
         return row;
     }
 
-    private void OnAddClicked(object sender, EventArgs e) => AddClicked?.Invoke(this, e);
+    private void OnAddClicked(object sender, EventArgs e)
+    {
+        AddClicked?.Invoke(this, e);
+
+        if (Section is { } section && AddCommand?.CanExecute(section.MealType) == true)
+            AddCommand.Execute(section.MealType);
+    }
 }

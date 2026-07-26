@@ -21,4 +21,18 @@ public static class AppToast
 
         await Snackbar.Make(message, duration: TimeSpan.FromSeconds(2), visualOptions: options).Show();
     }
+
+    public static async Task ErrorAsync(string message)
+    {
+        var options = new SnackbarOptions
+        {
+            BackgroundColor = ThemeService.GetColor("OverLimit"),
+            // Hvit fungerer på OverLimit-rødfargen i begge temaer (unntaksregelen)
+            TextColor = Colors.White,
+            CornerRadius = new CornerRadius(8)
+        };
+
+        // Feil får stå litt lenger enn suksess — brukeren skal rekke forklaringen
+        await Snackbar.Make(message, duration: TimeSpan.FromSeconds(3), visualOptions: options).Show();
+    }
 }

@@ -9,55 +9,50 @@
              xmlns:library="clr-namespace:Calorie.Core.Features.Library;assembly=Calorie.Core"
              x:Class="Calorie.Features.DailyLog.Pages.AddLogEntryPage"
              BackgroundColor="{DynamicResource Background}"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:vm="clr-namespace:Calorie.Features.DailyLog.ViewModels"
-             x:DataType="vm:AddLogEntryViewModel">
+             xmlns:vm="clr-namespace:Calorie.Core.Features.DailyLog.ViewModels;assembly=Calorie.Core"
+             x:DataType="vm:AddLogEntryViewModel"
+             xmlns:common="clr-namespace:Calorie.Common.Components"
+             xmlns:viewModels="clr-namespace:Calorie.Core.Features.Library.ViewModels;assembly=Calorie.Core">
 
     <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto">
 
         <!-- Header -->
-        <Border Grid.Row="0"
-                BackgroundColor="{DynamicResource Surface}"
-                Padding="10,10"
-                StrokeThickness="0">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="0" />
-            </Border.StrokeShape>
-
-            <Grid ColumnSpacing="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="60" />
-                </Grid.ColumnDefinitions>
-
-                <Label Grid.Column="1"
-                       Text="{x:Static strings:AppResources.LogFoodTitle}"
-                       FontSize="24"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{DynamicResource Primary}"/>
-
-                <Button Grid.Column="2"
-                        Text="&#xf00d;"
-                        FontFamily="FontAwesome"
-                        FontSize="24"
-                        TextColor="{DynamicResource Primary}"
-                        BackgroundColor="Transparent"
-                        WidthRequest="50"
-                        HeightRequest="50"
-                        VerticalOptions="Center"
-                        HorizontalOptions="Center"
-                        Clicked="OnCloseClicked"/>
-            </Grid>
-        </Border>
+        <!-- Tittelen viser måldatoen når det logges bakover ("Logg mat — fre 25. jul") -->
+        <common:PageHeader Grid.Row="0"
+                           Title="{Binding LogTitle}"
+                           ShowCloseButton="True"
+                           CloseCommand="{Binding CloseCommand}"/>
 
         <!-- Måltidstype-chips — bygges i code-behind -->
         <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
-            <HorizontalStackLayout x:Name="ChipsContainer"
+            <HorizontalStackLayout BindableLayout.ItemsSource="{Binding MealTypeOptions}"
                                    Spacing="8"
-                                   Padding="14,12,14,4"/>
+                                   Padding="14,12,14,4">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="vm:MealTypeOption">
+                        <Button Text="{Binding Label}"
+                                FontSize="13"
+                                Padding="14,6"
+                                CornerRadius="16"
+                                BackgroundColor="{DynamicResource Surface}"
+                                TextColor="{DynamicResource TextSecondary}"
+                                Command="{Binding SelectMealTypeCommand,
+                                      Source={RelativeSource AncestorType={x:Type vm:AddLogEntryViewModel}},
+                                      x:DataType=vm:AddLogEntryViewModel}"
+                                CommandParameter="{Binding .}">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" 
+                                             Binding="{Binding IsSelected}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource Primary}"/>
+                                    <Setter Property="TextColor" Value="{DynamicResource OnPrimary}"/>
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </DataTemplate>
+            </BindableLayout.ItemTemplate>
+            </HorizontalStackLayout>
+                                            
         </ScrollView>
 
         <!-- Søk -->
@@ -84,7 +79,7 @@
             
             <Button Text="{x:Static strings:AppResources.TabMeals}"
                     Command="{Binding SelectTabCommand}"
-                    CommandParameter="{x:Static library:LibraryItemKind.Meal}"
+                    CommandParameter="{x:Static viewModels:LibraryItemKind.Meal}"
                     TextColor="{DynamicResource TextMuted}"
                     FontSize="15"
                     FontAttributes="Bold"
@@ -101,7 +96,7 @@
             <Button Grid.Column="1"
                     Text="{x:Static strings:AppResources.TabIngredients}"
                     Command="{Binding SelectTabCommand}"
-                    CommandParameter="{x:Static library:LibraryItemKind.Ingredient}"
+                    CommandParameter="{x:Static viewModels:LibraryItemKind.Ingredient}"
                     TextColor="{DynamicResource TextMuted}"
                     FontSize="15"
                     FontAttributes="Bold"
@@ -116,46 +111,45 @@
                     </DataTrigger>
                 </Button.Triggers>
             </Button>
-            <Button x:Name="ScanTabButton"
-                    Grid.Column="2"
+            <Button Grid.Column="2"
                     Text="{x:Static strings:AppResources.TabScan}"
                     FontSize="15"
                     FontAttributes="Bold"
                     BackgroundColor="Transparent"
                     Padding="0"
-                    Clicked="OnScanTabClicked"/>
+                    Command="{Binding ScanCommand}"/>
 
-            <Button x:Name="NewItemButton"
-                    Grid.Column="4"
+            <Button Grid.Column="4"
+                    Text="{Binding NewItemButtonText}"
                     FontSize="13"
                     FontAttributes="Bold"
                     TextColor="{DynamicResource OnPrimary}"
                     BackgroundColor="{DynamicResource Primary}"
                     CornerRadius="14"
                     Padding="14,6"
-                    Clicked="OnNewItemClicked"/>
+                    Command="{Binding NewItemCommand}"/>
         </Grid>
 
         <!-- Bibliotek-listen -->
-        <CollectionView x:Name="ItemsList"
-                        Grid.Row="4"
+        <CollectionView Grid.Row="4"
                         Margin="14,0"
-                        SelectionMode="Single"
-                        SelectionChanged="OnItemSelected">
+                        ItemsSource="{Binding FilteredItems}"
+                        SelectedItem="{Binding SelectedListItem}"
+                        SelectionMode="Single">
             <CollectionView.EmptyView>
                 <VerticalStackLayout Padding="4,24" Spacing="4">
                     <Label Text="{x:Static strings:AppResources.NoLibraryMatches}"
                            FontSize="14"
                            TextColor="{DynamicResource TextMuted}"
                            HorizontalOptions="Center"/>
-                    <Label x:Name="EmptyHintLabel"
+                    <Label Text="{Binding EmptyHint}"
                            FontSize="13"
                            TextColor="{DynamicResource TextSecondary}"
                            HorizontalOptions="Center"/>
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="library:LibraryItem">
+                <DataTemplate x:DataType="viewModels:LibraryItem">
                     <Grid Padding="4,10" ColumnDefinitions="*,Auto">
                         <VerticalStackLayout Spacing="1">
                             <Label Text="{Binding Name}"
@@ -176,9 +170,8 @@
         </CollectionView>
 
         <!-- Valgt vare: mengde + bekreft -->
-        <Border x:Name="SelectionPanel"
-                Grid.Row="5"
-                IsVisible="False"
+        <Border Grid.Row="5"
+                IsVisible="{Binding IsSelectionPanelVisible}"
                 BackgroundColor="{DynamicResource Surface}"
                 StrokeThickness="0"
                 Padding="16,12">
@@ -187,7 +180,7 @@
             </Border.StrokeShape>
 
             <VerticalStackLayout Spacing="8">
-                <Label x:Name="SelectedNameLabel"
+                <Label Text="{Binding ActiveItemDisplayName}" 
                        FontSize="16"
                        FontAttributes="Bold"
                        TextColor="{DynamicResource TextPrimary}"/>
@@ -197,36 +190,48 @@
                        TextColor="{DynamicResource TextMuted}"/>
 
                 <Grid ColumnDefinitions="90,Auto,*" ColumnSpacing="10">
-                    <Entry x:Name="AmountEntry"
-                           Keyboard="Numeric"
+                    <Entry Keyboard="Numeric"
                            FontSize="16"
+                           Text="{Binding AmountText}"
                            TextColor="{DynamicResource TextPrimary}"
-                           BackgroundColor="Transparent"
-                           TextChanged="OnAmountChanged"/>
+                           BackgroundColor="Transparent"/>
                     <Label Grid.Column="1"
                            Text="g"
                            FontSize="15"
                            TextColor="{DynamicResource TextMuted}"
                            VerticalOptions="Center"/>
 
-                    <!-- Stykk-snarveier ("1 stk = 60 g") — bygges i code-behind -->
-                    <HorizontalStackLayout x:Name="UnitButtonsContainer"
-                                           Grid.Column="2"
+                    <HorizontalStackLayout Grid.Column="2"
+                                           BindableLayout.ItemsSource="{Binding UnitOptions}"
                                            Spacing="6"
-                                           HorizontalOptions="End"/>
+                                           HorizontalOptions="End">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:UnitOption">
+                                <Button Text="{Binding Label}"
+                                        FontSize="12"
+                                        Padding="10,4"
+                                        CornerRadius="12"
+                                        BackgroundColor="{DynamicResource Background}"
+                                        TextColor="{DynamicResource TextSecondary}"
+                                        Command="{Binding SetUnitAmountCommand,
+                              Source={RelativeSource AncestorType={x:Type vm:AddLogEntryViewModel}},
+                              x:DataType=vm:AddLogEntryViewModel}"
+                                        CommandParameter="{Binding .}"/>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
                 </Grid>
 
                 <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
-                    <Label x:Name="KcalPreviewLabel"
+                    <Label Text="{Binding KcalPreview}"
                            FontSize="20"
                            FontAttributes="Bold"
                            TextColor="{DynamicResource Primary}"
                            VerticalOptions="Center"/>
 
                     <!-- Kun for måltider: åpne engangs-kopi i måltidsbyggeren -->
-                    <Button x:Name="CustomizeButton"
-                            Grid.Column="1"
-                            IsVisible="False"
+                    <Button Grid.Column="1"
+                            IsVisible="{Binding CanCustomize}"
                             Text="{x:Static strings:AppResources.Customize}"
                             FontSize="15"
                             FontAttributes="Bold"
@@ -236,16 +241,17 @@
                             BorderWidth="1"
                             CornerRadius="12"
                             Padding="18,10"
-                            Clicked="OnCustomizeClicked"/>
-                    <Button x:Name="AddConfirmButton"
-                            Grid.Column="2"
+                            Command="{Binding CustomizeCommand}" 
+                    />
+                    <Button Grid.Column="2"
+                            Text="{x:Static strings:AppResources.AddFood}"
+                            Command="{Binding ConfirmAddCommand}"
                             FontSize="15"
                             FontAttributes="Bold"
                             TextColor="{DynamicResource OnPrimary}"
                             BackgroundColor="{DynamicResource Primary}"
                             CornerRadius="12"
-                            Padding="24,10"
-                            Clicked="OnConfirmAddClicked"/>
+                            Padding="24,10"/>
                 </Grid>
             </VerticalStackLayout>
         </Border>

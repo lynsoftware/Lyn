@@ -22,10 +22,11 @@
         <VerticalStackLayout Spacing="10">
 
             <!-- Dato-navigasjon -->
-            <Grid ColumnDefinitions="50,*,50">
+            <Grid ColumnDefinitions="44,*,Auto">
                 <Button x:Name="PreviousDayButton"
                         Grid.Column="0"
                         Text="&#xf053;"
+                        Padding="0"
                         FontFamily="FontAwesome"
                         FontSize="18"
                         TextColor="{DynamicResource NavInactive}"
@@ -33,25 +34,67 @@
                         HorizontalOptions="Center"
                         VerticalOptions="Center"
                         Clicked="OnPreviousDayClicked"/>
+                
+                <Grid Grid.Column="1"
+                      HorizontalOptions="Center"
+                      VerticalOptions="Center">
 
-                <Label x:Name="DateLabel"
-                       Grid.Column="1"
-                       FontSize="18"
-                       FontAttributes="Bold"
-                       TextColor="{DynamicResource TextPrimary}"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"/>
+                    <HorizontalStackLayout Spacing="8">
+                        <Label x:Name="DateLabel"
+                               Padding="8,10"
+                               LineBreakMode="TailTruncation"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{DynamicResource TextPrimary}"
+                               VerticalOptions="Center"/>
+                        <Label Text="&#xf073;"
+                               FontFamily="FontAwesome"
+                               FontSize="14"
+                               TextColor="{DynamicResource TextMuted}"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
 
-                <Button x:Name="NextDayButton"
-                        Grid.Column="2"
-                        Text="&#xf054;"
-                        FontFamily="FontAwesome"
-                        FontSize="18"
-                        TextColor="{DynamicResource NavInactive}"
-                        BackgroundColor="Transparent"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Clicked="OnNextDayClicked"/>
+                    <!-- Usynlig DatePicker strukket over hele klyngen — native trykk 
+                         hvor som helst på datoen åpner kalenderdialogen -->
+                    <DatePicker x:Name="HiddenDatePicker"
+                                Opacity="0"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill"
+                                DateSelected="OnDateSelected"/>
+                </Grid>
+                
+                <!-- Fremover-klyngen: neste dag + hopp til i dag -->
+                <HorizontalStackLayout Grid.Column="2"
+                                       Spacing="0"
+                                       VerticalOptions="Center">
+                    
+                    <Button x:Name="NextDayButton"
+                            WidthRequest="32"
+                            MinimumWidthRequest="32"
+                            Padding="0"
+                            Text="&#xf054;"
+                            FontFamily="FontAwesome"
+                            FontSize="18"
+                            TextColor="{DynamicResource NavInactive}"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Clicked="OnNextDayClicked"/>
+                    
+                    <!-- Hopp til i dag (>|) — deaktivert når dagens dato vises -->
+                    <Button x:Name="TodayButton"
+                            WidthRequest="32"
+                            MinimumWidthRequest="32"
+                            Padding="0"
+                            Text="&#xf051;"
+                            FontFamily="FontAwesome"
+                            FontSize="18"
+                            TextColor="{DynamicResource NavInactive}"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Clicked="OnTodayClicked"/>
+                </HorizontalStackLayout>
             </Grid>
 
             <!-- Totalt spist / mål -->
@@ -61,13 +104,26 @@
                    TextColor="{DynamicResource Primary}"
                    HorizontalOptions="Center"/>
 
-            <ProgressBar x:Name="GoalProgress"
-                         ProgressColor="{DynamicResource Primary}"
-                         BackgroundColor="{DynamicResource Separator}"/>
+            <!-- Segmentert fremdrift: sunt (gull) + kos (lilla) mot dagsmålet.
+                 Segmentene bygges i code-behind (UpdateProgressSegments). -->
+            <Border HeightRequest="10"
+                    BackgroundColor="{DynamicResource Separator}"
+                    StrokeThickness="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5"/>
+                </Border.StrokeShape>
+                <Grid x:Name="ProgressSegments" ColumnSpacing="0"/>
+            </Border>
 
             <Label x:Name="RemainingLabel"
                    FontSize="15"
                    TextColor="{DynamicResource TextSecondary}"
+                   HorizontalOptions="Center"/>
+
+            <!-- Kos-status: "X kcal kos igjen" — kun når kos-andel er satt -->
+            <Label x:Name="TreatRemainingLabel"
+                   IsVisible="False"
+                   FontSize="13"
                    HorizontalOptions="Center"/>
 
             <!-- Makro-rad -->

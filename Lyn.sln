@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calorie", "Calorie\Calorie.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calorie.Core", "Calorie.Core\Calorie.Core.csproj", "{167E6C14-9147-4A7E-910A-97C931CD295F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calorie.Core.Tests", "Calorie.Core.Tests\Calorie.Core.Tests.csproj", "{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,18 @@ Global
 		{167E6C14-9147-4A7E-910A-97C931CD295F}.Release|x64.Build.0 = Release|Any CPU
 		{167E6C14-9147-4A7E-910A-97C931CD295F}.Release|x86.ActiveCfg = Release|Any CPU
 		{167E6C14-9147-4A7E-910A-97C931CD295F}.Release|x86.Build.0 = Release|Any CPU
+		{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}.Debug|x64.Build.0 = Debug|Any CPU
+		{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}.Debug|x86.Build.0 = Debug|Any CPU
+		{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}.Release|x64.ActiveCfg = Release|Any CPU
+		{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}.Release|x64.Build.0 = Release|Any CPU
+		{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}.Release|x86.ActiveCfg = Release|Any CPU
+		{0BB5E2F2-7891-4CD5-AC92-A5E5CF6E3708}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

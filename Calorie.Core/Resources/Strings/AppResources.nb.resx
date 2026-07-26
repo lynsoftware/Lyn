@@ -299,6 +299,48 @@ Sikkerhetstips:
     <data name="CustomizedLabel" xml:space="preserve">
         <value>tilpasset</value>
     </data>
+    <data name="ManualNutrition" xml:space="preserve">
+        <value>Manuelt næringsinnhold</value>
+    </data>
+    <data name="PackageWeightLabel" xml:space="preserve">
+        <value>Pakkevekt (g)</value>
+    </data>
+    <data name="Per100gLabel" xml:space="preserve">
+        <value>Per 100 g</value>
+    </data>
+    <data name="PerPackageLabel" xml:space="preserve">
+        <value>Per pakke</value>
+    </data>
+    <data name="PackageUnitName" xml:space="preserve">
+        <value>pakke</value>
+    </data>
+    <data name="Delete" xml:space="preserve">
+        <value>Slett</value>
+    </data>
+    <data name="EntryDeleted" xml:space="preserve">
+        <value>Raden er slettet</value>
+    </data>
+    <data name="TreatShareLabel" xml:space="preserve">
+        <value>Kos-andel av dagsmålet (%, valgfritt)</value>
+    </data>
+    <data name="TreatShareCalculated" xml:space="preserve">
+        <value>= {0} kcal</value>
+    </data>
+    <data name="TreatRemainingFormat" xml:space="preserve">
+        <value>{0} kcal kos igjen</value>
+    </data>
+    <data name="TreatOverFormat" xml:space="preserve">
+        <value>{0} kcal kos over</value>
+    </data>
+    <data name="IngredientDeleted" xml:space="preserve">
+        <value>Ingrediensen er slettet</value>
+    </data>
+    <data name="MealDeleted" xml:space="preserve">
+        <value>Måltidet er slettet</value>
+    </data>
+    <data name="IngredientInUse" xml:space="preserve">
+        <value>Ingrediensen brukes i et måltid og kan ikke slettes</value>
+    </data>
     <data name="CreateItemHint" xml:space="preserve">
         <value>Trykk «{0}» for å opprette den.</value>
     </data>

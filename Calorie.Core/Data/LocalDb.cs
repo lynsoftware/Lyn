@@ -1,6 +1,9 @@
 using Calorie.Core.Features.Library;
 using Calorie.Core.Common;
+using Calorie.Core.Common.Enums;
 using Calorie.Core.Features.Goals;
+using Calorie.Core.Features.Goals.Models;
+using Calorie.Core.Features.Library.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Calorie.Core.Data;

@@ -1,84 +1,37 @@
-using Calorie.Core.Common;
-using Calorie.Core.Features.DailyLog;
-using Calorie.Features.DailyLog.Components;
-using Calorie.Features.Library.Pages;
-using Calorie.Features.Settings.Pages;
-using Calorie.Features.Stats.Pages;
+using Calorie.Core.Features.DailyLog.ViewModels;
+using Calorie.Core.Features.MainPage.ViewModels;
 
 namespace Calorie.Features.DailyLog.Pages;
 
 /// <summary>
-/// Hovedsiden — dagsloggen. Leser fra DayLogStore (in-memory i Fase 4A,
-/// SQLite i 4B) og bygges på nytt hver gang siden vises, slik at nye
-/// loggføringer dukker opp umiddelbart.
+/// Hovedsiden — dagsloggen. Ren View: all tilstand og logikk bor i
+/// MainPageViewModel. Navbar-eventene videresendes til VM-kommandoene
+/// (BottomNavBar er event-basert).
 /// </summary>
 public partial class MainPage : ContentPage
 {
-    public MainPage()
+    private readonly MainPageViewModel _vm;
+
+    public MainPage(MainPageViewModel vm)
     {
         InitializeComponent();
+        _vm = vm;
+        BindingContext = vm;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-        await LoadDayAsync();
+        _vm.LoadDayCommand.Execute(null);
     }
 
-    /// <summary>
-    /// Bygger dagsvisningen: sammendragskort øverst, deretter én seksjon per
-    /// måltidstype som har budsjett eller innhold, i naturlig dagsrekkefølge.
-    /// </summary>
-    private async Task LoadDayAsync()
-    {
-        var day = await DayLogStore.GetTodayAsync();
+    // ================== NAVBAR ==================
 
-        DayContainer.Children.Clear();
+    private void OnAddClicked(object? sender, EventArgs e) => _vm.OpenLogFlowCommand.Execute(null);
 
-        var summary = new DaySummaryCard();
-        summary.Update(day);
-        DayContainer.Children.Add(summary);
+    private void OnMealsClicked(object sender, EventArgs e) => _vm.OpenLibraryCommand.Execute(null);
 
-        var visibleSections = day.Sections
-            .Where(s => s.Items.Count > 0 || s.MaxCalories.HasValue)
-            .OrderBy(s => s.MealType.DisplayOrder());
+    private void OnStatsClicked(object sender, EventArgs e) => _vm.OpenStatsCommand.Execute(null);
 
-        foreach (var section in visibleSections)
-        {
-            var card = new MealSectionCard();
-            card.SetSection(section);
-
-            // Seksjonens legg-til forhåndsvelger seksjonens måltidstype
-            var mealType = section.MealType;
-            card.AddClicked += async (_, _) => await OpenLogFlowAsync(mealType);
-
-            DayContainer.Children.Add(card);
-        }
-    }
-
-    /// <summary>
-    /// Pluss-knappen i navbaren — måltidstype foreslås ut fra klokkeslettet.
-    /// </summary>
-    private async void OnAddClicked(object? sender, EventArgs e) => await OpenLogFlowAsync(null);
-
-    private async Task OpenLogFlowAsync(MealType? mealType) =>
-        await Navigation.PushAsync(new AddLogEntryPage(mealType));
-
-    /// <summary>
-    /// Åpner biblioteket (måltider og ingredienser).
-    /// </summary>
-    private async void OnMealsClicked(object sender, EventArgs e) =>
-        await Navigation.PushAsync(new LibraryPage());
-
-    /// <summary>
-    /// Åpner statistikken.
-    /// </summary>
-    private async void OnStatsClicked(object sender, EventArgs e) =>
-        await Navigation.PushAsync(new StatsPage());
-
-    /// <summary>
-    /// Opens the settings page.
-    /// </summary>
-    private async void OnSettingsClicked(object sender, EventArgs e) =>
-        await Navigation.PushAsync(new SettingsPage());
+    private void OnSettingsClicked(object sender, EventArgs e) => _vm.OpenSettingsCommand.Execute(null);
 }

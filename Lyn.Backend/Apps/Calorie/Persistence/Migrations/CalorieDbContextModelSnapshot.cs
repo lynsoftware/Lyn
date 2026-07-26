@@ -298,6 +298,9 @@ namespace Lyn.Backend.Apps.Calorie.Persistence.Migrations
                     b.Property<int?>("ProteinGrams")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("TreatPercent")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("UpdatedAtUtc")
                         .HasColumnType("timestamp with time zone");
 

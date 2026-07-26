@@ -6,74 +6,65 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:strings="clr-namespace:Calorie.Core.Resources.Strings;assembly=Calorie.Core"
              xmlns:library="clr-namespace:Calorie.Core.Features.Library;assembly=Calorie.Core"
-             xmlns:components="clr-namespace:Calorie.Features.Navbar.Components"
-             xmlns:navbar="clr-namespace:Calorie.Features.Navbar"
-             xmlns:components1="clr-namespace:Calorie.Features.Navbar.Components"
+             xmlns:vm="clr-namespace:Calorie.Core.Features.Library.ViewModels;assembly=Calorie.Core"
+             xmlns:common="clr-namespace:Calorie.Common.Components"
+             xmlns:navbar="clr-namespace:Calorie.Features.Navbar.Components"
              x:Class="Calorie.Features.Library.Pages.LibraryPage"
+             x:DataType="vm:LibraryPageViewModel"
              BackgroundColor="{DynamicResource Background}">
 
     <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
 
         <!-- Header -->
-        <Border Grid.Row="0"
-                BackgroundColor="{DynamicResource Surface}"
-                Padding="10,10"
-                StrokeThickness="0">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="0" />
-            </Border.StrokeShape>
-
-            <Grid ColumnSpacing="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="60" />
-                </Grid.ColumnDefinitions>
-
-                <Image Source="logo.png"
-                       Grid.Column="0"
-                       WidthRequest="70"
-                       HeightRequest="70"
-                       VerticalOptions="Center"
-                       HorizontalOptions="Center"/>
-
-                <Label Grid.Column="1"
-                       Text="{x:Static strings:AppResources.LibraryTitle}"
-                       FontSize="28"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{DynamicResource Primary}"/>
-            </Grid>
-        </Border>
+        <common:PageHeader Grid.Row="0"
+                           Title="{x:Static strings:AppResources.LibraryTitle}"
+                           ShowLogo="True"/>
 
         <!-- Faner + ny-knapp -->
         <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,*,Auto" Padding="18,10,14,2" ColumnSpacing="18">
-            <Button x:Name="MealsTabButton"
-                    Text="{x:Static strings:AppResources.TabMeals}"
+            <Button Text="{x:Static strings:AppResources.TabMeals}"
+                    Command="{Binding SelectTabCommand}"
+                    CommandParameter="{x:Static vm:LibraryItemKind.Meal}"
+                    TextColor="{DynamicResource TextMuted}"
                     FontSize="15"
                     FontAttributes="Bold"
                     BackgroundColor="Transparent"
-                    Padding="0"
-                    Clicked="OnMealsTabClicked"/>
-            <Button x:Name="IngredientsTabButton"
-                    Grid.Column="1"
+                    Padding="0">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding IsMealsTabActive}"
+                                 Value="True">
+                        <Setter Property="TextColor" Value="{DynamicResource Primary}"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Grid.Column="1"
                     Text="{x:Static strings:AppResources.TabIngredients}"
+                    Command="{Binding SelectTabCommand}"
+                    CommandParameter="{x:Static vm:LibraryItemKind.Ingredient}"
+                    TextColor="{DynamicResource TextMuted}"
                     FontSize="15"
                     FontAttributes="Bold"
                     BackgroundColor="Transparent"
-                    Padding="0"
-                    Clicked="OnIngredientsTabClicked"/>
+                    Padding="0">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding IsIngredientsTabActive}"
+                                 Value="True">
+                        <Setter Property="TextColor" Value="{DynamicResource Primary}"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
 
-            <Button x:Name="NewItemButton"
-                    Grid.Column="3"
+            <Button Grid.Column="3"
+                    Text="{Binding NewItemButtonText}"
+                    Command="{Binding NewItemCommand}"
                     FontSize="13"
                     FontAttributes="Bold"
                     TextColor="{DynamicResource OnPrimary}"
                     BackgroundColor="{DynamicResource Primary}"
                     CornerRadius="14"
-                    Padding="14,6"
-                    Clicked="OnNewItemClicked"/>
+                    Padding="14,6"/>
         </Grid>
 
         <!-- Søk -->
@@ -85,22 +76,21 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="12" />
             </Border.StrokeShape>
-            <Entry x:Name="SearchEntry"
-                   Placeholder="{x:Static strings:AppResources.SearchPlaceholder}"
+            <Entry Placeholder="{x:Static strings:AppResources.SearchPlaceholder}"
+                   Text="{Binding SearchText}"
                    BackgroundColor="Transparent"
                    TextColor="{DynamicResource TextPrimary}"
-                   PlaceholderColor="{DynamicResource TextMuted}"
-                   TextChanged="OnSearchChanged"/>
+                   PlaceholderColor="{DynamicResource TextMuted}"/>
         </Border>
 
         <!-- Listen -->
-        <CollectionView x:Name="ItemsList"
-                        Grid.Row="3"
+        <CollectionView Grid.Row="3"
                         Margin="14,6"
-                        SelectionMode="Single"
-                        SelectionChanged="OnItemSelected">
+                        ItemsSource="{Binding FilteredItems}"
+                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                        SelectionMode="Single">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="library:LibraryItem">
+                <DataTemplate x:DataType="vm:LibraryItem">
                     <Grid Padding="4,10" ColumnDefinitions="*,Auto">
                         <VerticalStackLayout Spacing="1">
                             <Label Text="{Binding Name}"
@@ -121,7 +111,7 @@
         </CollectionView>
 
         <!-- Bunn-navigasjon -->
-        <components1:BottomNavBar
+        <navbar:BottomNavBar
             Grid.Row="4"
             ActiveTab="Meals"
             HomeClicked="OnHomeClicked"
