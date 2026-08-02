@@ -89,6 +89,20 @@
                         ItemsSource="{Binding FilteredItems}"
                         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                         SelectionMode="Single">
+            <!-- Tomtilstand: tomt bibliotek eller søk uten treff — samme
+                 melding + opprett-hint som logge-søket -->
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="4,24" Spacing="4">
+                    <Label Text="{x:Static strings:AppResources.NoLibraryMatches}"
+                           FontSize="14"
+                           TextColor="{DynamicResource TextMuted}"
+                           HorizontalOptions="Center"/>
+                    <Label Text="{Binding EmptyHint}"
+                           FontSize="13"
+                           TextColor="{DynamicResource TextSecondary}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:LibraryItem">
                     <Grid Padding="4,10" ColumnDefinitions="*,Auto">
@@ -114,9 +128,9 @@
         <navbar:BottomNavBar
             Grid.Row="4"
             ActiveTab="Meals"
-            HomeClicked="OnHomeClicked"
-            AddClicked="OnLogClicked"
-            StatsClicked="OnStatsClicked"
-            SettingsClicked="OnSettingsClicked"/>
+            HomeCommand="{Binding GoHomeCommand}"
+            AddCommand="{Binding OpenLogCommand}"
+            StatsCommand="{Binding OpenStatsCommand}"
+            SettingsCommand="{Binding OpenSettingsCommand}"/>
     </Grid>
 </ContentPage>

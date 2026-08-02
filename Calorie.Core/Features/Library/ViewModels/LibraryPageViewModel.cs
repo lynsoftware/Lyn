@@ -22,7 +22,7 @@ public partial class LibraryPageViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsMealsTabActive), nameof(IsIngredientsTabActive),
-        nameof(NewItemButtonText))]
+        nameof(NewItemButtonText), nameof(EmptyHint))]
     private LibraryItemKind _activeKind = LibraryItemKind.Meal;
 
     [ObservableProperty]
@@ -47,6 +47,9 @@ public partial class LibraryPageViewModel : ObservableObject
     public string NewItemButtonText => ActiveKind == LibraryItemKind.Meal
         ? $"+ {AppResources.NewMeal}"
         : $"+ {AppResources.NewIngredient}";
+
+    // Tomtilstandens handlingsforslag — følger aktiv fane (samme som logge-søket)
+    public string EmptyHint => string.Format(AppResources.CreateItemHint, NewItemButtonText);
 
     // ===== Faner, søk og liste =====
 

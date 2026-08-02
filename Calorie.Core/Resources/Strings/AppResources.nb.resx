@@ -146,6 +146,9 @@ Sikkerhetstips:
     <data name="Today" xml:space="preserve">
         <value>I dag</value>
     </data>
+    <data name="LoggingToFormat" xml:space="preserve">
+        <value>Logger til {0}</value>
+    </data>
     <data name="Remaining" xml:space="preserve">
         <value>igjen</value>
     </data>
@@ -274,6 +277,15 @@ Sikkerhetstips:
     </data>
     <data name="NoDataThisWeek" xml:space="preserve">
         <value>Ingenting logget denne uken.</value>
+    </data>
+    <data name="StatsEmptyHint" xml:space="preserve">
+        <value>Logg noen måltider, så bygges uken her.</value>
+    </data>
+    <data name="EmptyDayTitle" xml:space="preserve">
+        <value>Ingenting logget ennå</value>
+    </data>
+    <data name="EmptyDayHint" xml:space="preserve">
+        <value>Trykk på +-knappen for å logge dagens første måltid.</value>
     </data>
     <data name="NoLibraryMatches" xml:space="preserve">
         <value>Ingen treff i biblioteket.</value>

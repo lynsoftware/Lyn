@@ -1,6 +1,8 @@
 using Amazon.S3;
 using Amazon.S3.Model;
+using Lyn.Backend.Apps.Calorie.Persistence;
 using Lyn.Backend.Infrastructure.Persistence;
+using Lyn.Backend.Platform.Auth.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -104,6 +106,28 @@ public class LynBackendApplicationFactory : WebApplicationFactory<Program>, IAsy
         await using var scope = Services.CreateAsyncScope();
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         await seed(db);
+    }
+
+    /// <summary>
+    /// Legg inn Calorie-testdata via EF Core (egen DbContext, samme database).
+    /// </summary>
+    public async Task SeedCalorieAsync(Func<CalorieDbContext, Task> seed)
+    {
+        await using var scope = Services.CreateAsyncScope();
+        var db = scope.ServiceProvider.GetRequiredService<CalorieDbContext>();
+        await seed(db);
+    }
+
+    /// <summary>
+    /// Utsteder et gyldig JWT for en vilkaarlig bruker-id — sync-tabellene har
+    /// los UserId-referanse (ingen FK til AspNetUsers), saa brukeren trenger
+    /// ikke aa eksistere i Identity.
+    /// </summary>
+    public string CreateJwtFor(string userId, string email = "test@lyn.no")
+    {
+        using var scope = Services.CreateScope();
+        return scope.ServiceProvider.GetRequiredService<IJwtService>()
+            .GenerateJwtToken(userId, email, "en", roles: null);
     }
 
     /// <summary>

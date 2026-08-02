@@ -3,6 +3,7 @@ using System;
 using Lyn.Backend.Apps.Calorie.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lyn.Backend.Apps.Calorie.Persistence.Migrations
 {
     [DbContext(typeof(CalorieDbContext))]
-    partial class CalorieDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260727222436_AddBrandToMeal")]
+    partial class AddBrandToMeal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

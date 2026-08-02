@@ -1,3 +1,4 @@
+using System.Globalization;
 using Calorie.Core.Common;
 using Calorie.Core.Common.Enums;
 using Calorie.Core.Common.Services;
@@ -8,6 +9,7 @@ using Calorie.Core.Features.Library;
 using Calorie.Core.Features.Library.Models;
 using Calorie.Core.Features.Library.Services;
 using Calorie.Core.Features.Library.ViewModels;
+using Calorie.Core.Resources.Strings;
 using FluentAssertions;
 using Microsoft.Extensions.Time.Testing;
 using Moq;
@@ -140,6 +142,51 @@ public class AddLogEntryViewModelTests
         _mockDayLog.Verify(
             d => d.AddItemAsync(It.IsAny<MealType>(), item, 1.5m, It.IsAny<DateOnly>()),
             Times.Once);
+    }
+
+    // ===== Dato-pillen (dagen det logges til) =====
+
+    [Fact]
+    public void LogDate_WhenDefault_ShouldBeTodayWithTodayText()
+    {
+        // Arrange + Act
+        var sut = CreateSut();
+
+        // Assert
+        sut.LogDate.Should().Be(new DateOnly(2026, 7, 26));
+        sut.IsLogDateToday.Should().BeTrue();
+        sut.LogDateText.Should().Be(AppResources.Today);
+    }
+
+    [Fact]
+    public void SetLogDate_WhenPastDate_ShouldExposeFormattedDateForThePill()
+    {
+        // Arrange
+        var sut = CreateSut();
+
+        // Act — hovedsiden sender visningsdatoen via Shell-parameter
+        sut.SetLogDate(new DateOnly(2026, 7, 20));
+
+        // Assert — pillen skal si "Logger til <dato>", ikke "I dag"
+        sut.IsLogDateToday.Should().BeFalse();
+        sut.LogDateText.Should().Be(string.Format(
+            AppResources.LoggingToFormat,
+            new DateOnly(2026, 7, 20).ToString("ddd d. MMM", CultureInfo.CurrentCulture)));
+    }
+
+    [Fact]
+    public void SetLogDate_WhenChangedBackToToday_ShouldShowTodayAgain()
+    {
+        // Arrange
+        var sut = CreateSut();
+        sut.SetLogDate(new DateOnly(2026, 7, 20));
+
+        // Act — brukeren retter datoen via pillen
+        sut.SetLogDate(new DateOnly(2026, 7, 26));
+
+        // Assert
+        sut.IsLogDateToday.Should().BeTrue();
+        sut.LogDateText.Should().Be(AppResources.Today);
     }
 
     // ===== Forhåndsvalg av nyopprettet vare =====

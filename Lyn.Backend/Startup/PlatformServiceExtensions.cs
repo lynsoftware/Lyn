@@ -1,3 +1,4 @@
+using Lyn.Backend.Infrastructure.Transactions;
 using Lyn.Backend.Platform.AppReleases.Repositories;
 using Lyn.Backend.Platform.AppReleases.Services;
 using Lyn.Backend.Platform.Auth.Services;
@@ -21,6 +22,7 @@ public static class PlatformServiceExtensions
         services.AddAppReleases();
         services.AddSupport();
         services.AddAuth();
+        services.AddTransactions();
 
         return services;
     }
@@ -53,6 +55,16 @@ public static class PlatformServiceExtensions
     {
         services.AddScoped<ISupportTicketService, SupportTicketService>();
         services.AddScoped<ISupportRepository, SupportRepository>();
+
+        return services;
+    }
+    
+    /// <summary>
+    /// Transactions
+    /// </summary>
+    private static IServiceCollection AddTransactions(this IServiceCollection services)
+    {
+        services.AddScoped<ITransactionService, TransactionService>();
 
         return services;
     }

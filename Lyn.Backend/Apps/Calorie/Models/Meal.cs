@@ -17,6 +17,8 @@ public class Meal
     // ================== METADATA ================== 
 
     public string Name { get; set; } = string.Empty;
+    
+    public string? Brand { get; set; }
 
     // Valgfritt bilde — null hvis brukeren ikke har lastet opp noe
     public StoredImage? Image { get; set; }

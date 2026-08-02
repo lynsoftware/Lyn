@@ -62,7 +62,8 @@
                                HorizontalOptions="Center"/>
 
                         <!-- Én kolonne per dag: søyle (bunnjustert), kcal og ukedagsbokstav.
-                             Søylefeltets høyde (130) må matche BarZoneHeight i VM-en. -->
+                             Søylefeltets høyde leses fra VM-ens BarZoneHeight (x:Static)
+                             — samme kilde som søyleberegningen, kan aldri drifte. -->
                         <FlexLayout Direction="Row"
                                     BindableLayout.ItemsSource="{Binding DayBars}">
                             <BindableLayout.ItemTemplate>
@@ -70,9 +71,11 @@
                                     <Grid FlexLayout.Grow="1"
                                           FlexLayout.Basis="0"
                                           RowSpacing="3"
-                                          RowDefinitions="130,Auto,Auto"
+                                          RowDefinitions="Auto,Auto,Auto"
                                           Margin="4,0">
-                                        <!-- Stablet søyle: kos øverst (Treat), sunt nederst -->
+                                        <!-- Stablet søyle: kos øverst (Treat), sunt nederst.
+                                             Ytre Grid gir sonen fast høyde; stacken bunnjusteres i den. -->
+                                        <Grid HeightRequest="{x:Static vm:StatsViewModel.BarZoneHeight}">
                                         <VerticalStackLayout Spacing="0"
                                                              VerticalOptions="End"
                                                              HorizontalOptions="Fill">
@@ -98,6 +101,7 @@
                                                 </BoxView.Triggers>
                                             </BoxView>
                                         </VerticalStackLayout>
+                                        </Grid>
                                         <Label Grid.Row="1"
                                                Text="{Binding CaloriesText}"
                                                FontSize="10"
@@ -114,12 +118,19 @@
                             </BindableLayout.ItemTemplate>
                         </FlexLayout>
 
-                        <Label Text="{x:Static strings:AppResources.NoDataThisWeek}"
-                               IsVisible="{Binding IsEmpty}"
-                               FontSize="14"
-                               TextColor="{DynamicResource TextMuted}"
-                               HorizontalOptions="Center"
-                               Margin="0,8"/>
+                        <!-- Tomtilstand: melding + handlingsforslag -->
+                        <VerticalStackLayout IsVisible="{Binding IsEmpty}"
+                                             Spacing="4"
+                                             Margin="0,8">
+                            <Label Text="{x:Static strings:AppResources.NoDataThisWeek}"
+                                   FontSize="14"
+                                   TextColor="{DynamicResource TextMuted}"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="{x:Static strings:AppResources.StatsEmptyHint}"
+                                   FontSize="13"
+                                   TextColor="{DynamicResource TextSecondary}"
+                                   HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
                     </VerticalStackLayout>
                 </Border>
 
@@ -206,9 +217,9 @@
         <navbar:BottomNavBar
             Grid.Row="2"
             ActiveTab="Stats"
-            HomeClicked="OnHomeClicked"
-            MealsClicked="OnMealsClicked"
-            AddClicked="OnLogClicked"
-            SettingsClicked="OnSettingsClicked"/>
+            HomeCommand="{Binding GoHomeCommand}"
+            MealsCommand="{Binding OpenLibraryCommand}"
+            AddCommand="{Binding OpenLogCommand}"
+            SettingsCommand="{Binding OpenSettingsCommand}"/>
     </Grid>
 </ContentPage>

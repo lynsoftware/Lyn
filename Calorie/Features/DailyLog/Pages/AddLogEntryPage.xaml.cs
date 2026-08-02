@@ -23,6 +23,27 @@ public partial class AddLogEntryPage : ContentPage, IQueryAttributable
     {
         base.OnAppearing();
         _vm.LoadItemsCommand.Execute(null);
+        SyncLogDatePicker();
+    }
+
+    // Usynlig DatePicker over dato-pillen synkes fra VM-en her — kjøres etter
+    // ApplyQueryAttributes, så en LogDate fra hovedsiden er alltid med
+    private void SyncLogDatePicker()
+    {
+        LogDatePicker.MaximumDate = DateTime.Today;
+        LogDatePicker.Date = _vm.LogDate.ToDateTime(TimeOnly.MinValue);
+    }
+
+    private void OnLogDateSelected(object? sender, DateChangedEventArgs e)
+    {
+        if (e.NewDate is not { } selected)
+            return;
+
+        var date = DateOnly.FromDateTime(selected);
+        if (date == _vm.LogDate)
+            return;   // programmatisk synk fra SyncLogDatePicker — ikke et brukervalg
+
+        _vm.SetLogDate(date);
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
