@@ -143,6 +143,9 @@ Keep a list of your seeds and length (this is safe as they are worthless without
     <data name="Today" xml:space="preserve">
         <value>Today</value>
     </data>
+    <data name="LoggingToFormat" xml:space="preserve">
+        <value>Logging to {0}</value>
+    </data>
     <data name="Remaining" xml:space="preserve">
         <value>left</value>
     </data>
@@ -271,6 +274,15 @@ Keep a list of your seeds and length (this is safe as they are worthless without
     </data>
     <data name="NoDataThisWeek" xml:space="preserve">
         <value>Nothing logged this week.</value>
+    </data>
+    <data name="StatsEmptyHint" xml:space="preserve">
+        <value>Log some meals and your week will build up here.</value>
+    </data>
+    <data name="EmptyDayTitle" xml:space="preserve">
+        <value>Nothing logged yet</value>
+    </data>
+    <data name="EmptyDayHint" xml:space="preserve">
+        <value>Tap the + button to log the day's first meal.</value>
     </data>
     <data name="NoLibraryMatches" xml:space="preserve">
         <value>No matches in your library.</value>

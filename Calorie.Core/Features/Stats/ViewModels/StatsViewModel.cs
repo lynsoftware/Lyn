@@ -18,8 +18,9 @@ namespace Calorie.Core.Features.Stats.ViewModels;
 /// </summary>
 public partial class StatsViewModel : ObservableObject
 {
-    // Søylefeltets høyde — må matche raden i XAML-malen (RowDefinitions="130,...")
-    private const double BarZoneHeight = 130;
+    // Søylefeltets høyde — ENESTE kilde: XAML-malen leser den via x:Static,
+    // så tallet kan aldri drifte mellom beregning og layout
+    public const double BarZoneHeight = 130;
 
     private readonly INavigationService _navigation;
     private readonly IStatsStore _stats;

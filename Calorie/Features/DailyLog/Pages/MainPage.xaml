@@ -27,6 +27,26 @@
                                            NextDayCommand="{Binding NextDayCommand}"
                                            SelectDateCommand="{Binding GoToDateCommand}"/>
 
+                <!-- Tomtilstand: førstegangsopplevelsen og dager uten logg -->
+                <VerticalStackLayout IsVisible="{Binding IsDayEmpty}"
+                                     Padding="4,36"
+                                     Spacing="6">
+                    <Label Text="&#xf2e7;"
+                           FontFamily="FontAwesome"
+                           FontSize="26"
+                           TextColor="{DynamicResource TextMuted}"
+                           HorizontalOptions="Center"/>
+                    <Label Text="{x:Static strings:AppResources.EmptyDayTitle}"
+                           FontSize="15"
+                           TextColor="{DynamicResource TextSecondary}"
+                           HorizontalOptions="Center"/>
+                    <Label Text="{x:Static strings:AppResources.EmptyDayHint}"
+                           FontSize="13"
+                           TextColor="{DynamicResource TextMuted}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+
                 <VerticalStackLayout Spacing="12"
                                      BindableLayout.ItemsSource="{Binding VisibleSections}">
                     <BindableLayout.ItemTemplate>
@@ -152,9 +172,9 @@
         <navbar:BottomNavBar
             Grid.Row="2"
             ActiveTab="Home"
-            AddClicked="OnAddClicked"
-            MealsClicked="OnMealsClicked"
-            StatsClicked="OnStatsClicked"
-            SettingsClicked="OnSettingsClicked"/>
+            AddCommand="{Binding OpenLogFlowCommand}"
+            MealsCommand="{Binding OpenLibraryCommand}"
+            StatsCommand="{Binding OpenStatsCommand}"
+            SettingsCommand="{Binding OpenSettingsCommand}"/>
     </Grid>
 </ContentPage>

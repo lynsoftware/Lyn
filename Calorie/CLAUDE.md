@@ -78,9 +78,13 @@ fra dagen andelen ble satt. Tilbakevirkende grenser er bevisst valgt bort
 
 Hovedsiden eier visningsdatoen (`CurrentDate` i `MainPageViewModel`) — og
 **alt på dagsvisningen opererer på den viste dagen**: redigering, sletting og
-logging (logge-flyten får `NavKeys.LogDate`; tittelen viser måldatoen ved
-bakdatering). Fra sider uten dagskontekst logges til i dag. Fremtiden er
-sperret i dato-navigasjonen, så `LoggedDate` kan aldri være frem i tid.
+logging (logge-flyten får `NavKeys.LogDate`). Logge-skjermen viser måldatoen i
+en alltid synlig dato-pille under headeren — dempet «I dag» på dagens dato,
+Primary + fet ved bakdatering — og pillen er trykkbar (kalender via usynlig
+DatePicker-overlay), så datoen kan rettes eller settes direkte i logge-flyten.
+Bevisst valg: synlig tilstand fremfor bekreftelses-popup. Fra sider uten
+dagskontekst logges til i dag. Fremtiden er sperret både i dato-navigasjonen
+og i pillen (`MaximumDate`), så `LoggedDate` kan aldri være frem i tid.
 
 ### Side-mønsteret (alle 8 sider følger dette)
 
@@ -137,8 +141,9 @@ dobbeltregistrering av ruter kaster).
 `PageHeader`, `DaySummaryCard`, `MealSectionCard`, `BottomNavBar`:
 `BindableProperty` for data (`Title`, `Day`, `Section`), command + event side om side
 (`CloseCommand`/`CloseClicked`, `AddCommand`/`AddClicked`) — samme mønster som
-MAUIs egen `Button`. `BottomNavBar` er foreløpig kun event-basert; sidene
-videresender navbar-events til VM-kommandoer i code-behind (4B-2 pkt. 10).
+MAUIs egen `Button`. `BottomNavBar` følger samme mønster (`HomeCommand`/`AddCommand`
+osv.) — sidene binder navbaren rett til VM-kommandoene i XAML, ingen
+videresending i code-behind.
 
 ### Mekanisme vs. fasade
 
@@ -186,8 +191,9 @@ Ikke slå dem sammen: mekanismene har flere kunder (kortene leser farger via
   fra Tilpass-flyten med varer som ikke finnes i listen).
 - **Tema-/språkbytte gjenskaper AppShell** (`AppearanceService.RestartShell`) —
   navigasjonsstacken nullstilles ved bytte. Kjent og akseptert.
-- **`BarZoneHeight` (130)** er duplisert i `StatsViewModel` og StatsPage-XAML-malen —
-  må endres begge steder (4B-2 pkt. 10).
+- **`BarZoneHeight`** eies av `StatsViewModel` (public const) — XAML-malen leser
+  den via `x:Static`, så tallet endres ETT sted. NB: `RowDefinitions`-shorthand
+  tar ikke `x:Static`; sonen får høyden via wrapper-Grid med `HeightRequest`.
 - **Android Debug-config:** Fast Deployment + symboler i Debug; r8/aab/innbakte
   assemblies KUN i Release-gruppen i `Calorie.csproj`. Ikke flytt dem tilbake globalt.
   Ved rar installasjonsfeil på emulator: `adb uninstall com.lynsoftware.lyncalorie`.

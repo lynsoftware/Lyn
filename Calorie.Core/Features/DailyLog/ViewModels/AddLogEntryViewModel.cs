@@ -236,25 +236,30 @@ public partial class AddLogEntryViewModel : ObservableObject
     private Guid? _pendingCreatedId;
 
     // Dagen det logges til — settes i konstruktøren (i dag) og overstyres
-    // fra visningsdatoen på hovedsiden
+    // fra visningsdatoen på hovedsiden eller dato-pillen på skjermen
     private DateOnly _logDate;
 
-    /// <summary>"Logg mat" på dagens dato — ellers "Logg mat — fre 25. jul".</summary>
-    public string LogTitle
-    {
-        get
-        {
-            var today = Today;
-            return _logDate == today
-                ? AppResources.LogFoodTitle
-                : $"{AppResources.LogFoodTitle} — {_logDate.ToString("ddd d. MMM", CultureInfo.CurrentCulture)}";
-        }
-    }
+    /// <summary>Dagen det logges til — leses av siden for å synke dato-pickeren.</summary>
+    public DateOnly LogDate => _logDate;
+
+    /// <summary>Styrer pillens farge: dempet på dagens dato, Primary ved bakdatering.</summary>
+    public bool IsLogDateToday => _logDate == Today;
+
+    /// <summary>
+    /// "I dag" på dagens dato — ellers "Logger til fre 25. jul". Ordene i
+    /// tillegg til fargen: signalet skal også nå fargeblinde.
+    /// </summary>
+    public string LogDateText => IsLogDateToday
+        ? AppResources.Today
+        : string.Format(AppResources.LoggingToFormat,
+            _logDate.ToString("ddd d. MMM", CultureInfo.CurrentCulture));
 
     public void SetLogDate(DateOnly date)
     {
         _logDate = date;
-        OnPropertyChanged(nameof(LogTitle));
+        OnPropertyChanged(nameof(LogDate));
+        OnPropertyChanged(nameof(IsLogDateToday));
+        OnPropertyChanged(nameof(LogDateText));
     }
 
     public void SetMealType(MealType mealType) => SelectedMealType = mealType;

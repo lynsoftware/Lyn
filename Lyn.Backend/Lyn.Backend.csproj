@@ -35,6 +35,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Apps\Calorie\Sync\Extensions\" />
       <Folder Include="Infrastructure\Files\" />
       <Folder Include="Platform\AppReleases\DTOs\" />
       <Folder Include="Platform\AppReleases\Security\" />

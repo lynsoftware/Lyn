@@ -1,4 +1,6 @@
 ﻿using Lyn.Backend.Apps.Calorie.Persistence;
+using Lyn.Backend.Apps.Calorie.Sync.Repositories;
+using Lyn.Backend.Apps.Calorie.Sync.Services;
 using Lyn.Backend.Infrastructure.Persistence.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -14,7 +16,7 @@ namespace Lyn.Backend.Startup.Modules;
 public static class CalorieModule
 {
     /// <summary>
-    /// Registrerer PasswordGenerator-modulen. Kalles fra ConfigureServices i Startup.
+    /// Registrerer Calorie-modulen. Kalles fra ConfigureServices i Startup.
     /// </summary>
     public static IServiceCollection AddCalorieModule(this IServiceCollection services)
     {
@@ -29,9 +31,11 @@ public static class CalorieModule
         });
         
         // Services 
-
+        services.AddScoped<ISyncService, SyncService>();
+        
         // Repositories
-
+        services.AddScoped<ISyncRepository, SyncRepository>();
+        
         return services;
     }
 }

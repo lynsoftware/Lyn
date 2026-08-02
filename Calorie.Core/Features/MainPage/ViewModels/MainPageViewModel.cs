@@ -29,9 +29,11 @@ public partial class MainPageViewModel : ObservableObject
     private MealType _editMealType;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsDayEmpty))]
     private DayLog? _day;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsDayEmpty))]
     private List<MealSection> _visibleSections = [];
 
     // Raden som redigeres — null betyr at panelet er skjult
@@ -70,6 +72,10 @@ public partial class MainPageViewModel : ObservableObject
     public IReadOnlyList<MealTypeOption> EditMealTypeOptions { get; }
 
     public bool IsEditPanelVisible => EditingItem != null;
+
+    // Tomtilstand — kun etter at en dag faktisk er lastet, så meldingen
+    // ikke blinker før første lasting ved oppstart
+    public bool IsDayEmpty => Day != null && VisibleSections.Count == 0;
 
     public string EditItemName => EditingItem?.Name ?? string.Empty;
 

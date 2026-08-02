@@ -14,17 +14,56 @@
              xmlns:common="clr-namespace:Calorie.Common.Components"
              xmlns:viewModels="clr-namespace:Calorie.Core.Features.Library.ViewModels;assembly=Calorie.Core">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*,Auto">
 
         <!-- Header -->
-        <!-- Tittelen viser måldatoen når det logges bakover ("Logg mat — fre 25. jul") -->
         <common:PageHeader Grid.Row="0"
-                           Title="{Binding LogTitle}"
+                           Title="{x:Static strings:AppResources.LogFoodTitle}"
                            ShowCloseButton="True"
                            CloseCommand="{Binding CloseCommand}"/>
 
+        <!-- Dato-pille: dagen det logges til — alltid synlig og trykkbar, så
+             en bakdatering valgt på hovedsiden aldri overrasker. Usynlig
+             DatePicker over pillen åpner kalenderdialogen (Focus() er
+             upålitelig på Android — native trykk virker alltid). -->
+        <Grid Grid.Row="1" HorizontalOptions="Center" Margin="0,8,0,0">
+            <Border BackgroundColor="{DynamicResource Surface}"
+                    StrokeThickness="0"
+                    Padding="14,6">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="14"/>
+                </Border.StrokeShape>
+                <HorizontalStackLayout Spacing="8">
+                    <Label Text="&#xf073;"
+                           FontFamily="FontAwesome"
+                           FontSize="13"
+                           TextColor="{DynamicResource TextMuted}"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding LogDateText}"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource Primary}"
+                           VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label"
+                                         Binding="{Binding IsLogDateToday}"
+                                         Value="True">
+                                <Setter Property="TextColor" Value="{DynamicResource TextSecondary}"/>
+                                <Setter Property="FontAttributes" Value="None"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </HorizontalStackLayout>
+            </Border>
+            <DatePicker x:Name="LogDatePicker"
+                        Opacity="0"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill"
+                        DateSelected="OnLogDateSelected"/>
+        </Grid>
+
         <!-- Måltidstype-chips — bygges i code-behind -->
-        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+        <ScrollView Grid.Row="2" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
             <HorizontalStackLayout BindableLayout.ItemsSource="{Binding MealTypeOptions}"
                                    Spacing="8"
                                    Padding="14,12,14,4">
@@ -56,7 +95,7 @@
         </ScrollView>
 
         <!-- Søk -->
-        <Border Grid.Row="2"
+        <Border Grid.Row="3"
                 BackgroundColor="{DynamicResource Surface}"
                 StrokeThickness="0"
                 Margin="14,8,14,0"
@@ -72,7 +111,7 @@
         </Border>
 
         <!-- Faner + ny-knapp (følger aktiv fane) -->
-        <Grid Grid.Row="3" 
+        <Grid Grid.Row="4"
               ColumnDefinitions="Auto,Auto,Auto,*,Auto" 
               Padding="18,6,14,6" 
               ColumnSpacing="18">
@@ -131,7 +170,7 @@
         </Grid>
 
         <!-- Bibliotek-listen -->
-        <CollectionView Grid.Row="4"
+        <CollectionView Grid.Row="5"
                         Margin="14,0"
                         ItemsSource="{Binding FilteredItems}"
                         SelectedItem="{Binding SelectedListItem}"
@@ -170,7 +209,7 @@
         </CollectionView>
 
         <!-- Valgt vare: mengde + bekreft -->
-        <Border Grid.Row="5"
+        <Border Grid.Row="6"
                 IsVisible="{Binding IsSelectionPanelVisible}"
                 BackgroundColor="{DynamicResource Surface}"
                 StrokeThickness="0"

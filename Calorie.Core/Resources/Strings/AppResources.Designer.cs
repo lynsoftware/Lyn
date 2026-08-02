@@ -369,6 +369,42 @@ namespace Calorie.Core.Resources.Strings {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Logging to {0}.
+        /// </summary>
+        public static string LoggingToFormat {
+            get {
+                return ResourceManager.GetString("LoggingToFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Log some meals and your week will build up here..
+        /// </summary>
+        public static string StatsEmptyHint {
+            get {
+                return ResourceManager.GetString("StatsEmptyHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Nothing logged yet.
+        /// </summary>
+        public static string EmptyDayTitle {
+            get {
+                return ResourceManager.GetString("EmptyDayTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Tap the + button to log the day's first meal..
+        /// </summary>
+        public static string EmptyDayHint {
+            get {
+                return ResourceManager.GetString("EmptyDayHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to left.
         /// </summary>
         public static string Remaining {

@@ -29,6 +29,10 @@ public class ConfigureJwtBearerOptions(IOptions<JwtSettings> jwtSettings) : ICon
        // Vi lagrer token i requesten og kan senere hente den ut med feks HttpContext.GetTokenAsync("access_token")
        options.SaveToken = true;
       
+       // Behold token-claimene rå ("sub" forblir "sub")
+       // Uten denne remapper .NET sub → ClaimTypes.NameIdentifier og FindFirst("sub") blir null
+       options.MapInboundClaims = false;
+       
        options.TokenValidationParameters = new TokenValidationParameters
        {
       

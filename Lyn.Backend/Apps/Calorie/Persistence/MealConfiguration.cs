@@ -12,6 +12,8 @@ internal sealed class MealConfiguration : IEntityTypeConfiguration<Meal>
 
         builder.Property(m => m.UserId).HasMaxLength(450).IsRequired();
         builder.Property(m => m.Name).HasMaxLength(100).IsRequired();
+        builder.Property(m => m.Brand).HasMaxLength(100);
+        builder.Property(m => m.Brand).HasMaxLength(100);
 
         builder.OwnsOne(m => m.Image, img => StoredImageConfiguration.Configure(img));
 
